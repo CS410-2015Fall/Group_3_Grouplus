@@ -9,6 +9,7 @@
     "react-native": "^0.11.4",
     "react-native-facebook-login": "^0.5.8",
     "react-native-fbsdkcore": "0.0.5",
-    "react-native-fbsdklogin": "0.0.5"
+    "react-native-fbsdklogin": "0.0.5",
+    "react-native-fbsdkshare": "0.0.5"
   }
 }

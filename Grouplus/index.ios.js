@@ -1,7 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+
 'use strict';
 
 var React = require('react-native');
@@ -10,37 +7,32 @@ window.React = React;
 
 var {
   AppRegistry,
-  NavigatorIOS,
   StyleSheet,
   Text,
   View,
+  Image,
 } = React;
 
 var Login = require('./Login');
-var LoginMock = require('./LoginMock');
 
+/**
+ * A sample app that demonstrates use of the FBSDK login button, native share dialog, and graph requests.
+ */
 var Grouplus = React.createClass({
   render: function() {
     return (
-      <NavigatorIOS
-        style={styles.container}
-        itemWrapperStyle={styles.allPages}
-        initialRoute={{
-          title: 'Login',
-          component: Login,
-        }}/>
+      <Image
+        source={{uri: 'plutoBack.png'}}
+        style={styles.loginImage}>
+        <View style={styles.disclaimerContainer}>
+          <Text style={styles.disclaimerText}>Images taken from New Horizons Facebook page</Text>
+        </View>
+        <Login style={styles.loginContainer}/>
+      </Image>
     );
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  allPages: {
-    backgroundColor: '#EEE',
-  },
-});
-
+var styles = StyleSheet.create(require('./styles.js'));
 
 AppRegistry.registerComponent('Grouplus', () => Grouplus);
