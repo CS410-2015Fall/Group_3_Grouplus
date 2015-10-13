@@ -11,8 +11,8 @@
 @implementation CalendarManager
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSDate *)date)
+RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location (NSString *)ISO8601DateString)
 {
-  
+   NSDate *date = [RCTConvert NSDate:ISO8601DateString];
 }
 @end

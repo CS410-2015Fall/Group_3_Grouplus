@@ -20,7 +20,7 @@ var {
 } = React;
 
 var Login = require('./Login');
-
+var date=new Date();
 /**
  * A sample app that demonstrates use of the FBSDK login button, native share dialog, and graph requests.
  */
@@ -38,7 +38,7 @@ var Grouplus = React.createClass({
   },
 });
 
-//CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.totime());
+CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.toISOString());
 
 
 var styles = StyleSheet.create(require('./styles.js'));
