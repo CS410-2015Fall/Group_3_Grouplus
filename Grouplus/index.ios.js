@@ -27,18 +27,6 @@ var Login = require('./Login');
 var Grouplus = React.createClass({
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-        Grouplus!!!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
       <Image
         style={styles.loginImage}>
         <View style={styles.disclaimerContainer}>
@@ -50,27 +38,9 @@ var Grouplus = React.createClass({
   },
 });
 
-CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey');
+//CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.totime());
 
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 var styles = StyleSheet.create(require('./styles.js'));
 
 
