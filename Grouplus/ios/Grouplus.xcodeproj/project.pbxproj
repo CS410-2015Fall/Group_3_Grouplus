@@ -23,9 +23,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-<<<<<<< HEAD
 		C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C822DEC71BCAE1DB006B92EE /* CalendarManager.m */; settings = {ASSET_TAGS = (); }; };
-=======
 		902EC3951BCA4F8800B38D60 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3931BCA4F8800B38D60 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		902EC3961BCA4F8800B38D60 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3941BCA4F8800B38D60 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
 		902EC3981BCA4F9600B38D60 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3971BCA4F9600B38D60 /* FBSDKShareKit.framework */; settings = {ASSET_TAGS = (); }; };

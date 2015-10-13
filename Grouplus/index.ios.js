@@ -40,7 +40,6 @@ var Grouplus = React.createClass({
         </Text>
       </View>
       <Image
-        //source={{uri: 'plutoBack.png'}}
         style={styles.loginImage}>
         <View style={styles.disclaimerContainer}>
           <Text style={styles.disclaimerText}>Images taken from New Horizons Facebook page</Text>
