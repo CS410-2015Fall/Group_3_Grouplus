@@ -50,7 +50,7 @@ class LoginScreen extends React.Component{
             if (error) {
               alert('Error logging in.');
             } else {
-              if (result.isCanceled) {
+              if (result.isCancelled) {
                 alert('Login cancelled.');
               } else {
                 this.props.navigator.push({
