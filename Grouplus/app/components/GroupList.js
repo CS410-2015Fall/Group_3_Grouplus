@@ -33,7 +33,6 @@ class GroupList extends React.Component{
     this.state = { 
       dataSource: this.ds.cloneWithRows(mockdata.groups),
     }
-    this.navigator = props.navigator;
   }
   onPressRow(group) {
     this.props.navigator.push({

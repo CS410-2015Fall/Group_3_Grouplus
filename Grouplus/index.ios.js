@@ -2,7 +2,7 @@
 'use strict';
 
 var React = require('react-native');
-var LoginScreen = require('./app/components/login/LoginScreen');
+var LoginScreen = require('./app/components/LoginScreen');
 // Make react global
 window.React = React;
 

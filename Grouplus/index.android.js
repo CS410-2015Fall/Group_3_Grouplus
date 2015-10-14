@@ -4,6 +4,9 @@
  */
 'use strict';
 
+/**
+ * This is completely broken right now TODO fix
+ */
 var React = require('react-native');
 var {
   AppRegistry,
