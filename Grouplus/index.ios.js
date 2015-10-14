@@ -2,14 +2,13 @@
 'use strict';
 
 var React = require('react-native');
-
 //var CalendarManager = require('react-native').NativeModules.CalendarManager;
-var {
-  CalendarManager
-} = require('NativeModules');
 
 // Make react global
-window.React = React;
+//window.React = React;
+var Calendar = require('./Calendar');
+var Login = require('./Login');
+
 
 var {
   AppRegistry,
@@ -17,31 +16,32 @@ var {
   Text,
   View,
   Image,
+  NavigatorIOS,
 } = React;
 
-var Login = require('./Login');
-var date=new Date();
+
 /**
  * A sample app that demonstrates use of the FBSDK login button, native share dialog, and graph requests.
  */
 var Grouplus = React.createClass({
   render: function() {
     return (
-      <Image
-        style={styles.loginImage}>
-        <View style={styles.disclaimerContainer}>
-          <Text style={styles.disclaimerText}>Images taken from New Horizons Facebook page</Text>
-        </View>
-        <Login style={styles.loginContainer}/>
-      </Image>
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: 'Grouplus',
+          component: Calendar, 
+        }}
+      />
     );
   },
 });
 
-CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.toISOString());
-
-
-var styles = StyleSheet.create(require('./styles.js'));
-
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
+});
 
 AppRegistry.registerComponent('Grouplus', () => Grouplus);

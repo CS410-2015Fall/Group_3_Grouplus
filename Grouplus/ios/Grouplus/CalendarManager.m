@@ -7,12 +7,17 @@
 //
 
 #import "CalendarManager.h"
+#import "RCTConvert.h"
 
 @implementation CalendarManager
 RCT_EXPORT_MODULE()
+// (NSString *)ISO8601DateString
 
-RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location (NSString *)ISO8601DateString)
+RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSString *)ISO8601DateString)
 {
-   NSDate *date = [RCTConvert NSDate:ISO8601DateString];
+  NSString *name=[RCTConvert NSString];
+  NSString *location=[RCTConvert NSString];
+  NSDate *date = [RCTConvert NSDate:ISO8601DateString];
 }
+
 @end
