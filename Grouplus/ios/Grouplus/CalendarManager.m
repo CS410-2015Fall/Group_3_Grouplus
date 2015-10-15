@@ -8,16 +8,26 @@
 
 #import "CalendarManager.h"
 #import "RCTConvert.h"
+#import "MyCalendar.h"
 
 @implementation CalendarManager
 RCT_EXPORT_MODULE()
-// (NSString *)ISO8601DateString
 
-RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSString *)ISO8601DateString)
+RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSDate *)eventDate)
 {
-  NSString *name=[RCTConvert NSString];
-  NSString *location=[RCTConvert NSString];
-  NSDate *date = [RCTConvert NSDate:ISO8601DateString];
+
+  [MyCalendar requestAccess:^(BOOL granted, NSError *error) {
+    if (granted) {
+      BOOL result = [MyCalendar addEventAt:eventDate withTitle:name inLocation:location];
+      if (result) {
+        NSLog(@"Successfully addEvents");
+      } else {
+        // unable to create event/calendar
+      }
+    } else {
+      // you don’t have permissions to access calendars
+    }
+  }];
 }
 
 @end

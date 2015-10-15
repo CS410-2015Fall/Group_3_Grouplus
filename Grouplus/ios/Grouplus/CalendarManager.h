@@ -7,6 +7,8 @@
 //
 
 #import "RCTBridgeModule.h"
+#import "MyCalendar.h"
 
 @interface CalendarManager : NSObject <RCTBridgeModule>
+
 @end

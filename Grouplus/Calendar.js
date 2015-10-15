@@ -15,7 +15,7 @@ var {
   CalendarManager
 } = require('NativeModules');
 
-var date = new Date("October 13, 2014 11:13:00");
+var date = new Date("October 14, 2015");
 
 CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.toISOString());
 
