@@ -2,7 +2,15 @@
 'use strict';
 
 var React = require('react-native');
+var FBSDKCore = require('react-native-fbsdkcore');
 var LoginScreen = require('./app/components/LoginScreen');
+var GroupList = require('./app/components/GroupList');
+
+var {
+  FBSDKAccessToken,
+} = FBSDKCore;
+
+
 // Make react global
 window.React = React;
 
@@ -14,6 +22,10 @@ var {
   NavigatorIOS,
   Image,
 } = React;
+
+var{
+  FBSDKAccessTocken,
+} = FBSDKCore;
 
 var styles = StyleSheet.create({
   container: {
@@ -27,15 +39,25 @@ var styles = StyleSheet.create({
  */
 var Grouplus = React.createClass({
   render: function() {
-    return (
+    var Component;
+  FBSDKAccessToken.getCurrentAccessToken((token) => {
+                  if(token != null) {
+                    Component = GroupList;
+                  }
+                  else {
+                    Component = LoginScreen;
+                  }
+                })
+      return (
       <NavigatorIOS
         style={styles.container}
         initialRoute={{
           title: 'Grouplus',
-          component: LoginScreen, 
+          component : LoginScreen,
         }}
       />
     );
+
   }
 });
 

@@ -1,4 +1,10 @@
 var React = require('react-native');
+var FBSDKCore = require('react-native-fbsdkcore');
+var Firebase = require('firebase');
+
+var {
+  FBSDKAccessToken,
+} = FBSDKCore;
 
 var {
   AppRegistry,
@@ -10,11 +16,14 @@ var {
 } = React;
 
 var GroupList = require('./GroupList');
+var MyAccount = require('./MyAccount');
 
 var FBSDKLogin = require('react-native-fbsdklogin');
 var {
   FBSDKLoginButton,
 } = FBSDKLogin;
+
+var myFirebaseRef = new Firebase("https://glouplustest.firebaseio.com/");
 
 var styles = StyleSheet.create({
   loginImage: {
@@ -53,9 +62,24 @@ class LoginScreen extends React.Component{
               if (result.isCancelled) {
                 alert('Login cancelled.');
               } else {
+                FBSDKAccessToken.getCurrentAccessToken((token) => {
+                  console.log(token.tokenString);
+                  var profileRequest = new FBSDKGraphRequest((error, result) => {
+  if (error) {
+    alert('Error making request.');
+  } else {
+    console.log(result);
+                        myFirebaseRef.set({
+                    name: result.name,
+                  }
+                    );
+  }
+}, '/me');
+                })
                 this.props.navigator.push({
-                  title: 'Groups',
-                  component: GroupList,
+                  title: 'MyAccount',
+                  //component: GroupList,
+                  component: MyAccount,
                 });
               }
             }
