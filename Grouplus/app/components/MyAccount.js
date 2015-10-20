@@ -70,7 +70,7 @@ class MyAccount extends React.Component{
   render(){
     return (
 <ListView
-        dataSource={this.state}
+       // dataSource={this.state}
         //renderRow={this._renderRow.bind(this)} 
       />
     );

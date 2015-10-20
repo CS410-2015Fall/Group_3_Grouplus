@@ -39,15 +39,6 @@ var styles = StyleSheet.create({
  */
 var Grouplus = React.createClass({
   render: function() {
-    var Component;
-  FBSDKAccessToken.getCurrentAccessToken((token) => {
-                  if(token != null) {
-                    Component = GroupList;
-                  }
-                  else {
-                    Component = LoginScreen;
-                  }
-                })
       return (
       <NavigatorIOS
         style={styles.container}
