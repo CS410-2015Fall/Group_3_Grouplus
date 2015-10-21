@@ -18,38 +18,6 @@ var {
   Text,
 } = React;
 
-var Name;
-
-// Create a graph request asking for friends with a callback to handle the response.
- var fetchFriends = new FBSDKGraphRequest((error, result) => {
-    if (error)
-    {
-      console.log("->FBHelper.getFriends Error: ", error);
-      fail(error);
-    }
-    else
-    {
-        console.log("->FBHelper.getFriends Result: ", result);
-    }
-  }, '/me/friends?fields=id,name,picture' 
-  );
-
-  //fetchFriends.start(); //works before 0.10
-  FBSDKGraphRequestManager.batchRequests([fetchFriends], function() {}, 60); // works for 0.10 and later
-
-
-var profileRequest = new FBSDKGraphRequest((error, result) => {
-  if (error) {
-    alert('Error making request.');
-  } else {
-    console.log(result);
-      Name = result.name;
-  }
-}, '/me');
-
-  FBSDKGraphRequestManager.batchRequests([profileRequest], function() {}, 60); // works for 0.10 and later
-
-
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
