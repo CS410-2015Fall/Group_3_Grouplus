@@ -7,6 +7,10 @@ var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
+var TodoList = require('./TodoList');
+var MyAccount = require('./MyAccount');
+var {Icon, TabBarIOS} = require('react-native-icons');
+var TabBarItemIOS = TabBarIOS.Item;
 
 var {
   View,
