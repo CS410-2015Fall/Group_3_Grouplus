@@ -30,6 +30,8 @@
 		902EC3B31BCA50D000B38D60 /* libRCTFBSDKShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3B21BCA50C100B38D60 /* libRCTFBSDKShare.a */; };
 		902EC3B41BCA50D800B38D60 /* libRCTFBSDKLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3AC1BCA50BB00B38D60 /* libRCTFBSDKLogin.a */; };
 		902EC3B51BCA50DF00B38D60 /* libRCTFBSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3A61BCA50B400B38D60 /* libRCTFBSDKCore.a */; };
+		C818326E1BCF34D200260786 /* MyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = C818326D1BCF34D200260786 /* MyCalendar.m */; settings = {ASSET_TAGS = (); }; };
+		C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C822DEC71BCAE1DB006B92EE /* CalendarManager.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +164,10 @@
 		902EC3A11BCA50B400B38D60 /* RCTFBSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKCore.xcodeproj; path = "../node_modules/react-native-fbsdkcore/RCTFBSDKCore.xcodeproj"; sourceTree = "<group>"; };
 		902EC3A71BCA50BB00B38D60 /* RCTFBSDKLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKLogin.xcodeproj; path = "../node_modules/react-native-fbsdklogin/RCTFBSDKLogin.xcodeproj"; sourceTree = "<group>"; };
 		902EC3AD1BCA50C000B38D60 /* RCTFBSDKShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKShare.xcodeproj; path = "../node_modules/react-native-fbsdkshare/RCTFBSDKShare.xcodeproj"; sourceTree = "<group>"; };
+		C818326C1BCF34D200260786 /* MyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCalendar.h; path = Grouplus/MyCalendar.h; sourceTree = "<group>"; };
+		C818326D1BCF34D200260786 /* MyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyCalendar.m; path = Grouplus/MyCalendar.m; sourceTree = "<group>"; };
+		C822DEC61BCAE1DB006B92EE /* CalendarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarManager.h; path = Grouplus/CalendarManager.h; sourceTree = "<group>"; };
+		C822DEC71BCAE1DB006B92EE /* CalendarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarManager.m; path = Grouplus/CalendarManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +288,10 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				C822DEC61BCAE1DB006B92EE /* CalendarManager.h */,
+				C822DEC71BCAE1DB006B92EE /* CalendarManager.m */,
+				C818326C1BCF34D200260786 /* MyCalendar.h */,
+				C818326D1BCF34D200260786 /* MyCalendar.m */,
 			);
 			name = Grouplus;
 			sourceTree = "<group>";
@@ -642,6 +652,8 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */,
+				C818326E1BCF34D200260786 /* MyCalendar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

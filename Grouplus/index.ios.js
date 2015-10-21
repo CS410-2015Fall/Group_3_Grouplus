@@ -3,16 +3,15 @@
 
 var React = require('react-native');
 var LoginScreen = require('./app/components/LoginScreen');
-// Make react global
-window.React = React;
+
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
   Image,
+  NavigatorIOS,
 } = React;
 
 var styles = StyleSheet.create({
@@ -36,7 +35,14 @@ var Grouplus = React.createClass({
         }}
       />
     );
-  }
+  },
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
 });
 
 AppRegistry.registerComponent('Grouplus', () => Grouplus);

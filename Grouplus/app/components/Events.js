@@ -2,6 +2,7 @@
  * Display events and UI for adding new ones.
  */
 var React = require('react-native');
+var Calendar = require('./Calendar');
 
 var {
   StyleSheet,
@@ -24,6 +25,7 @@ class Events extends React.Component{
   render(){
     return (
       <View style={styles.container}>
+        <Calendar/>
       	<Text style={styles.stub}>TODO: UI for Events</Text>
       </View>
     );
