@@ -6,7 +6,7 @@ var React = require('react-native');
 var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
 var GroupIcon = require('./GroupIcon');
-var TodoList = require('./TodoList');
+var GroupPanel = require('./GroupPanel');
 
 var {
   View,
@@ -18,8 +18,10 @@ var {
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    height: 70,
+    margin: 3,
   },
   name: {
     fontSize: 18,
@@ -37,13 +39,13 @@ class GroupList extends React.Component{
   onPressRow(group) {
     this.props.navigator.push({
       title: group.name,
-      component: TodoList,
+      component: GroupPanel,
       passProps: {
-        todos: group.todos,
+        group: group,
       },
     });
   }
-  renderRow(rowData: object) {
+  _renderRow(rowData: object) {
     return (
       <View>
         <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
@@ -60,9 +62,8 @@ class GroupList extends React.Component{
   render() {
     return (
       <ListView
-        styles
         dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)} 
+        renderRow={this._renderRow.bind(this)} 
       />
     );
   }

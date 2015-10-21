@@ -53,8 +53,8 @@ class LoginScreen extends React.Component{
               if (result.isCancelled) {
                 alert('Login cancelled.');
               } else {
-                this.props.navigator.push({
-                  title: 'Groups',
+                this.props.navigator.replace({
+                  title: 'Grouplus',
                   component: GroupList,
                 });
               }
