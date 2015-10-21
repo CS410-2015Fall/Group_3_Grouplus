@@ -4,15 +4,20 @@
  */
 'use strict';
 
+/**
+ * This is completely broken right now TODO fix
+ */
 var React = require('react-native');
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  Image,
 } = React;
 
-var Login = require('./Login');
+var Login = require('./app/components/login/Login');
+
 var Grouplus = React.createClass({
   render: function() {
     return (
@@ -27,6 +32,6 @@ var Grouplus = React.createClass({
   }
 });
 
-var styles = StyleSheet.create(require('./styles.js'));
+var styles = StyleSheet.create(require('./app/components/login/styles.js'));
 
 AppRegistry.registerComponent('Grouplus', () => Grouplus);
