@@ -7,6 +7,7 @@ var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
+var GroupAdd = require('./GroupAdd');
 var TodoList = require('./TodoList');
 var MyAccount = require('./MyAccount');
 var {Icon, TabBarIOS} = require('react-native-icons');
@@ -18,6 +19,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  NavigatorIOS,
 } = React;
 
 var styles = StyleSheet.create({
@@ -61,10 +63,19 @@ class GroupList extends React.Component{
       },
     });
   }
+
+  onPressNewGroup() {
+    this.props.navigator.push({
+      title: 'Add New Group',
+      component: GroupAdd,
+    });
+  }
+
   _renderRow(rowData: object) {
     return (
       <View>
         <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
+                        navigator={this.props.navigator}
                         underlayColor='#E6FFFF'>
           <View style={styles.container}>
             <GroupIcon members={rowData.members}/>
@@ -78,7 +89,7 @@ class GroupList extends React.Component{
 
   _renderFooter() {
     return (
-      <TouchableHighlight style={styles.button}>
+      <TouchableHighlight style={styles.button} onPress={() => this.onPressNewGroup()}>
         <Text>Add Group</Text>
       </TouchableHighlight>
       );
