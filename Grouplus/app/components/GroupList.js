@@ -30,6 +30,18 @@ var styles = StyleSheet.create({
   name: {
     fontSize: 18,
   },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
 });
 
 class GroupList extends React.Component{
@@ -63,11 +75,21 @@ class GroupList extends React.Component{
       </View>
     );
   }
+
+  _renderFooter() {
+    return (
+      <TouchableHighlight style={styles.button}>
+        <Text>Add Group</Text>
+      </TouchableHighlight>
+      );
+  }
+
   render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)} 
+        renderFooter={this._renderFooter.bind(this)}
       />
     );
   }

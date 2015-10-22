@@ -116,7 +116,7 @@ var LoginScreen = React.createClass({
           // fetchProfile.start();
           FBSDKGraphRequestManager.batchRequests([fetchProfile], function() {}, 10)
         }
-                        this.props.navigator.push({
+                   this.props.navigator.push({
                    title: 'GroupList',
                    component: GroupList,
                  });
