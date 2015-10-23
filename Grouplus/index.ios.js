@@ -3,6 +3,7 @@
 
 var React = require('react-native');
 var LoginScreen = require('./app/components/LoginScreen');
+var GroupList = require('./app/components/GroupList');
 
 
 var {
@@ -31,7 +32,7 @@ var Grouplus = React.createClass({
         style={styles.container}
         initialRoute={{
           title: 'Grouplus',
-          component: LoginScreen, 
+          component: GroupList, 
         }}
       />
     );
