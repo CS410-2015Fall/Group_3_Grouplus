@@ -4,6 +4,11 @@ var React = require('react-native');
 var t = require('tcomb-form-native');
 var { View, TouchableHighlight, Text } = React;
 var Form = t.form.Form;
+var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
+
+// initializing Parse
+//Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
 var Group = t.struct({txt: t.Str});
 
@@ -57,10 +62,15 @@ class GroupAdd extends React.Component {
         this.onUpdate = this.onUpdate.bind(this);
     }
 
+//Create new group
     onUpdate() {
         var value = this.refs.form.getValue();
         if (value) {
-            this.props.update(value, this.props.id);
+          var creator = ParseReact.Mutation.Create('Group', {
+            Name: value.txt,
+            createdBy: Parse.User.current().id
+        });
+            creator.dispatch();
         }
     }
 
