@@ -4,15 +4,41 @@
 var React = require('react-native');
 var EventItem = require('./EventItem');
 var Separator = require('./helpers/Separator');
+var EventCreation = require('./EventCreation');
 
 var {
   StyleSheet,
   View,
   ListView,
   Text,
+  TouchableHighlight,
+  NavigatorIOS,
 } = React;
 
-var styles = StyleSheet.create({  
+var styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 70,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    margin: 3,
+      },
+  name: {
+    fontSize: 18,
+  },
+button: {
+    height: 30,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
 });
 
 class EventList extends React.Component{
@@ -23,19 +49,40 @@ class EventList extends React.Component{
       dataSource: this.ds.cloneWithRows(this.props.events),
     };
   }
+
+  onPressNewEvent() {
+    // this.props.navigator.push({
+    //   title: 'Add New Event',
+    //   component: EventCreation,
+    // });
+  }
   _renderRow(rowData) {
     return (
-      <View>
+      <View stylle={styles.container}>
         <EventItem event={rowData}/>
         <Separator/>
       </View>
     );
   }
+
+  _renderFooter() {
+    return (
+      <TouchableHighlight 
+        style={styles.button}
+        onPress={()=> this.onPressNewEvent()}
+        navigator={this.props.navigator}>
+          <Text>Add Events</Text>
+        </TouchableHighlight>
+      );
+  }
+
   render(){
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)} 
+        renderFooter={this._renderFooter.bind(this)}
+
       />
     );
   }

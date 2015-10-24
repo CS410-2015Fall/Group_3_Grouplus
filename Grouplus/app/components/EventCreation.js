@@ -10,7 +10,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({  
-  }
 });
 
 class EventCreation extends React.Component{

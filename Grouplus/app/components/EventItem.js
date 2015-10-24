@@ -15,15 +15,16 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
+  AlertIOS,
 } = React;
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 20,
     flexDirection: 'row',
     height: 70,
     margin: 3,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 22,
@@ -33,12 +34,20 @@ var styles = StyleSheet.create({
   info: {
     flex: 15,
     flexDirection: 'column',
-
-    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
-  button:{
-    flex: 2,
-
+  button: {
+    height: 30,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
   text: {
     fontSize: 14,

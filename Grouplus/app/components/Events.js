@@ -26,7 +26,6 @@ class Events extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.stub}>{this.props.events + 'Hi'}</Text>
         <EventList events={this.props.events}/>      	
       </View>
     );
