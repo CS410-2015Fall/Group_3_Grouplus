@@ -34,11 +34,16 @@ var styles = StyleSheet.create({
   info: {
     flex: 15,
     flexDirection: 'column',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
   button: {
-    height: 30,
+    height: 45,
     flexDirection: 'row',
     backgroundColor: '#48BBEC',
     borderColor: 'white',
@@ -72,7 +77,7 @@ class EventItem extends React.Component{
         onPress={()=>
           CalendarManager.addEvent(event.title, event.location, event.date)
           }>
-          <Text>Export</Text>
+          <Text style={styles.buttonText}>Export</Text>
         </TouchableHighlight>
       </View>
     );

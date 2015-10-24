@@ -14,7 +14,6 @@ var {
 var styles = StyleSheet.create({  
   container: {
     flex: 1,
-    alignItems: 'center'
   },
   stub: {
     margin:50,
@@ -26,7 +25,7 @@ class Events extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        <EventList events={this.props.events}/>      	
+        <EventList events={this.props.events} navigator={this.props.navigator}/>      	
       </View>
     );
   }

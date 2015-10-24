@@ -5,6 +5,8 @@ var React = require('react-native');
 var EventItem = require('./EventItem');
 var Separator = require('./helpers/Separator');
 var EventCreation = require('./EventCreation');
+var mockdata = require('../utils/MockData');
+
 
 var {
   StyleSheet,
@@ -27,8 +29,13 @@ var styles = StyleSheet.create({
   name: {
     fontSize: 18,
   },
-button: {
-    height: 30,
+ buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 45,
     flexDirection: 'row',
     backgroundColor: '#48BBEC',
     borderColor: 'white',
@@ -51,11 +58,12 @@ class EventList extends React.Component{
   }
 
   onPressNewEvent() {
-    // this.props.navigator.push({
-    //   title: 'Add New Event',
-    //   component: EventCreation,
-    // });
+    this.props.navigator.push({
+      title: 'Add New Event',
+      component: EventCreation,
+    });
   }
+
   _renderRow(rowData) {
     return (
       <View stylle={styles.container}>
@@ -71,18 +79,17 @@ class EventList extends React.Component{
         style={styles.button}
         onPress={()=> this.onPressNewEvent()}
         navigator={this.props.navigator}>
-          <Text>Add Events</Text>
+          <Text style={styles.buttonText}>Add Events</Text>
         </TouchableHighlight>
       );
   }
 
   render(){
     return (
-      <ListView
+      <ListView 
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)} 
         renderFooter={this._renderFooter.bind(this)}
-
       />
     );
   }
