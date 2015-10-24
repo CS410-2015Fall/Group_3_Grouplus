@@ -2,11 +2,17 @@
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
-var Separator = require('./helpers/Separator');
 var t = require('tcomb-form-native');
+var Form = t.form.From;
+
 var mockdata = require('../utils/MockData');
 
-var Event = t.struct({txt: t.Str});
+var Event = t.struct({
+    name: t.Str, 
+    location: t.maybe(t.Str),
+    eventstartdate: t.Dat,
+    eventfinishdate: t.Dat
+});
 
 var {
   StyleSheet,
@@ -15,14 +21,7 @@ var {
   TouchableHighlight,
 } = React;
 
-var Form = t.form.From;
 
-var Event = t.struct({
-    name: t.Str, 
-    location: t.maybe(t.Str),
-    eventstartdate: t.Dat,
-    eventfinishdate: t.Dat,
-});
 
 
 var options = {
@@ -38,10 +37,10 @@ var options = {
             autoFocus: true
         },
         eventstartdate: {
-            label: 'Due date'
+            label: 'Start Time'
         },
         eventfinishdate: {
-            label: 'Due date'
+            label: 'End time'
         }
 
     }
@@ -60,6 +59,16 @@ var styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center'
     },
+    saveButton: {
+        borderColor: '#48BBEC',
+        borderWidth: 1,
+        borderRadius: 8,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
+        alignSelf: 'center'
+    },
 });
 
 class EventCreation extends React.Component{
@@ -68,10 +77,11 @@ class EventCreation extends React.Component{
         this.onUpdate = this.onUpdate.bind(this);
     }
 
+//create new event
     onUpdate() {
         var value = this.refs.form.getValue();
-        if (value) {
-            this.props.update(value, this.props.id);
+        if (value){
+            console.log("test");
         }
     }
 
@@ -82,17 +92,18 @@ class EventCreation extends React.Component{
                 <Form
                     ref="form"
                     type={Event}
+                    onChange={this._onChange}
                     options={options}
                     value={this.props.item}/>
                 <TouchableHighlight
                     style={[styles.button, styles.saveButton]}
-                    onPress={this.onUpdate.bind(this)}
+                    onPress={this.onUpdate}
                     underlayColor='#99d9f4'>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
             </View>
-    );
+    )
   }
-};
+}
 
 module.exports = EventCreation;
