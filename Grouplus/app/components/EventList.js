@@ -78,7 +78,7 @@ class EventList extends React.Component{
       <TouchableHighlight 
         style={styles.button}
         onPress={()=> this.onPressNewEvent()}
-        navigator={this.props.navigator}>
+        >
           <Text style={styles.buttonText}>Add Events</Text>
         </TouchableHighlight>
       );

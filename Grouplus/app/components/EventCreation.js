@@ -1,17 +1,24 @@
+'use strict';
 /**
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
 var t = require('tcomb-form-native');
-var Form = t.form.From;
+var Form = t.form.Form;
 
 var mockdata = require('../utils/MockData');
+
+var minORhr = t.enums({
+     H: 'Hour',
+     M: 'Minute'
+});
 
 var Event = t.struct({
     name: t.Str, 
     location: t.maybe(t.Str),
     eventstartdate: t.Dat,
-    eventfinishdate: t.Dat
+    eventDuration: t.Num,
+    minORhr: minORhr
 });
 
 var {
@@ -19,6 +26,7 @@ var {
   View,
   Text,
   TouchableHighlight,
+  ScrollView
 } = React;
 
 
@@ -39,8 +47,11 @@ var options = {
         eventstartdate: {
             label: 'Start Time'
         },
-        eventfinishdate: {
-            label: 'End time'
+        eventDuration: {
+            label: 'Duration'
+        },
+        minORhr: {
+            label: 'Duration in Hour/Minute'
         }
 
     }
@@ -88,7 +99,7 @@ class EventCreation extends React.Component{
 
   render(){
     return (
-            <View style={styles.event}>          
+            <ScrollView style={styles.event}>          
                 <Form
                     ref="form"
                     type={Event}
@@ -101,7 +112,7 @@ class EventCreation extends React.Component{
                     underlayColor='#99d9f4'>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
     )
   }
 }
