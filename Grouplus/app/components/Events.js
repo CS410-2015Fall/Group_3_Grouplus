@@ -2,7 +2,6 @@
  * Display events and UI for adding new ones.
  */
 var React = require('react-native');
-var Calendar = require('./Calendar');
 var EventList = require('./EventList');
 
 var {

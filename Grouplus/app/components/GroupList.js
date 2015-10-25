@@ -10,8 +10,8 @@ var GroupPanel = require('./GroupPanel');
 var GroupAdd = require('./GroupAdd');
 var TodoList = require('./TodoList');
 var MyAccount = require('./MyAccount');
-var {Icon, TabBarIOS} = require('react-native-icons');
-var TabBarItemIOS = TabBarIOS.Item;
+//var {Icon, TabBarIOS} = require('react-native-icons');
+//var TabBarItemIOS = TabBarIOS.Item;
 
 var {
   View,

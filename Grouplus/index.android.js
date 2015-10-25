@@ -16,22 +16,14 @@ var {
   Image,
 } = React;
 
-var Login = require('./app/components/login/Login');
+var LoginScreen = require('./app/components/LoginScreen');
 
 var Grouplus = React.createClass({
   render: function() {
     return (
-      <Image
-        style={styles.loginImage}>
-        <View style={styles.disclaimerContainer}>
-          <Text style={styles.disclaimerText}>Grouplus</Text>
-        </View>
-        <Login style={styles.loginContainer}/>
-      </Image>
+        <LoginScreen />
     );
   }
 });
-
-var styles = StyleSheet.create(require('./app/components/login/styles.js'));
 
 AppRegistry.registerComponent('Grouplus', () => Grouplus);
