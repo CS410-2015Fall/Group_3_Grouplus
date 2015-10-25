@@ -101,9 +101,9 @@
                     <exclude reference="VY7-ce-fXQ"/>
                     <exclude reference="Ztj-Bh-kBn"/>
                     <exclude reference="l3T-uP-nMD"/>
-                    <exclude reference="ja6-Cj-ZRI"/>
                     <exclude reference="4M9-Cz-Nyb"/>
                     <exclude reference="hAS-VC-RFt"/>
+                    <exclude reference="ja6-Cj-ZRI"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="678.5" y="394.5"/>

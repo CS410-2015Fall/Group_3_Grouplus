@@ -7,6 +7,10 @@ var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
+var TodoList = require('./TodoList');
+var MyAccount = require('./MyAccount');
+var {Icon, TabBarIOS} = require('react-native-icons');
+var TabBarItemIOS = TabBarIOS.Item;
 
 var {
   View,
@@ -25,6 +29,18 @@ var styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
 });
 
@@ -59,11 +75,21 @@ class GroupList extends React.Component{
       </View>
     );
   }
+
+  _renderFooter() {
+    return (
+      <TouchableHighlight style={styles.button}>
+        <Text>Add Group</Text>
+      </TouchableHighlight>
+      );
+  }
+
   render() {
     return (
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this._renderRow.bind(this)} 
+        renderFooter={this._renderFooter.bind(this)}
       />
     );
   }
