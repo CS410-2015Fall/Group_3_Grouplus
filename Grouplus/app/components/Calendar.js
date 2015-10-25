@@ -17,7 +17,7 @@ var {
 
 var date = new Date("October 14, 2015");
 
-CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey',date.toISOString());
+CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey', date.toISOString());
 
 var Calendar = React.createClass({
   render: function() {
