@@ -41,7 +41,7 @@ class GroupPanel extends React.Component {
           title='TodoList'
           selected={this.state.selectedTab === 'TodoList'}
           onPress={() => this.setTab('TodoList')}>
-          <TodoList todos={this.props.group.todos}/>
+          <TodoList navigator={this.props.navigator} todos={this.props.group.todos} group={this.props.group}/>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Photos"
@@ -53,7 +53,7 @@ class GroupPanel extends React.Component {
           title="Events"
           selected={this.state.selectedTab === 'Events'}
           onPress={() => this.setTab('Events')}>
-          <Events/>
+          <Events events={this.props.group.events} navigator={this.props.navigator}/>
         </TabBarIOS.Item>
       </TabBarIOS>
     );

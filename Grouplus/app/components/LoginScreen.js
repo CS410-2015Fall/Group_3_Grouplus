@@ -71,7 +71,7 @@ var LoginScreen = React.createClass({
           // signup: update user data, e.g. email
           var data = user.get('authData').facebook;
           console.log("[data]: ", data);
-          var api = 'https://graph.facebook.com/v2.4/'+data.id+'?fields=name,email&access_token='+data.access_token;
+          var api = 'https://graph.facebook.com/v2.4/'+data.id+'?fields=name,email,picture&access_token='+data.access_token;
 
           var fetchProfile = new FBSDKGraphRequest((error, result) => {
             if (error) {
@@ -80,6 +80,7 @@ var LoginScreen = React.createClass({
             } else {
               var name = result.name;
               var email = result.email;
+              var photo = result.picture;
               console.log("[email]: ", email);
               ParseReact.Mutation.Set({
                 className: '_User',
@@ -88,6 +89,7 @@ var LoginScreen = React.createClass({
                 username: email,
                 email: email,
                 name: name,
+                profilePicture: photo,
               }).dispatch({waitForServer: true});
               /**
                 * Both solution got same issue
@@ -110,7 +112,7 @@ var LoginScreen = React.createClass({
               //   .done();
               this.setState({isLoadingCurrentUser: false});
             }
-          }, '/me?fields=name,email,id');
+          }, '/me?fields=name,email,id,picture');
 
           // FIXME https://github.com/facebook/react-native-fbsdk/issues/20
           // fetchProfile.start();

@@ -25,6 +25,19 @@ var mockdata = {
           avatar_url: 'https://avatars.githubusercontent.com/u/5515750?v=3'
         },
       ],
+      events:
+      [
+        {
+          title: 'Meeting',
+          date: "October 19, 2015",
+          location: 'School',
+        },
+        {
+          title: 'Demo',
+          date: "October 20, 2015",
+          location: 'School',
+        }
+      ],
       todos: 
       [
         {
@@ -94,7 +107,7 @@ var mockdata = {
           ],
         },
         {
-          title: 'Intall Android',
+          title: 'Install Android',
           dueDate: '2015-10-14',
           whoAreDone: 
           [

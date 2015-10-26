@@ -19,7 +19,7 @@ var styles = StyleSheet.create({
 class Separator extends React.Component{
   render(){
     return (
-      <View style={styles.separator} />
+      <View style={[styles.separator, this.props.style]} />
     );
   }
 };

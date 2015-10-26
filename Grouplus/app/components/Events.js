@@ -2,7 +2,7 @@
  * Display events and UI for adding new ones.
  */
 var React = require('react-native');
-var Calendar = require('./Calendar');
+var EventList = require('./EventList');
 
 var {
   StyleSheet,
@@ -13,7 +13,6 @@ var {
 var styles = StyleSheet.create({  
   container: {
     flex: 1,
-    alignItems: 'center'
   },
   stub: {
     margin:50,
@@ -25,11 +24,14 @@ class Events extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        <Calendar/>
-      	<Text style={styles.stub}>TODO: UI for Events</Text>
+        //<EventList events={this.props.events} navigator={this.props.navigator}/>      	
       </View>
     );
   }
 };
+
+Events.propTypes = {
+  events: React.PropTypes.array.isRequired,
+}
 
 module.exports = Events;
