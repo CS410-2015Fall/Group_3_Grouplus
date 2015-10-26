@@ -83,7 +83,7 @@ var TestCmp = React.createClass({
   render: function() {
     return (
       <View style={styles.imageContainer}>
-        <Image style={styles.img} source={{uri: 'http://lorempixel.com/200/400/sports/5/![enter image description here][2]'}} />
+        <Image style={styles.img}  source={{uri: this.props.uri}}/>
       </View>
     );
   }
@@ -99,12 +99,12 @@ class Photos extends React.Component{
       dataSource: this.ds.cloneWithRows(imageList),
     }
   }
-  onPressRow(group) {
+  onPressRow(image) {
     this.props.navigator.push({
-      title: group.name,
-      component: GroupPanel,
+      title: 'Photo',
+      component: TestCmp,
       passProps: {
-        group: group,
+        uri: image,
       },
     });
   }
@@ -166,7 +166,11 @@ class Photos extends React.Component{
        <ListView contentContainerStyle={styles.list}
           dataSource={this.state.dataSource}
           renderFooter={this.renderFooter.bind(this)}
-          renderRow={(imageList) => <Image style={styles.item} source={{uri: imageList}}/>} />
+          renderRow={(image) => 
+            <TouchableHighlight onPress={() => this.onPressRow(image)}>
+            <Image style={styles.item} source={{uri: image}}/>
+            </TouchableHighlight>} 
+            />
     );
   }
 };
