@@ -68,6 +68,7 @@ class GroupAdd extends React.Component {
             createdBy: Parse.User.current().id
         });
             creator.dispatch();
+            this.props.navigator.pop();
         }
     }
 

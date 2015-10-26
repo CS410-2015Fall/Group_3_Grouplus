@@ -94,6 +94,7 @@ onUpdate() {
             done: false,
         });
             creator.dispatch();
+            this.props.navigator.pop();
         }
     }
     
