@@ -58,6 +58,7 @@ class TodoList extends React.Component{
       title: 'Add New Todo',
       component: TodoTemplate,
     });
+    
   }
 
   _renderRow(rowData) {
@@ -69,11 +70,13 @@ class TodoList extends React.Component{
     );
   }
 
-  _renderFooter() {
+
+    _renderFooter() {
+      console.log("group : " + this.props.group);
     return (
       <TouchableHighlight style={styles.button}  navigator={this.props.navigator}
-           onPress={() => this.onPressNewTodo()}>
-        <Text style={styles.bottonText}>Add New Todo</Text>
+          group={this.props.group} onPress={() => this.onPressNewTodo()}>
+        <Text>Add New Todo </Text>
       </TouchableHighlight>
       );
   }
