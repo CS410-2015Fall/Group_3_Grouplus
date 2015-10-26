@@ -10,10 +10,9 @@ var GroupPanel = require('./GroupPanel');
 var GroupAdd = require('./GroupAdd');
 var TodoList = require('./TodoList');
 var MyAccount = require('./MyAccount');
-//var {Icon, TabBarIOS} = require('react-native-icons');
-//var TabBarItemIOS = TabBarIOS.Item;
 
 var {
+  ScrollView,
   View,
   ListView,
   StyleSheet,
@@ -35,15 +34,20 @@ var styles = StyleSheet.create({
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#3399FF',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  bottonText: {
+    color: 'white',
+    fontSize: 20,
+  }
 });
 
 class GroupList extends React.Component{
@@ -54,14 +58,19 @@ class GroupList extends React.Component{
       dataSource: this.ds.cloneWithRows(mockdata.groups),
     }
   }
+  
   onPressRow(group) {
-    this.props.navigator.push({
-      title: group.name,
-      component: GroupPanel,
-      passProps: {
-        group: group,
-      },
-    });
+    if (this.props.onPressGroup) {
+      this.props.onPressGroup(group);
+    } else {
+      this.props.navigator.push({
+        title: group.name,
+        component: GroupPanel,
+        passProps: {
+          group: group,
+        },
+      });
+    }
   }
 
   onPressNewGroup() {
@@ -71,7 +80,7 @@ class GroupList extends React.Component{
     });
   }
 
-  _renderRow(rowData: object) {
+  renderRow(rowData: object) {
     return (
       <View>
         <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
@@ -87,10 +96,10 @@ class GroupList extends React.Component{
     );
   }
 
-  _renderFooter() {
+  renderFooter() {
     return (
       <TouchableHighlight style={styles.button} onPress={() => this.onPressNewGroup()}>
-        <Text>Add Group</Text>
+        <Text style={styles.bottonText}>Add Group</Text>
       </TouchableHighlight>
       );
   }
@@ -99,11 +108,16 @@ class GroupList extends React.Component{
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this._renderRow.bind(this)} 
-        renderFooter={this._renderFooter.bind(this)}
+        renderRow={this.renderRow.bind(this)} 
+        renderFooter={this.renderFooter.bind(this)}
       />
     );
   }
 };
+
+GroupList.propTypes = {
+  onPressGroup: React.PropTypes.func, // for android drawer
+  navigator: React.PropTypes.object,  // for ios navigation
+}
 
 module.exports = GroupList;

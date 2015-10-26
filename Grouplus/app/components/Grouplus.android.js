@@ -1,3 +1,7 @@
+/**
+ * Main app for android
+ */
+
 'use strict';
 
 var React = require('react-native');
@@ -12,6 +16,7 @@ var {
 } = React;
 
 var GroupList = require('./GroupList');
+var GroupPanel = require('./GroupPanel');
 
 var DRAWER_WIDTH_LEFT = 100;
 
@@ -40,7 +45,7 @@ var styles = StyleSheet.create({
   drawer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  }
+  },
 });
 
 class StubView extends React.Component {
@@ -68,11 +73,6 @@ class Grouplus extends React.Component {
     }
   }
 
-  componentWillMount(){
-    BackAndroid.addEventListener('hardwareBackPress', 
-      this._handleBackButtonPress.bind(this));
-  }
-
   render(){
     return (
       <DrawerLayoutAndroid
@@ -80,21 +80,32 @@ class Grouplus extends React.Component {
         drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
         keyboardDismissMode="on-drag"
         ref={(drawer) => { this.drawer = drawer; }}
-        renderNavigationView={ this._renderDrawer.bind(this) }>
-        {this._renderNavigation()}
+        renderNavigationView={ this.renderDrawer.bind(this) }>
+        {this.renderNavigation()}
       </DrawerLayoutAndroid>
       );
   }  
 
-  _renderDrawer(){
+  renderDrawer(){
     return (
       <View style={styles.drawer}>
-        <GroupList />
+        <GroupList onPressGroup={this.onSelectGroup.bind(this)}/>
       </View>
     );
   }
 
-  _renderNavigation() {
+  onSelectGroup(group){
+    this.drawer.closeDrawer();
+    this.setState({
+      screen: {
+        title: group.name,
+        component: GroupPanel,
+        group: group,
+      } 
+    })
+  }
+
+  renderNavigation() {
     var Component = this.state.screen.component;
     return (
       <View style={styles.container}>
@@ -102,15 +113,12 @@ class Grouplus extends React.Component {
           navIcon={require('image!ic_menu_white_24dp')}
           onIconClicked={() => this.drawer.openDrawer()}
           style={styles.toolbar}
-          title='Grouplus'
+          title={this.state.screen.title}
           titleColor='#FFFFFF'
         />
-        <Component/>
+        <Component group={this.state.screen.group}/>
       </View>
     );
-  }  
-
-  _handleBackButtonPress() {
   }
 
 };

@@ -13,24 +13,31 @@ var {
   View,
   ListView,
   StyleSheet,
+  ScrollView,
   TouchableHighlight,
   Text,
   NavigatorIOS,
 } = React;
 
 var styles = StyleSheet.create({
-    button: {
+  button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#3399FF',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
     marginTop: 10,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  bottonText: {
+    flex: 1,
+    color: 'white',
+    fontSize: 20,
+  }
 });
 
 class TodoList extends React.Component{
@@ -40,6 +47,10 @@ class TodoList extends React.Component{
     this.state = {
       dataSource: this.ds.cloneWithRows(this.props.todos),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({dataSource: this.ds.cloneWithRows(nextProps.todos)});
   }
   
   onPressNewTodo() {
@@ -58,11 +69,11 @@ class TodoList extends React.Component{
     );
   }
 
-    _renderFooter() {
+  _renderFooter() {
     return (
       <TouchableHighlight style={styles.button}  navigator={this.props.navigator}
            onPress={() => this.onPressNewTodo()}>
-        <Text>Add New Todo</Text>
+        <Text style={styles.bottonText}>Add New Todo</Text>
       </TouchableHighlight>
       );
   }

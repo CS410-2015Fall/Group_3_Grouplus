@@ -107,7 +107,7 @@ var mockdata = {
           ],
         },
         {
-          title: 'Intall Android',
+          title: 'Install Android',
           dueDate: '2015-10-14',
           whoAreDone: 
           [
