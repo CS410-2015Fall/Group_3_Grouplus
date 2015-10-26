@@ -63,7 +63,7 @@ var Grouplus = React.createClass({
         style={styles.container}
         initialRoute={{
           title: 'Grouplus',
-          component : LoginScreen,
+          component : GroupList,
         }}/>
     );
   },

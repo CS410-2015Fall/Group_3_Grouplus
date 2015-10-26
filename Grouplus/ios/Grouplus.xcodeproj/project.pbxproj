@@ -22,6 +22,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		5724C1F51BDAA18000A9DAFA /* UIImagePickerManager in Resources */ = {isa = PBXBuildFile; fileRef = 5724C1F41BDAA18000A9DAFA /* UIImagePickerManager */; settings = {ASSET_TAGS = (); }; };
+		5724C1F81BDAA23D00A9DAFA /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */; settings = {ASSET_TAGS = (); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		902EC3951BCA4F8800B38D60 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3931BCA4F8800B38D60 /* FBSDKCoreKit.framework */; settings = {ASSET_TAGS = (); }; };
 		902EC3961BCA4F8800B38D60 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3941BCA4F8800B38D60 /* FBSDKLoginKit.framework */; settings = {ASSET_TAGS = (); }; };
@@ -30,13 +32,10 @@
 		902EC3B31BCA50D000B38D60 /* libRCTFBSDKShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3B21BCA50C100B38D60 /* libRCTFBSDKShare.a */; };
 		902EC3B41BCA50D800B38D60 /* libRCTFBSDKLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3AC1BCA50BB00B38D60 /* libRCTFBSDKLogin.a */; };
 		902EC3B51BCA50DF00B38D60 /* libRCTFBSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3A61BCA50B400B38D60 /* libRCTFBSDKCore.a */; };
-
-		C818326E1BCF34D200260786 /* MyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = C818326D1BCF34D200260786 /* MyCalendar.m */; settings = {ASSET_TAGS = (); }; };
-		C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C822DEC71BCAE1DB006B92EE /* CalendarManager.m */; settings = {ASSET_TAGS = (); }; };
-
 		908803381BD4945E0020B7E5 /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 908803371BD494470020B7E5 /* libReactNativeIcons.a */; };
 		9088033A1BD494EE0020B7E5 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 908803391BD494EE0020B7E5 /* ionicons.ttf */; };
-
+		C818326E1BCF34D200260786 /* MyCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = C818326D1BCF34D200260786 /* MyCalendar.m */; settings = {ASSET_TAGS = (); }; };
+		C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C822DEC71BCAE1DB006B92EE /* CalendarManager.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +166,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Grouplus/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Grouplus/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		5724C1F41BDAA18000A9DAFA /* UIImagePickerManager */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UIImagePickerManager; path = "/Users/kiwi/Desktop/cpsc410/project/Group_3_Grouplus/Grouplus/node_modules/react-native-image-picker/UIImagePickerManager"; sourceTree = "<absolute>"; };
+		5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/UIImagePickerManager/UIImagePickerManager.m"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		902EC3931BCA4F8800B38D60 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -176,15 +177,12 @@
 		902EC3A11BCA50B400B38D60 /* RCTFBSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKCore.xcodeproj; path = "../node_modules/react-native-fbsdkcore/RCTFBSDKCore.xcodeproj"; sourceTree = "<group>"; };
 		902EC3A71BCA50BB00B38D60 /* RCTFBSDKLogin.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKLogin.xcodeproj; path = "../node_modules/react-native-fbsdklogin/RCTFBSDKLogin.xcodeproj"; sourceTree = "<group>"; };
 		902EC3AD1BCA50C000B38D60 /* RCTFBSDKShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDKShare.xcodeproj; path = "../node_modules/react-native-fbsdkshare/RCTFBSDKShare.xcodeproj"; sourceTree = "<group>"; };
-
+		908803251BD494470020B7E5 /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
+		908803391BD494EE0020B7E5 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ionicons.ttf; sourceTree = "<group>"; };
 		C818326C1BCF34D200260786 /* MyCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCalendar.h; path = Grouplus/MyCalendar.h; sourceTree = "<group>"; };
 		C818326D1BCF34D200260786 /* MyCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyCalendar.m; path = Grouplus/MyCalendar.m; sourceTree = "<group>"; };
 		C822DEC61BCAE1DB006B92EE /* CalendarManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalendarManager.h; path = Grouplus/CalendarManager.h; sourceTree = "<group>"; };
 		C822DEC71BCAE1DB006B92EE /* CalendarManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CalendarManager.m; path = Grouplus/CalendarManager.m; sourceTree = "<group>"; };
-
-		908803251BD494470020B7E5 /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
-		908803391BD494EE0020B7E5 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ionicons.ttf; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +331,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */,
 				908803251BD494470020B7E5 /* ReactNativeIcons.xcodeproj */,
 				902EC3AD1BCA50C000B38D60 /* RCTFBSDKShare.xcodeproj */,
 				902EC3A71BCA50BB00B38D60 /* RCTFBSDKLogin.xcodeproj */,
@@ -668,6 +667,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5724C1F51BDAA18000A9DAFA /* UIImagePickerManager in Resources */,
 				9088033A1BD494EE0020B7E5 /* ionicons.ttf in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
@@ -691,6 +691,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				5724C1F81BDAA23D00A9DAFA /* UIImagePickerManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */,
 				C818326E1BCF34D200260786 /* MyCalendar.m in Sources */,

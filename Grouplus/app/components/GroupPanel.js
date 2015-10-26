@@ -47,7 +47,7 @@ class GroupPanel extends React.Component {
           title="Photos"
           selected={this.state.selectedTab === 'Photos'}
           onPress={() => this.setTab('Photos')}>
-          <Photos/>
+          <Photos navigator={this.props.navigator}/>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Events"
