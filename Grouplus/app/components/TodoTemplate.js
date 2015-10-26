@@ -2,8 +2,9 @@
 
 var React = require('react-native');
 var t = require('tcomb-form-native');
-var { View, TouchableHighlight, Text } = React;
 var Form = t.form.Form;
+var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
 
 //TODO: Change the wording, this is temporary
 var Priority = t.enums({
@@ -17,12 +18,13 @@ var ToDo = t.struct({
     txt: t.Str, 
     priority: Priority, 
     duedate: t.Dat,
-    complete: t.Bool
+    individual: t.Bool
 });
 
 var {
   View,
   ListView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -77,16 +79,32 @@ class TodoTemplate extends React.Component {
         this.onUpdate = this.onUpdate.bind(this);
     }
 
-    onUpdate() {
+onUpdate() {
         var value = this.refs.form.getValue();
+
         if (value) {
-            this.props.update(value, this.props.id);
+          var creator = ParseReact.Mutation.Create('Todo', {
+            name: value.txt,
+            createdBy: Parse.User.current().id,
+            //TODO: show only groups that we added so far
+            //group: this.props.group.id,
+            dueDate: value.duedate,
+            priority: value.priority,
+            individual: value.individual,
+            done: false,
+        });
+            creator.dispatch();
         }
     }
+    
 
     render() {
+         console.log("group ID : " + this.props.group);
         return (
-            <View style={styles.todo}>
+
+            <ScrollView automaticallyAdjustContentInsets={false}
+            style={styles.todo}>
+
                 <Form
                     ref="form"
                     type={ToDo}
@@ -99,7 +117,7 @@ class TodoTemplate extends React.Component {
                     underlayColor='#99d9f4'>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableHighlight>
-            </View>
+            </ScrollView>
         )
     }
 }
