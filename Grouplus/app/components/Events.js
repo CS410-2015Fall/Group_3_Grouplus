@@ -24,7 +24,7 @@ class Events extends React.Component{
   render(){
     return (
       <View style={styles.container}>
-        //<EventList events={this.props.events} navigator={this.props.navigator}/>      	
+        <EventList events={this.props.events} navigator={this.props.navigator}/>      	
       </View>
     );
   }

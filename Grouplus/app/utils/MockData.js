@@ -137,6 +137,7 @@ var mockdata = {
           avatar_url: 'https://avatars.githubusercontent.com/u/6786994?v=3'
         },
       ],
+      events:[],
       todos:
       [
         {

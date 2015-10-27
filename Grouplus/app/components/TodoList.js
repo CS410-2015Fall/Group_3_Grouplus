@@ -33,8 +33,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bottonText: {
-    flex: 1,
+  buttonText: {
     color: 'white',
     fontSize: 20,
   }
@@ -71,12 +70,12 @@ class TodoList extends React.Component{
   }
 
 
-    _renderFooter() {
+  _renderFooter() {
       console.log("group : " + this.props.group);
     return (
       <TouchableHighlight style={styles.button}  navigator={this.props.navigator}
           group={this.props.group} onPress={() => this.onPressNewTodo()}>
-        <Text>Add New Todo </Text>
+        <Text style={styles.buttonText}>Add New Todo </Text>
       </TouchableHighlight>
       );
   }

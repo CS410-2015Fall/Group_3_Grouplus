@@ -1,5 +1,6 @@
 /**
  * Used for separating list items
+ * This is from egghead.io tutorial
  */
 
 var React = require('react-native');
