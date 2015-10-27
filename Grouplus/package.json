@@ -16,6 +16,6 @@
     "react-native-fbsdkshare": "0.0.5",
     "react-native-icons": "^0.5.1",
     "react-native-image-picker": "^0.8.0",
-    "tcomb-form-native": "^0.2.8",
+    "tcomb-form-native": "^0.2.8"
   }
 }
