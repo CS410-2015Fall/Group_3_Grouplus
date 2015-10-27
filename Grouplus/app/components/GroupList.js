@@ -5,11 +5,14 @@
 var React = require('react-native');
 var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
-var GroupIcon = require('./GroupIcon');
+// To avoid the error for now
+//var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
 var GroupAdd = require('./GroupAdd');
 var TodoList = require('./TodoList');
 var MyAccount = require('./MyAccount');
+var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
 
 var {
   ScrollView,
@@ -49,15 +52,42 @@ var styles = StyleSheet.create({
     fontSize: 20,
   }
 });
+// initializing Parse
+Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
+var group = Parse.Object.extend('Group');
+var query = new Parse.Query(group);
+var groupList = [];
+// TODO: Return only the group that I am part of
+//query.equalTo("createdBy", Parse.User.current().id);
+query.find({
+      success: function(results) {
+        for (var i = 0; i < results.length; ++i) {
+        var object = results[i];
+       groupList.push(object);
+       console.log("this.state.groups: " + object.get('Name'));
+    }
+  }
+    });
+    
 class GroupList extends React.Component{
   constructor(props){
     super(props);
+
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = { 
-      dataSource: this.ds.cloneWithRows(mockdata.groups),
+      dataSource: this.ds.cloneWithRows(groupList),
     }
   }
+
+ // Does not work... returns undefined
+  //  observe() {
+  //   return {
+  //     user: Parse.User.current().id,
+  //     groups: (new Parse.Query('Group'))
+  //     //.contains('members', Parse.User.current().id)
+  //   };
+  // }
   
   onPressRow(group) {
     if (this.props.onPressGroup) {
@@ -81,14 +111,15 @@ class GroupList extends React.Component{
   }
 
   renderRow(rowData: object) {
+    // TODO: Add member photos to UI
+    // <GroupIcon members={rowData.members}/>
     return (
       <View>
         <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
                         navigator={this.props.navigator}
                         underlayColor='#E6FFFF'>
           <View style={styles.container}>
-            <GroupIcon members={rowData.members}/>
-            <Text> {rowData.name} </Text>
+            <Text> {rowData.get('Name')} </Text>
           </View>
         </TouchableHighlight>
         <Separator/>
@@ -109,8 +140,7 @@ class GroupList extends React.Component{
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)} 
-        renderFooter={this.renderFooter.bind(this)}
-      />
+        renderFooter={this.renderFooter.bind(this)}/>
     );
   }
 };
