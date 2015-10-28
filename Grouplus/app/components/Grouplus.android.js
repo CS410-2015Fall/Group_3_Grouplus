@@ -6,11 +6,10 @@
 
 var React = require('react-native');
 var {
-  BackAndroid,
-  Dimensions,
   DrawerLayoutAndroid,
-  StyleSheet,
   ToolbarAndroid,
+  Dimensions,
+  StyleSheet,
   View,
   Text,
 } = React;
@@ -27,7 +26,7 @@ var styles = StyleSheet.create({
   },
   toolbar: {
     backgroundColor: '#3399FF',
-    height: 56,
+    height: 58,
   },
   stubView: {
     flex: 1,
@@ -49,6 +48,7 @@ var styles = StyleSheet.create({
   },
 });
 
+// Want to have an accumulated list of todos
 class StubView extends React.Component {
   render() {
     return (
@@ -73,7 +73,16 @@ class Grouplus extends React.Component {
       },
     }
   }
-
+  onSelectGroup(group){
+    this.drawer.closeDrawer();
+    this.setState({
+      screen: {
+        title: group.name,
+        component: GroupPanel,
+        group: group,
+      } 
+    })
+  }
   render(){
     return (
       <DrawerLayoutAndroid
@@ -86,7 +95,6 @@ class Grouplus extends React.Component {
       </DrawerLayoutAndroid>
       );
   }  
-
   renderDrawer(){
     return (
       <View style={styles.drawer}>
@@ -94,18 +102,6 @@ class Grouplus extends React.Component {
       </View>
     );
   }
-
-  onSelectGroup(group){
-    this.drawer.closeDrawer();
-    this.setState({
-      screen: {
-        title: group.name,
-        component: GroupPanel,
-        group: group,
-      } 
-    })
-  }
-
   renderNavigation() {
     var Component = this.state.screen.component;
     return (
@@ -121,7 +117,6 @@ class Grouplus extends React.Component {
       </View>
     );
   }
-
 };
 
 module.exports = Grouplus;

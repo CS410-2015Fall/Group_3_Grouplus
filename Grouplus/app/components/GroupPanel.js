@@ -17,6 +17,7 @@ var {
 
 var { Icon } = require('react-native-icons');
 
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   tabBar: {
     alignSelf: 'stretch',
@@ -26,25 +27,16 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FAFAFA',
   },
-  tab: {
-    flex: 1,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
   tabText: {
-    fontSize: 10,
-  },
-  container: {
-    flex:1,
+    fontSize: 8,
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 30,
+    height: 30,
   },
   iconPlusText: {
     alignItems: 'center',
-    alignSelf: 'stretch',
+    justifyContent: 'center',
     flexDirection: 'column',
   },
 });
@@ -61,7 +53,7 @@ class GroupPanel extends React.Component {
   }
   render(){
     return (
-      <View style={styles.container}>
+      <View style={basicStyles.flex1}>
         {this.renderTabContent()}
         <View>
           <Separator/>
@@ -92,7 +84,6 @@ class GroupPanel extends React.Component {
     var color = this.state.selected === name ? '#3399FF' : '#CCCCCC';
     return (
       <TouchableWithoutFeedback
-        style={styles.tab}
         onPress={() => this.setState({selected: name})}>
         <View style={styles.iconPlusText}>
           <Icon 

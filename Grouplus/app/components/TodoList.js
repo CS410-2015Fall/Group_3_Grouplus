@@ -5,10 +5,6 @@
  */
 
 var React = require('react-native');
-var Modal = require('react-native-modalbox');
-var Separator = require('./helpers/Separator');
-var TodoItem = require('./TodoItem');
-var TodoTemplate = require('./TodoTemplate');
 
 var {
   View,
@@ -20,27 +16,14 @@ var {
   NavigatorIOS,
 } = React;
 
+var Modal = require('react-native-modalbox');
+
+var Separator = require('./helpers/Separator');
+var TodoItem = require('./TodoItem');
+var TodoAdd = require('./TodoAdd');
+
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: '#3399FF',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
-  },
-  flex1: {
-    flex: 1,
-  }
 });
 
 class TodoList extends React.Component{
@@ -69,27 +52,26 @@ class TodoList extends React.Component{
     );
   }
 
-
   renderFooter() {
       console.log("group : " + this.props.group);
     return (
-      <TouchableHighlight style={styles.button}  navigator={this.props.navigator}
+      <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
           group={this.props.group} onPress={() => this.onPressNewTodo()}>
-        <Text style={styles.buttonText}>Add New Todo </Text>
+        <Text style={basicStyles.buttonText}>Add New Todo </Text>
       </TouchableHighlight>
       );
   }
 
   render(){
     return (
-      <View style={styles.flex1}>
+      <View style={basicStyles.flex1}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
         />
         <Modal ref={'addTodo'}>
-          <TodoTemplate/>
+          <TodoAdd/>
         </Modal>
       </View>
     );

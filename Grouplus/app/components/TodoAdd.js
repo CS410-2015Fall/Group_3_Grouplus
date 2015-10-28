@@ -6,6 +6,7 @@ var Form = t.form.Form;
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
 
+//TODO: tcomb doesn't support android so well
 //TODO: Change the wording, this is temporary
 var Priority = t.enums({
     L: 'Low',

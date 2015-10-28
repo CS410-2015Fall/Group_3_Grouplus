@@ -3,15 +3,6 @@
  */
 
 var React = require('react-native');
-var Modal = require('react-native-modalbox');
-
-var Separator = require('./helpers/Separator');
-var mockdata = require('../utils/MockData');
-var GroupIcon = require('./GroupIcon');
-var GroupPanel = require('./GroupPanel');
-var GroupAdd = require('./GroupAdd');
-var TodoList = require('./TodoList');
-var MyAccount = require('./MyAccount');
 
 var {
   ScrollView,
@@ -23,40 +14,32 @@ var {
   NavigatorIOS,
 } = React;
 
+var Modal = require('react-native-modalbox');
+
+var Separator = require('./helpers/Separator');
+var GroupIcon = require('./GroupIcon');
+var GroupPanel = require('./GroupPanel');
+var GroupAdd = require('./GroupAdd');
+var TodoList = require('./TodoList');
+var MyAccount = require('./MyAccount');
+
+var mockdata = require('../utils/MockData');
+
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  view: {
-    flex: 1,
-  },
-  container: {
+  group: {
     flex: 1,
     flexDirection: 'row',
     height: 70,
-    margin: 3,
   },
-  name: {
-    fontSize: 18,
+  groupDetail: {
+    marginVertical: 10,
   },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: '#3399FF',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bottonText: {
-    color: 'white',
-    fontSize: 20,
-  },
-  modal: {
-    flex: 1,
+  groupName: {
+    fontSize: 24,
   }
 });
+var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
 class GroupList extends React.Component{
   constructor(props){
@@ -66,7 +49,6 @@ class GroupList extends React.Component{
       dataSource: this.ds.cloneWithRows(mockdata.groups),
     }
   }
-  
   onPressRow(group) {
     if (this.props.onPressGroup) {
       this.props.onPressGroup(group);
@@ -80,40 +62,12 @@ class GroupList extends React.Component{
       });
     }
   }
-
   onPressNewGroup() {
     this.refs.addGroup.open();
   }
-
-  renderRow(rowData: object) {
-    return (
-      <View>
-        <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
-                        navigator={this.props.navigator}
-                        underlayColor='#E6FFFF'>
-          <View style={styles.container}>
-            <GroupIcon members={rowData.members}/>
-            <Text> {rowData.name} </Text>
-          </View>
-        </TouchableHighlight>
-        <Separator/>
-      </View>
-    );
-  }
-
-  //render this somewhere else
-  renderFooter() {
-    return (
-      <TouchableHighlight style={styles.button} 
-                          onPress={() => this.onPressNewGroup()}>
-        <Text style={styles.bottonText}>Add Group</Text>
-      </TouchableHighlight>
-      );
-  }
-
   render() {
     return (
-      <View style={styles.view}>
+      <View style={basicStyles.flex1}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)} 
@@ -124,6 +78,33 @@ class GroupList extends React.Component{
         </Modal>
       </View>
     );
+  }
+  renderRow(rowData, sectionID, rowID) {
+    var color = colors[rowID % colors.length];
+    return (
+      <View>
+        <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
+                        navigator={this.props.navigator}
+                        underlayColor='#E6FFFF'>
+          <View style={styles.group}>
+            <GroupIcon color={color} letter={rowData.name.charAt(0)}/>
+            <View style={styles.groupDetail}>
+              <Text style={styles.groupName}> {rowData.name} </Text>
+            </View>
+          </View>
+        </TouchableHighlight>
+        <Separator/>
+      </View>
+    );
+  }
+  //TODO: render this somewhere else
+  renderFooter() {
+    return (
+      <TouchableHighlight style={basicStyles.button} 
+                          onPress={() => this.onPressNewGroup()}>
+        <Text style={basicStyles.bottonText}>Add Group</Text>
+      </TouchableHighlight>
+      );
   }
 };
 
