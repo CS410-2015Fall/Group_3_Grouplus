@@ -60,24 +60,30 @@ var query = new Parse.Query(group);
 var groupList = [];
 // TODO: Return only the group that I am part of
 //query.equalTo("createdBy", Parse.User.current().id);
-query.find({
-      success: function(results) {
-        for (var i = 0; i < results.length; ++i) {
-        var object = results[i];
-       groupList.push(object);
-       console.log("this.state.groups: " + object.get('Name'));
-    }
-  }
-    });
+
     
 class GroupList extends React.Component{
   constructor(props){
     super(props);
-
+    this.handleData=this.handleData.bind(this);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = { 
       dataSource: this.ds.cloneWithRows(groupList),
-    }
+    };
+    query.find({
+      success: this.handleData
+    });
+  }
+
+  handleData(results) {
+    for (var i = 0; i < results.length; ++i) {
+          var object = results[i];
+          groupList.push(object);
+          console.log("this.state.groups: " + object.get('Name'));
+
+        }
+        // that.setState({dataSource : groupList});
+        this.setState({dataSource : this.ds.clonewithRows(results) })
   }
 
  // Does not work... returns undefined
@@ -89,6 +95,11 @@ class GroupList extends React.Component{
   //   };
   // }
   
+  componentDidMount() {
+
+var that = this;
+
+  }
   onPressRow(group) {
     if (this.props.onPressGroup) {
       this.props.onPressGroup(group);

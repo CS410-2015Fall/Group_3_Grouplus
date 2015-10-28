@@ -88,9 +88,9 @@ if(this.state.userLoggedIn === true) {
         }}/>
     );
     }
-    else{
+    else
       return <View />
-    }
+
   }
 
     
