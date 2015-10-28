@@ -23,6 +23,7 @@ var DRAWER_WIDTH_LEFT = 100;
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   toolbar: {
     backgroundColor: '#3399FF',

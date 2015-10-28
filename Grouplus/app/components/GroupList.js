@@ -3,6 +3,8 @@
  */
 
 var React = require('react-native');
+var Modal = require('react-native-modalbox');
+
 var Separator = require('./helpers/Separator');
 var mockdata = require('../utils/MockData');
 var GroupIcon = require('./GroupIcon');
@@ -22,6 +24,9 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  view: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -47,6 +52,9 @@ var styles = StyleSheet.create({
   bottonText: {
     color: 'white',
     fontSize: 20,
+  },
+  modal: {
+    flex: 1,
   }
 });
 
@@ -74,10 +82,7 @@ class GroupList extends React.Component{
   }
 
   onPressNewGroup() {
-    this.props.navigator.push({
-      title: 'Add New Group',
-      component: GroupAdd,
-    });
+    this.refs.addGroup.open();
   }
 
   renderRow(rowData: object) {
@@ -96,9 +101,11 @@ class GroupList extends React.Component{
     );
   }
 
+  //render this somewhere else
   renderFooter() {
     return (
-      <TouchableHighlight style={styles.button} onPress={() => this.onPressNewGroup()}>
+      <TouchableHighlight style={styles.button} 
+                          onPress={() => this.onPressNewGroup()}>
         <Text style={styles.bottonText}>Add Group</Text>
       </TouchableHighlight>
       );
@@ -106,11 +113,16 @@ class GroupList extends React.Component{
 
   render() {
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)} 
-        renderFooter={this.renderFooter.bind(this)}
-      />
+      <View style={styles.view}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)} 
+          renderFooter={this.renderFooter.bind(this)}
+        />
+        <Modal ref={'addGroup'}>
+          <GroupAdd/>
+        </Modal>
+      </View>
     );
   }
 };

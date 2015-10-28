@@ -39,9 +39,7 @@ var styles = StyleSheet.create({
   },
 });
 
-/**
- * A sample app that demonstrates use of the FBSDK login button, native share dialog, and graph requests.
- */
+
 var Grouplus = React.createClass({
 
   checkLogin: function() {

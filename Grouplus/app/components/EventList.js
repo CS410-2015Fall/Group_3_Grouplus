@@ -2,11 +2,12 @@
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
+
+var Modal = require('react-native-modalbox');
 var EventItem = require('./EventItem');
 var Separator = require('./helpers/Separator');
 var EventCreation = require('./EventCreation');
 var mockdata = require('../utils/MockData');
-
 
 var {
   StyleSheet,
@@ -18,7 +19,10 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-    container: {
+  flex1: {
+    flex: 1,
+  },
+  container: {
     flex: 1,
     flexDirection: 'row',
     height: 70,
@@ -29,7 +33,7 @@ var styles = StyleSheet.create({
   name: {
     fontSize: 18,
   },
- buttonText: {
+  buttonText: {
     fontSize: 18,
     color: 'white',
     alignSelf: 'center'
@@ -58,10 +62,7 @@ class EventList extends React.Component{
   }
 
   onPressNewEvent() {
-    this.props.navigator.push({
-      title: 'Add New Event',
-      component: EventCreation,
-    });
+    this.refs.addEvent.open();
   }
 
   _renderRow(rowData) {
@@ -86,11 +87,16 @@ class EventList extends React.Component{
 
   render(){
     return (
-      <ListView 
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow.bind(this)} 
-        renderFooter={this._renderFooter.bind(this)}
-      />
+      <View style={styles.flex1}>
+        <ListView 
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow.bind(this)} 
+          renderFooter={this._renderFooter.bind(this)}
+        />
+        <Modal ref='addEvent'>
+          <EventCreation/>
+        </Modal>
+      </View>
     );
   }
 };
