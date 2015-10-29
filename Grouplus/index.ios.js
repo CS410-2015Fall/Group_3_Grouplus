@@ -42,20 +42,43 @@ var styles = StyleSheet.create({
 
 var Grouplus = React.createClass({
 
-  checkLogin: function() {
-      FBSDKAccessToken.getCurrentAccessToken(                  
+  getInitialState: function() {
+      return {userLoggedIn: false}
+  },
+
+  componentWillMount: function() {
+    FBSDKAccessToken.getCurrentAccessToken(                  
                   (token) => {
-                    if(token){
-                    //console.log("User already logged in with token: " + token.tokenString);
-                    this.setState({isLoadingCurrentUser: false});
-                    return true;
-                    }
-                    else
-                      return false;
-                  });
+                    this.setState({userLoggedIn: true});
+                    var authData = {
+                      id: token.userID,
+                      access_token: token.tokenString,
+                      expiration_date: token.expirationDate()
+                    };
+                    console.log("authData" + token.userID);
+                    Parse.FacebookUtils.logIn(authData, {
+                      success: (user) => {
+                        if (user.existed()) {
+                          console.log("user EXISTED");
+                          this.setState({isLoadingCurrentUser: false});
+                        } 
+                                    }});
+  });
   },
 
   render: function() {
+    //asynchronous call to setState, need to check isMounted
+    if(this.isMounted()) {
+if(this.state.userLoggedIn === true) {
+            return (
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: 'Grouplus',
+          component : GroupList,
+        }}/>
+    );
+    }
       return (
       <NavigatorIOS
         style={styles.container}
@@ -64,7 +87,13 @@ var Grouplus = React.createClass({
           component : GroupList,
         }}/>
     );
-  },
+    }
+    else
+      return <View />
+
+  }
+
+    
 });
 
 

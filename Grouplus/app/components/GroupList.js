@@ -3,6 +3,15 @@
  */
 
 var React = require('react-native');
+var Separator = require('./helpers/Separator');
+var mockdata = require('../utils/MockData');
+var GroupIcon = require('./GroupIcon');
+var GroupPanel = require('./GroupPanel');
+var GroupAdd = require('./GroupAdd');
+var TodoList = require('./TodoList');
+var MyAccount = require('./MyAccount');
+var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
 
 var {
   ScrollView,
@@ -40,14 +49,53 @@ var styles = StyleSheet.create({
   }
 });
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
+// initializing Parse
+Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
+var group = Parse.Object.extend('Group');
+var query = new Parse.Query(group);
+var groupList = [];
+// TODO: Return only the group that I am part of
+//query.equalTo("createdBy", Parse.User.current().id);
+
+    
 class GroupList extends React.Component{
   constructor(props){
     super(props);
+    this.handleData=this.handleData.bind(this);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = { 
-      dataSource: this.ds.cloneWithRows(mockdata.groups),
-    }
+      dataSource: this.ds.cloneWithRows(groupList),
+    };
+    query.find({
+      success: this.handleData
+    });
+  }
+
+  handleData(results) {
+    var that = this;
+    for (var i = 0; i < results.length; ++i) {
+          var object = results[i];
+          groupList.push(object);
+          console.log("this.state.groups: " + object.get('Name'));
+
+        }
+        // that.setState({dataSource : groupList});
+    this.setState({dataSource : that.ds.clonewithRows(results) });
+  }
+
+ // Does not work... returns undefined
+  //  observe() {
+  //   return {
+  //     user: Parse.User.current().id,
+  //     groups: (new Parse.Query('Group'))
+  //     //.contains('members', Parse.User.current().id)
+  //   };
+  // }
+  
+  componentDidMount() {
+
+
   }
   onPressRow(group) {
     if (this.props.onPressGroup) {
@@ -87,9 +135,9 @@ class GroupList extends React.Component{
                         navigator={this.props.navigator}
                         underlayColor='#E6FFFF'>
           <View style={styles.group}>
-            <GroupIcon color={color} letter={rowData.name.charAt(0)}/>
+            <GroupIcon color={color} letter={rowData.Name.charAt(0)}/>
             <View style={styles.groupDetail}>
-              <Text style={styles.groupName}> {rowData.name} </Text>
+              <Text style={styles.groupName}> {rowData.Name} </Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -105,6 +153,14 @@ class GroupList extends React.Component{
         <Text style={basicStyles.bottonText}>Add Group</Text>
       </TouchableHighlight>
       );
+  }
+  render() {
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow.bind(this)} 
+        renderFooter={this.renderFooter.bind(this)}/>
+    );
   }
 };
 
