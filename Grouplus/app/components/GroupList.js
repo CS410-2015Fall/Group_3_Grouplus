@@ -47,8 +47,6 @@ var styles = StyleSheet.create({
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
 
-
-
 class GroupList extends ParseComponent{
   constructor(props){
     super(props);
@@ -75,12 +73,6 @@ class GroupList extends ParseComponent{
   }
   onPressNewGroup() {
     this.refs.addGroup.open();
-  }
-  render() {
-    return (
-      <View style={basicStyles.flex1}>
-      </View>
-    );
   }
   renderRow(rowData, sectionID, rowID) {
     var color = colors[rowID % colors.length];
@@ -111,13 +103,19 @@ class GroupList extends ParseComponent{
       );
   }
   render() {
-    return (
-      <ListView
-        dataSource={this.ds.cloneWithRows(this.data.groups)}
-        renderRow={this.renderRow.bind(this)} 
-        renderFooter={this.renderFooter.bind(this)}/>
-    );
-  }
+     return (
+       <View style={basicStyles.flex1}>
+         <ListView
+           dataSource={this.ds.cloneWithRows(this.data.groups)}
+           renderRow={this.renderRow.bind(this)} 
+           renderFooter={this.renderFooter.bind(this)}
+         />
+         <Modal ref={'addGroup'}>
+           <GroupAdd/>
+         </Modal>
+       </View>
+     );
+   }
 };
 
 GroupList.propTypes = {
