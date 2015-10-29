@@ -4,11 +4,8 @@
 var React = require('react-native');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Parse = require('parse/react-native');
-var mockdata = require('../utils/MockData.js');
-//var twoUrls = ['http://files.parsetfss.com/00e842b6-2777-4203-a28f-7407fe7b3df1/tfss-972caa39-ccf6-41df-aa45-7cc7824a460d-molang2.jpg', 'http://files.parsetfss.com/00e842b6-2777-4203-a28f-7407fe7b3df1/tfss-cad0ee32-3742-4feb-aa8a-31a678add2ea-molang0.jpg']
-
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
-
+var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
 var photoItem = new item();
 var query = new Parse.Query(item);

@@ -41,15 +41,24 @@ var styles = StyleSheet.create({
   },
 });
 
+/**
+ * A tab bar navigation element implemented with pure javascript
+ * to nav through the todos, photos, and events of a group
+ *
+ * Side note:
+ * At the time of implementation, I did not find a suitable
+ * library for tabbar that supports both iOS and Android.
+ * We should consider make the tabbar reusable for abstracting it
+ * or moving to a library like 
+ * https://github.com/exponentjs/react-native-tab-navigator
+ * (which is just made available at the time of writing.) 
+ */
 class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
       selected: 'Todos'
     }
-  }
-  setTab(tabId){
-    this.setState({selected: tabId});
   }
   render(){
     return (

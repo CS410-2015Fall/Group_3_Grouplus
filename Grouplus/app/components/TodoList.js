@@ -57,7 +57,7 @@ class TodoList extends React.Component{
     return (
       <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
           group={this.props.group} onPress={() => this.onPressNewTodo()}>
-        <Text style={basicStyles.buttonText}>Add New Todo </Text>
+        <Text style={basicStyles.buttonText}>Add New Todo</Text>
       </TouchableHighlight>
       );
   }
