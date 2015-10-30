@@ -74,6 +74,9 @@ class GroupList extends ParseComponent{
   onPressNewGroup() {
     this.refs.addGroup.open();
   }
+  onPressMyAccount() {
+    this.refs.myAccount.open();
+  }
   renderRow(rowData, sectionID, rowID) {
     var color = colors[rowID % colors.length];
     return (
@@ -96,10 +99,16 @@ class GroupList extends ParseComponent{
   //      (floating action button)
   renderFooter() {
     return (
+      <View>
       <TouchableHighlight style={basicStyles.button} 
                           onPress={this.onPressNewGroup.bind(this)}>
         <Text style={basicStyles.bottonText}>Add Group</Text>
       </TouchableHighlight>
+      <TouchableHighlight style={basicStyles.button} 
+                          onPress={this.onPressMyAccount.bind(this)}>
+        <Text style={basicStyles.bottonText}>Settings</Text>
+      </TouchableHighlight>
+      </View>
       );
   }
   render() {
@@ -112,6 +121,9 @@ class GroupList extends ParseComponent{
          />
          <Modal ref={'addGroup'}>
            <GroupAdd modal={this.refs.addGroup}/>
+         </Modal>
+         <Modal ref={'myAccount'}>
+           <MyAccount modal={this.refs.myAccount}/>
          </Modal>
        </View>
      );
