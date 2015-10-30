@@ -45,8 +45,12 @@ class Grouplus extends React.Component{
           expiration_date: token.expirationDate()
         };
         Parse.FacebookUtils.logIn(authData, {
-          success: (user) => {this.setState({loading: false, loggedIn: true})}
-          // error: 
+          success: (user) => {this.setState({loading: false, loggedIn: true})},
+           error: (error) => {
+            console.error("Error login" + error);
+            this.setState({loading: false, loggedIn: false});
+          }
+
         });
       } else {
         this.setState({loading: false, loggedIn: false});

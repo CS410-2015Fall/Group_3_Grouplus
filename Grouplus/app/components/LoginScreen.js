@@ -116,9 +116,10 @@ var LoginScreen = React.createClass({
 
           // FIXME https://github.com/facebook/react-native-fbsdk/issues/20
           // fetchProfile.start();
+          // TODO: add loading.... button?
           FBSDKGraphRequestManager.batchRequests([fetchProfile], function() {}, 10)
         }
-                   this.props.navigator.push({
+                   this.props.navigator.replace({
                    title: 'GroupList',
                    component: GroupList,
                  });
