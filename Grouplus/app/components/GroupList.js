@@ -111,7 +111,7 @@ class GroupList extends ParseComponent{
            renderFooter={this.renderFooter.bind(this)}
          />
          <Modal ref={'addGroup'}>
-           <GroupAdd/>
+           <GroupAdd modal={this.refs.addGroup}/>
          </Modal>
        </View>
      );
