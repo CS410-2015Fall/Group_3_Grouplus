@@ -123,7 +123,7 @@ class GroupList extends ParseComponent{
            <GroupAdd modal={this.refs.addGroup}/>
          </Modal>
          <Modal ref={'myAccount'}>
-           <MyAccount modal={this.refs.myAccount}/>
+           <MyAccount navigator={this.props.navigator}/>
          </Modal>
        </View>
      );

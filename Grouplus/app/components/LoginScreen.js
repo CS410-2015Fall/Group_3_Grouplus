@@ -64,24 +64,24 @@ var LoginScreen = React.createClass({
     Parse.FacebookUtils.logIn(authData, {
       success: (user) => {
         if (user.existed()) {
-          console.log("user EXISTED");
+          console.log("Logging in... user exists with id : " + user.id);
           // login: nothing to do
           this.setState({isLoadingCurrentUser: false});
         } else {
           // signup: update user data, e.g. email
           var data = user.get('authData').facebook;
           console.log("[data]: ", data);
-          var api = 'https://graph.facebook.com/v2.4/'+data.id+'?fields=name,email,picture&access_token='+data.access_token;
+          var api = 'https://graph.facebook.com/v2.4/'+data.id+'?fields=name,email&access_token='+data.access_token;
 
           var fetchProfile = new FBSDKGraphRequest((error, result) => {
             if (error) {
               // TODO: check error message format and adjust to correct flow.
               this.setState({isLoadingCurrentUser: false, error: error});
             } else {
+              console.log("[email]: ", result.email);
+              console.log("[name]: ", result.name);
               var name = result.name;
               var email = result.email;
-              var photo = result.picture;
-              console.log("[email]: ", email);
               ParseReact.Mutation.Set({
                 className: '_User',
                 objectId: user.id
@@ -89,7 +89,6 @@ var LoginScreen = React.createClass({
                 username: email,
                 email: email,
                 name: name,
-                profilePicture: photo,
               }).dispatch({waitForServer: true});
               /**
                 * Both solution got same issue
