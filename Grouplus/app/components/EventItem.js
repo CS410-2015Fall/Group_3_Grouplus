@@ -68,14 +68,14 @@ class EventItem extends React.Component{
     return (
       <View style={styles.container}>
         <View style={styles.info}>
-          <Text style={styles.title}> {event.title} </Text>
-          <Text style={styles.text}> {event.date} </Text>
+          <Text style={styles.title}> {event.name} </Text>
+          <Text style={styles.text}> {moment(event.dueDate).format('LLL')} </Text>
           <Text style={styles.text}> {event.location} </Text>
         </View>
         <TouchableHighlight 
         style={styles.button}
         onPress={()=>
-          CalendarManager.addEvent(event.title, event.location, event.date)
+          CalendarManager.addEvent(event.name, event.location, event.dueDate)
           }>
           <Text style={styles.buttonText}>Export</Text>
         </TouchableHighlight>
