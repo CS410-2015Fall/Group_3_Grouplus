@@ -107,7 +107,7 @@ class GroupList extends ParseComponent{
       </TouchableHighlight>
       <TouchableHighlight style={basicStyles.button} 
                           onPress={this.onPressMyAccount.bind(this)}>
-        <Text style={basicStyles.bottonText}>Setting + {this.data.user.id}</Text>
+        <Text style={basicStyles.bottonText}>Setting</Text>
       </TouchableHighlight>
       </View>
       );
