@@ -54,7 +54,8 @@ class GroupList extends ParseComponent{
   }
   observe(props, state) {
     return {
-      groups: new Parse.Query('Group'),
+      user: ParseReact.currentUser,
+      groups: new Parse.Query('Group').equalTo('members', this.data.user),
     }
   }
   
