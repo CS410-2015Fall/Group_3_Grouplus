@@ -42,6 +42,7 @@ var options = {
   }
 };
 
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   imageContainer: {
     flex: 1,
@@ -51,29 +52,26 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  img:{
-    flex: 1
-  },
   stub: {
     margin:50,
     fontSize: 45
   },
-   list: {
-        flexDirection: 'row',
-        flexWrap: 'wrap'
-    },
-    item: {
-        margin: 3,
-        height: 100,
-        width: 100
-    }
+  list: {
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+  },
+  item: {
+      margin: 3,
+      height: 100,
+      width: 100
+  }
 });
 
 var TestCmp = React.createClass({
   render: function() {
     return (
       <View style={styles.imageContainer}>
-        <Image style={styles.img}  source={{uri: this.props.uri}}/>
+        <Image style={basicStyles.flex1}  source={{uri: this.props.uri}}/>
       </View>
     );
   }
@@ -85,11 +83,6 @@ class Photos extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-   /*
-    this.state = { 
-      dataSource: this.ds.cloneWithRows(imageList),
-    }
-    */
   }
   observe(props, state) {
     return {
@@ -111,41 +104,37 @@ class Photos extends ParseComponent{
 
       if (didCancel) {
         console.log('User cancelled image picker');
+      } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        }
-        else {
-          // You can display the image using either:
-          const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-          //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-          var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
-          photoItem.set("description", "test picture upload"); // might need to input description
-          console.log(Parse.User.current().id);
-          photoItem.set("uploadedBy", Parse.User.current().id);
-          photoItem.set("imgFile", file);
-          photoItem.set('groupId', this.props.group.objectId);
+        // You can display the image using either:
+        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+        //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
+        photoItem.set("description", "test picture upload"); // might need to input description
+        console.log(Parse.User.current().id);
+        photoItem.set("uploadedBy", Parse.User.current().id);
+        photoItem.set("imgFile", file);
+        photoItem.set('groupId', this.props.group.objectId);
 
-      photoItem.save(null, {
-      success: function(photoItem) {
-        // Execute any logic that should take place after the object is saved.
-        var added = photoItem.get('imgFile').url();
-        alert(added);
-        //alert('New photo added with objectId: ' + photoItem.imgFile.url());
+        photoItem.save(null, {
+          success: function(photoItem) {
+            // Execute any logic that should take place after the object is saved.
+            var added = photoItem.get('imgFile').url();
+            alert(added);
+            //alert('New photo added with objectId: ' + photoItem.imgFile.url());
+          },
+          error: function(photoItem, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+            alert('Pictures failed');     
+          }
+        });
 
-      },
-      error: function(photoItem, error) {
-        // Execute any logic that should take place if the save fails.
-        // error is a Parse.Error with an error code and message.
-        alert('Pictures failed');     
-      }
-      });
-
-          this.setState({
-            avatarSource: source
-          });
-        }
+        this.setState({
+          avatarSource: source
+        });
       }
     });
   }
@@ -156,20 +145,24 @@ class Photos extends ParseComponent{
       <TouchableHighlight onPress={this.imageOptions.bind(this)}>
         <Text>Take Photo</Text>
       </TouchableHighlight>
-      );
+    );
+  }
+  renderRow(image){
+    return(
+      <TouchableHighlight onPress={() => this.onPressRow(image)}>
+        <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
+      </TouchableHighlight>
+    );
   }
 
   render(){
-
     return (
-       <ListView contentContainerStyle={styles.list}
-          dataSource={this.ds.cloneWithRows(this.data.imageList)}
-          renderFooter={this.renderFooter.bind(this)}
-          renderRow={(image) => 
-            <TouchableHighlight onPress={() => this.onPressRow(image)}>
-            <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
-            </TouchableHighlight>} 
-            />
+      <ListView contentContainerStyle={styles.list}
+        dataSource={this.ds.cloneWithRows(this.data.imageList)}
+        renderFooter={this.renderFooter.bind(this)}
+        renderRow={this.renderRow.bind(this)} 
+        automaticallyAdjustContentInsets={false}
+      />
     );
   }
 };

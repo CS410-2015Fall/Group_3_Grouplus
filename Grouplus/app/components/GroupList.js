@@ -55,7 +55,7 @@ class GroupList extends ParseComponent{
   observe(props, state) {
     return {
       user: ParseReact.currentUser,
-      groups: new Parse.Query('Group').equalTo('members', this.data.user),
+      groups: new Parse.Query('Group').equalTo('members', this.props.user.id),
     }
   }
   
@@ -107,7 +107,7 @@ class GroupList extends ParseComponent{
       </TouchableHighlight>
       <TouchableHighlight style={basicStyles.button} 
                           onPress={this.onPressMyAccount.bind(this)}>
-        <Text style={basicStyles.bottonText}>Settings</Text>
+        <Text style={basicStyles.bottonText}>Setting + {this.data.user.id}</Text>
       </TouchableHighlight>
       </View>
       );

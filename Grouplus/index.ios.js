@@ -70,6 +70,9 @@ class Grouplus extends React.Component{
           initialRoute={{
             title: 'Grouplus',
             component : GroupList,
+            passProps: {
+              user: Parse.User.current()
+            }
           }}
         />
       );

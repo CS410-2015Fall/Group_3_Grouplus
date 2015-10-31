@@ -15,13 +15,10 @@ var {
   ListView,
   Text,
   TouchableHighlight,
-  NavigatorIOS,
 } = React;
 
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  flex1: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -32,23 +29,6 @@ var styles = StyleSheet.create({
       },
   name: {
     fontSize: 18,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   },
 });
 
@@ -77,17 +57,17 @@ class Events extends React.Component{
   _renderFooter() {
     return (
       <TouchableHighlight 
-        style={styles.button}
+        style={basicStyles.button}
         onPress={()=> this.onPressNewEvent()}
         >
-          <Text style={styles.buttonText}>Add Events</Text>
-        </TouchableHighlight>
-      );
+      <Text style={basicStyles.buttonText}>Add Events</Text>
+      </TouchableHighlight>
+    );
   }
 
   render(){
     return (
-      <View style={styles.flex1}>
+      <View style={basicStyles.flex1}>
         <ListView 
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)} 
