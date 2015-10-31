@@ -16,6 +16,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  ScrollView,
 } = React;
 
 var options = {
@@ -59,7 +60,7 @@ class GroupAdd extends React.Component {
 
   render() {
     return (
-      <View style={styles.group}>
+      <ScrollView style={styles.group}>
         <Form
           ref="form"
           type={Group}
@@ -72,7 +73,7 @@ class GroupAdd extends React.Component {
           underlayColor='#99d9f4'>
           <Text style={basicStyles.buttonText}>Save</Text>
         </TouchableHighlight>
-      </View>
+      </ScrollView>
     )
   }
 }

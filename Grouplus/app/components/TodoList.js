@@ -79,10 +79,10 @@ class TodoList extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.data.todos)}
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
-          contentInset={{top:64}}
+          contentInset={{top:64, bottom: 50}}
           automaticallyAdjustContentInsets={false}
         />
-        <Modal ref={'addTodo'}>
+        <Modal ref={'addTodo'} >
           <TodoAdd/>
         </Modal>
       </View>
