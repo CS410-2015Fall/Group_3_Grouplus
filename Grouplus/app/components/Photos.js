@@ -2,23 +2,16 @@
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
+var ParseReact = require('parse-react/react-native');
+var ParseComponent = ParseReact.Component(React);
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
 var photoItem = new item();
-var query = new Parse.Query(item);
-var imageList = [];
-query.find({
-  success: function(results) {
-    for (var i = 0; i < results.length; ++i) {
-       var object = results[i];
-       var imageFile = object.get('imgFile');
-       imageList.push(imageFile.url());
-    }
-  }
-});
+//var query = new Parse.Query(item);
+
 
 
 var {
@@ -87,21 +80,29 @@ var TestCmp = React.createClass({
 });
 
 
-class Photos extends React.Component{
+class Photos extends ParseComponent{
 
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+   /*
     this.state = { 
       dataSource: this.ds.cloneWithRows(imageList),
     }
+    */
   }
+  observe(props, state) {
+    return {
+      imageList: (new Parse.Query('GroupPhotos')).equalTo('groupId', this.props.group.objectId),
+    }
+  }
+
   onPressRow(image) {
     this.props.navigator.push({
       title: 'Photo',
       component: TestCmp,
       passProps: {
-        uri: image,
+        uri: image.imgFile.url(),
       },
     });
   }
@@ -120,15 +121,16 @@ class Photos extends React.Component{
           const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
           //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
           var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
-          photoItem.set("description", "mytest");
-          photoItem.set("uploadedBy", "Emma Zhang");
+          photoItem.set("description", "test picture upload"); // might need to input description
+          console.log(Parse.User.current().id);
+          photoItem.set("uploadedBy", Parse.User.current().id);
           photoItem.set("imgFile", file);
+          photoItem.set('groupId', this.props.group.objectId);
 
       photoItem.save(null, {
       success: function(photoItem) {
         // Execute any logic that should take place after the object is saved.
         var added = photoItem.get('imgFile').url();
-        imageList.push(added);
         alert(added);
         //alert('New photo added with objectId: ' + photoItem.imgFile.url());
 
@@ -161,11 +163,11 @@ class Photos extends React.Component{
 
     return (
        <ListView contentContainerStyle={styles.list}
-          dataSource={this.state.dataSource}
+          dataSource={this.ds.cloneWithRows(this.data.imageList)}
           renderFooter={this.renderFooter.bind(this)}
           renderRow={(image) => 
             <TouchableHighlight onPress={() => this.onPressRow(image)}>
-            <Image style={styles.item} source={{uri: image}}/>
+            <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
             </TouchableHighlight>} 
             />
     );

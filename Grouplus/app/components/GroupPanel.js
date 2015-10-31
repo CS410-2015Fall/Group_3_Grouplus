@@ -57,7 +57,7 @@ class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
-      selected: 'Todos'
+      selected: 'Photos'
     }
   }
   render(){
@@ -78,13 +78,13 @@ class GroupPanel extends React.Component {
   renderTabContent(){
     switch (this.state.selected) {
       case 'Photos':
-        return <Photos navigator={this.props.navigator}/>;
+        return <Photos group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
         return <Events events={this.props.group.events}
                        navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
-        return <TodoList todos={this.props.group.todos}
+        return <TodoList //todos={this.props.group.todos}
                          group={this.props.group}
                          navigator={this.props.navigator}/>;
     }
