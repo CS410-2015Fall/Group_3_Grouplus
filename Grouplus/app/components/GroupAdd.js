@@ -9,6 +9,7 @@ var ParseReact = require('parse-react/react-native');
 
 var Group = t.struct({txt: t.Str});
 
+var basicStyles = require('./helpers/Styles');
 var {
   View,
   ListView,
@@ -33,23 +34,6 @@ var styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#ffffff',
-  },
-  button: {
-    height: 36,
-    backgroundColor: '#48BBEC',
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-
-  saveButton: {
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
   },
 });
 
@@ -83,15 +67,14 @@ class GroupAdd extends React.Component {
           options={options}
           value={this.props.item}/>
         <TouchableHighlight
-          style={[styles.button, styles.saveButton]}
+          style={basicStyles.button}
           onPress={this.onUpdate}
           underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Save</Text>
+          <Text style={basicStyles.buttonText}>Save</Text>
         </TouchableHighlight>
       </View>
     )
   }
 }
-
 
 module.exports = GroupAdd;

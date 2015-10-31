@@ -103,30 +103,32 @@ class GroupList extends ParseComponent{
       <View>
       <TouchableHighlight style={basicStyles.button} 
                           onPress={this.onPressNewGroup.bind(this)}>
-        <Text style={basicStyles.bottonText}>Add Group</Text>
+        <Text style={basicStyles.buttonText}>Add Group</Text>
       </TouchableHighlight>
       <TouchableHighlight style={basicStyles.button} 
                           onPress={this.onPressMyAccount.bind(this)}>
-        <Text style={basicStyles.bottonText}>Setting</Text>
+        <Text style={basicStyles.buttonText}>Setting</Text>
       </TouchableHighlight>
       </View>
       );
   }
   render() {
-     return (
-       <View style={basicStyles.flex1}>
-         <ListView
-           dataSource={this.ds.cloneWithRows(this.data.groups)}
-           renderRow={this.renderRow.bind(this)} 
-           renderFooter={this.renderFooter.bind(this)}
-         />
-         <Modal ref={'addGroup'}>
-           <GroupAdd modal={this.refs.addGroup}/>
-         </Modal>
-         <Modal ref={'myAccount'}>
-           <MyAccount navigator={this.props.navigator}/>
-         </Modal>
-       </View>
+    return (
+      <View style={basicStyles.flex1}>
+        <ListView
+          dataSource={this.ds.cloneWithRows(this.data.groups)}
+          renderRow={this.renderRow.bind(this)} 
+          renderFooter={this.renderFooter.bind(this)}
+          contentInset={{top:64}}
+          automaticallyAdjustContentInsets={false}
+        />
+        <Modal ref={'addGroup'}>
+          <GroupAdd modal={this.refs.addGroup}/>
+        </Modal>
+        <Modal ref={'myAccount'}>
+          <MyAccount navigator={this.props.navigator}/>
+        </Modal>
+      </View>
      );
    }
 };

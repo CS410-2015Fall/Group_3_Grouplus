@@ -76,9 +76,11 @@ class TodoList extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         <ListView
-           dataSource={this.ds.cloneWithRows(this.data.todos)}
+          dataSource={this.ds.cloneWithRows(this.data.todos)}
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
+          contentInset={{top:64}}
+          automaticallyAdjustContentInsets={false}
         />
         <Modal ref={'addTodo'}>
           <TodoAdd/>

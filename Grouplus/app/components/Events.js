@@ -72,6 +72,8 @@ class Events extends React.Component{
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)} 
           renderFooter={this._renderFooter.bind(this)}
+          contentInset={{top:64}}
+          automaticallyAdjustContentInsets={false}
         />
         <Modal ref='addEvent'>
           <EventAdd/>

@@ -161,6 +161,7 @@ class Photos extends ParseComponent{
         dataSource={this.ds.cloneWithRows(this.data.imageList)}
         renderFooter={this.renderFooter.bind(this)}
         renderRow={this.renderRow.bind(this)} 
+        contentInset={{top:64}}
         automaticallyAdjustContentInsets={false}
       />
     );
