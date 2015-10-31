@@ -83,6 +83,7 @@ class Photos extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.imageOptions = this.imageOptions.bind(this);
   }
   observe(props, state) {
     return {
@@ -100,6 +101,7 @@ class Photos extends ParseComponent{
     });
   }
   imageOptions() {
+    var that = this;
     UIImagePickerManager.showImagePicker(options, (didCancel, response) => {
 
       if (didCancel) {
@@ -123,6 +125,7 @@ class Photos extends ParseComponent{
             // Execute any logic that should take place after the object is saved.
             var added = photoItem.get('imgFile').url();
             alert(added);
+            that.refreshQueries();
             //alert('New photo added with objectId: ' + photoItem.imgFile.url());
           },
           error: function(photoItem, error) {
