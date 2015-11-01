@@ -54,13 +54,16 @@ class GroupAdd extends React.Component {
         members: [Parse.User.current().id]
     });
         creator.dispatch();
-        this.props.modal.close();
+        this.props.close();
     }
   }
 
   render() {
     return (
-      <ScrollView style={styles.group}>
+      <ScrollView 
+      style={styles.group}
+        contentInset={{top:64}}
+        automaticallyAdjustContentInsets={false}>
         <Form
           ref="form"
           type={Group}
