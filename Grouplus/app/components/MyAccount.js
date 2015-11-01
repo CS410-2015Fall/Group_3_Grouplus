@@ -4,7 +4,7 @@
  */
 
 var React = require('react-native');
-var LoginScreen = require('./LoginScreen');
+var Login = require('./Login');
 var Index = require('./../../index.ios.js');
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
@@ -99,7 +99,7 @@ class MyAccount extends React.Component{
     // sceneConfig: Navigator.SceneConfigs.FloatFromRight,
     //     });
             this.props.navigator.replace({
-                   title: 'LoginScreen',
+                   title: 'Login',
                    component: Index,
                  });
             alert('Logged out.');

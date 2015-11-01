@@ -48,7 +48,7 @@ var styles = StyleSheet.create({
   },
 });
 
-var LoginScreen = React.createClass({
+var Login = React.createClass({
 
   onFacebookLogin: function(token) {
     console.log("reached onFacebookLogin");
@@ -172,4 +172,4 @@ var LoginScreen = React.createClass({
 }
   });
 
-module.exports = LoginScreen;
+module.exports = Login;

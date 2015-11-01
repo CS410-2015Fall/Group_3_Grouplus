@@ -11,7 +11,8 @@ var {
   NavigatorIOS,
 } = React;
 
-var LoginScreen = require('./app/components/LoginScreen');
+var Nav = require('./app/components/Nav');
+var Login = require('./app/components/Login');
 var GroupList = require('./app/components/GroupList');
 
 var FBSDKCore = require('react-native-fbsdkcore');
