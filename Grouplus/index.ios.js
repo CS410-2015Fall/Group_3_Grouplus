@@ -38,28 +38,34 @@ class Grouplus extends React.Component{
     };
   }
   componentWillMount() {
-    FBSDKAccessToken.getCurrentAccessToken((token)=> {
-      if (token) {
-        var authData = {
-          id: token.userID,
-          access_token: token.tokenString,
-          expiration_date: token.expirationDate()
-        };
-        Parse.FacebookUtils.logIn(authData, {
-          success: (user) => {
-            console.log("Logging in with: " + token.userId);
-            this.setState({loading: false, loggedIn: true})
-          },
-           error: (error) => {
-            console.error("Error login" + error);
+    Parse.User.currentAsync().then((user) => {
+      if (user === null) {
+        FBSDKAccessToken.getCurrentAccessToken((token)=> {
+          if (token) {
+            var authData = {
+              id: token.userID,
+              access_token: token.tokenString,
+              expiration_date: token.expirationDate()
+            };
+            Parse.FacebookUtils.logIn(authData, {
+              success: (user) => {
+                console.log("Logging in with: " + token.userId);
+                this.setState({loading: false, loggedIn: true})
+              },
+              error: (error) => {
+                console.error("Error login" + error);
+                this.setState({loading: false, loggedIn: false});
+              }
+
+            });
+          } else {
             this.setState({loading: false, loggedIn: false});
           }
-
-        });
+        }); 
       } else {
-        this.setState({loading: false, loggedIn: false});
+        this.setState({loading:false, loggedIn: true});
       }
-    }); 
+    });
   }
   render() {
     if (this.state.loading) {
