@@ -57,7 +57,7 @@ class Events extends React.Component{
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
-      dataSource: this.ds.cloneWithRows(this.props.events),
+      dataSource: this.ds.cloneWithRows(mockdata.groups[0].events),
     };
   }
 
@@ -102,7 +102,6 @@ class Events extends React.Component{
 };
 
 Events.propTypes = {
-  events: React.PropTypes.array.isRequired,
 }
 
 module.exports = Events;

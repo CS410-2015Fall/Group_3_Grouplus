@@ -57,7 +57,7 @@ class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
-      selected: 'Todos'
+      selected: 'Events'
     }
   }
   render(){
