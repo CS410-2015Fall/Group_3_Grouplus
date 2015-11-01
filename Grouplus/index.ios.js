@@ -35,7 +35,7 @@ class Grouplus extends React.Component{
     this.state = {
       loggedIn: false,
       loading: true,
-    }
+    };
   }
   componentWillMount() {
     FBSDKAccessToken.getCurrentAccessToken((token)=> {
@@ -83,7 +83,7 @@ class Grouplus extends React.Component{
         style={basicStyles.flex1}
         initialRoute={{
           title: 'Grouplus',
-          component : LoginScreen,
+          component : Login,
         }}/>
       );
     }

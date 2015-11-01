@@ -48,6 +48,7 @@ var styles = StyleSheet.create({
   },
 });
 
+// TODO: refactor and clean up
 var Login = React.createClass({
 
   onFacebookLogin: function(token) {
