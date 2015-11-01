@@ -84,10 +84,9 @@ class Events extends ParseComponent{
           renderRow={this._renderRow.bind(this)} 
           renderFooter={this._renderFooter.bind(this)}
           contentInset={{top:64}}
-          automaticallyAdjustContentInsets={false}
-        />
+          automaticallyAdjustContentInsets={false}/>
         <Modal ref='addEvent'>
-          <EventAdd/>
+          <EventAdd groupId={this.props.group.objectId} modal={this.refs.addEvent} />
         </Modal>
       </View>
     );

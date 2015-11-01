@@ -120,8 +120,7 @@ class GroupList extends ParseComponent{
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
           contentInset={{top:64}}
-          automaticallyAdjustContentInsets={false}
-        />
+          automaticallyAdjustContentInsets={false}/>
         <Modal ref={'addGroup'}>
           <GroupAdd modal={this.refs.addGroup}/>
         </Modal>

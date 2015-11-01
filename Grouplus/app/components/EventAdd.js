@@ -3,6 +3,8 @@
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
+var Parse = require('parse/react-native');
+var ParseReact = require('parse-react/react-native');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
@@ -28,8 +30,6 @@ var {
   TouchableHighlight,
   ScrollView
 } = React;
-
-
 
 
 var options = {
@@ -92,7 +92,16 @@ class EventCreation extends React.Component{
   onUpdate() {
     var value = this.refs.form.getValue();
     if (value){
-      console.log("test");
+    var creator = ParseReact.Mutation.Create('Event', {
+        name: value.name,
+        createdBy: Parse.User.current().id,
+        location: value.location,
+        groupId: this.props.groupId, 
+        dueDate: value.eventstartdate,
+        durationMinute: value.minORhr === 'M'? value.eventDuration : value.eventDuration*60
+    });
+        creator.dispatch();
+        this.props.modal.close();
     }
   }
 
