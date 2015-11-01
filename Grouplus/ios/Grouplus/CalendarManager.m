@@ -13,12 +13,12 @@
 @implementation CalendarManager
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSDate *)eventDate)
+RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(NSDate *)eventDate date:(NSDate *)endDate)
 {
 
   [MyCalendar requestAccess:^(BOOL granted, NSError *error) {
     if (granted) {
-      BOOL result = [MyCalendar addEventAt:eventDate withTitle:name inLocation:location];
+      BOOL result = [MyCalendar addEventAt:eventDate endEventAt:endDate withTitle:name inLocation:location];
       if (result) {
         NSLog(@"Successfully addEvents");
       } else {

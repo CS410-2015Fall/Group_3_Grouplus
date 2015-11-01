@@ -10,17 +10,11 @@ var Form = t.form.Form;
 
 var mockdata = require('../utils/MockData');
 
-var minORhr = t.enums({
-  H: 'Hour',
-  M: 'Minute'
-});
-
 var Event = t.struct({
   name: t.Str, 
   location: t.maybe(t.Str),
   eventstartdate: t.Dat,
-  eventDuration: t.Num,
-  minORhr: minORhr
+  eventenddate: t.Dat
 });
 
 var {
@@ -45,13 +39,10 @@ var options = {
       autoFocus: true
     },
     eventstartdate: {
-      label: 'Start Time'
+      label: 'Start Time',
     },
-    eventDuration: {
-      label: 'Duration'
-    },
-    minORhr: {
-      label: 'Duration in Hour/Minute'
+    eventenddate:{
+      label: 'End Time',
     }
 
   }
@@ -98,7 +89,7 @@ class EventCreation extends React.Component{
         location: value.location,
         groupId: this.props.groupId, 
         dueDate: value.eventstartdate,
-        durationMinute: value.minORhr === 'M'? value.eventDuration : value.eventDuration*60
+        enddate: value.eventenddate
     });
         creator.dispatch();
         this.props.modal.close();

@@ -20,7 +20,7 @@ static EKEventStore *eventStore = nil;
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:callback];
 }
 
-+ (BOOL)addEventAt:(NSDate*)eventDate withTitle:(NSString*)title inLocation:(NSString*)location
++ (BOOL)addEventAt:(NSDate*)eventDate endEventAt:(NSDate*)endDate withTitle:(NSString*)title inLocation:(NSString*)location
 {
     EKEvent *event = [EKEvent eventWithEventStore:eventStore];
     EKCalendar *calendar = nil;
@@ -77,8 +77,9 @@ static EKEventStore *eventStore = nil;
     
     // set the start date to the current date/time and the event duration to two hours
     NSDate *startDate = eventDate;
+    NSDate *enddate= endDate;
     event.startDate = startDate;
-    event.endDate = [startDate dateByAddingTimeInterval:3600 * 2];
+    event.endDate = enddate;
     
     NSError *error = nil;
     // save event to the callendar

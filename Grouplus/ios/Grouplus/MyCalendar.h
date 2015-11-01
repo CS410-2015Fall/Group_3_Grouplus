@@ -11,6 +11,6 @@
 @interface MyCalendar : NSObject
 
 + (void)requestAccess:(void (^)(BOOL granted, NSError *error))success;
-+ (BOOL)addEventAt:(NSDate*)eventDate withTitle:(NSString*)title inLocation:(NSString*)location;
++ (BOOL)addEventAt:(NSDate*)eventDate endEventAt:(NSDate*)endDate withTitle:(NSString*)title inLocation:(NSString*)location;
 
 @end

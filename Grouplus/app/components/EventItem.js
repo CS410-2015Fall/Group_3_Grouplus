@@ -75,7 +75,7 @@ class EventItem extends React.Component{
         <TouchableHighlight 
         style={styles.button}
         onPress={()=>
-          CalendarManager.addEvent(event.name, event.location, event.dueDate)
+          CalendarManager.addEvent(event.name, event.location, event.dueDate, event.enddate)
           }>
           <Text style={styles.buttonText}>Export</Text>
         </TouchableHighlight>
