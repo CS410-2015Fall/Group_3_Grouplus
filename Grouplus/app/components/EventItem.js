@@ -15,7 +15,7 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
-  AlertIOS,
+  Platform,
 } = React;
 
 var styles = StyleSheet.create({
@@ -63,6 +63,13 @@ var styles = StyleSheet.create({
 });
 
 class EventItem extends React.Component{
+  onSave(event){
+    if (Platform.OS === 'ios') {
+      CalendarManager.addEvent(event.name, event.location, event.dueDate, event.enddate)
+    } else {
+
+    }
+  }
   render(){
     var event = this.props.event;
     return (
@@ -74,9 +81,7 @@ class EventItem extends React.Component{
         </View>
         <TouchableHighlight 
         style={styles.button}
-        onPress={()=>
-          CalendarManager.addEvent(event.name, event.location, event.dueDate, event.enddate)
-          }>
+        onPress={this.onSave.bind(this, event)}>
           <Text style={styles.buttonText}>Export</Text>
         </TouchableHighlight>
       </View>
