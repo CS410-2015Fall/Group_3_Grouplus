@@ -145,8 +145,8 @@ class Photos extends ParseComponent{
 
   renderFooter(){
     return (
-      <TouchableHighlight onPress={this.imageOptions.bind(this)}>
-        <Text>Take Photo</Text>
+      <TouchableHighlight style={basicStyles.button} onPress={this.imageOptions.bind(this)}>
+        <Text style={basicStyles.buttonText}>Take Photo</Text>
       </TouchableHighlight>
     );
   }

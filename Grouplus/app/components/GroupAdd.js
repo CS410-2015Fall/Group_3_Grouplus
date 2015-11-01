@@ -16,7 +16,6 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
-  ScrollView,
 } = React;
 
 var options = {
@@ -31,6 +30,7 @@ var options = {
 
 var styles = StyleSheet.create({
   group: {
+    alignSelf: 'stretch',
     marginTop: 100,
     flex: 1,
     padding: 10,
@@ -54,13 +54,16 @@ class GroupAdd extends React.Component {
         members: [Parse.User.current().id]
     });
         creator.dispatch();
-        this.props.modal.close();
+        this.props.close();
     }
   }
 
   render() {
     return (
-      <ScrollView style={styles.group}>
+      <View 
+        style={styles.group}
+        contentInset={{top:64}}
+        automaticallyAdjustContentInsets={false}>
         <Form
           ref="form"
           type={Group}
@@ -73,7 +76,7 @@ class GroupAdd extends React.Component {
           underlayColor='#99d9f4'>
           <Text style={basicStyles.buttonText}>Save</Text>
         </TouchableHighlight>
-      </ScrollView>
+      </View>
     )
   }
 }

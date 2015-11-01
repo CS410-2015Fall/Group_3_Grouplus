@@ -14,8 +14,7 @@ var {
   NavigatorIOS,
 } = React;
 
-var Modal = require('react-native-modalbox');
-
+var Modal = require('./helpers/Modal');
 var Separator = require('./helpers/Separator');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
@@ -121,12 +120,8 @@ class GroupList extends ParseComponent{
           renderFooter={this.renderFooter.bind(this)}
           contentInset={{top:64}}
           automaticallyAdjustContentInsets={false}/>
-        <Modal ref={'addGroup'}>
-          <GroupAdd modal={this.refs.addGroup}/>
-        </Modal>
-        <Modal ref={'myAccount'}>
-          <MyAccount navigator={this.props.navigator}/>
-        </Modal>
+        <Modal ref={'addGroup'} component={GroupAdd}/>
+        <Modal ref={'myAccount'} component={MyAccount}/>
       </View>
      );
    }

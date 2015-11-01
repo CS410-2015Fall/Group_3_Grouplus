@@ -92,7 +92,7 @@ class EventCreation extends React.Component{
         enddate: value.eventenddate
     });
         creator.dispatch();
-        this.props.modal.close();
+        this.props.close();
     }
   }
 
