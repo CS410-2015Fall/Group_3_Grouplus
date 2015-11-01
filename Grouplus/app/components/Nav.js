@@ -130,7 +130,7 @@ class Nav extends React.Component {
     }
     if (id === 'Grouplus') {
       return (
-        <Grouplus/>
+        <Grouplus navigator={navigator} user={route.user}/>
       );
     }
     else {
