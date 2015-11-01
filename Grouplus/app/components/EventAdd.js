@@ -101,7 +101,7 @@ class EventCreation extends React.Component{
         durationMinute: value.minORhr === 'M'? value.eventDuration : value.eventDuration*60
     });
         creator.dispatch();
-        this.props.modal.close();
+        this.props.close();
     }
   }
 

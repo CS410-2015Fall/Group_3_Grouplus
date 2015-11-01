@@ -20,8 +20,7 @@ var {
   NavigatorIOS,
 } = React;
 
-var Modal = require('react-native-modalbox');
-
+var Modal = require('./helpers/Modal');
 var Separator = require('./helpers/Separator');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
@@ -82,9 +81,7 @@ class TodoList extends ParseComponent{
           contentInset={{top:64, bottom: 50}}
           automaticallyAdjustContentInsets={false}
         />
-        <Modal ref={'addTodo'} >
-          <TodoAdd/>
-        </Modal>
+        <Modal ref={'addTodo'} component={TodoAdd} />
       </View>
     );
   }

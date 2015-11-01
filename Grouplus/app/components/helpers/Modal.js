@@ -4,8 +4,12 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
+  Text,
 } = React;
 
+// We are planning to not use modal... but if we do
+// we will investigate using RN's offical one
+// there's a bug on Android of the offical one as of Nov 1
 var { Icon } = require('react-native-icons');
 var BaseModal = require('react-native-modalbox');
 
@@ -14,11 +18,6 @@ var styles = StyleSheet.create({
     width: 30,
     height: 30,
   },  
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 300,
-  },
 });
 
 class Modal extends React.Component{
@@ -32,19 +31,18 @@ class Modal extends React.Component{
     var Component = this.props.component;
     return (
       <BaseModal 
-        style={styles.modal} 
         ref={'modal'}
         isOpen={this.props.isOpen}
+        swipeToClose={false}
         >
-        <TouchableHighlight
-          onPress={this.close.bind(this)}>
-          <Icon 
-            name={'material|close'}
-            size={32}
-            color={'black'}
-            styles={styles.icon}/>
-        </TouchableHighlight>
-        <Component close={this.close.bind(this)}/>
+        <View>
+          <TouchableHighlight
+            style={{height: 90}}
+            onPress={this.close.bind(this)}>
+            <Text style={{fontSize: 100, flexDirection: 'row', selfAlign: 'flex-end'}}>X</Text>
+          </TouchableHighlight>
+          <Component close={this.close.bind(this)}/>
+        </View>
       </BaseModal>
     );
   }
