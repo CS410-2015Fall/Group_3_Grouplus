@@ -2,23 +2,16 @@
  * Display uploaded photos and UI for adding new ones.
  */
 var React = require('react-native');
+var ParseReact = require('parse-react/react-native');
+var ParseComponent = ParseReact.Component(React);
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
 var photoItem = new item();
-var query = new Parse.Query(item);
-var imageList = [];
-query.find({
-  success: function(results) {
-    for (var i = 0; i < results.length; ++i) {
-       var object = results[i];
-       var imageFile = object.get('imgFile');
-       imageList.push(imageFile.url());
-    }
-  }
-});
+//var query = new Parse.Query(item);
+
 
 
 var {
@@ -49,6 +42,7 @@ var options = {
   }
 };
 
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   imageContainer: {
     flex: 1,
@@ -58,92 +52,92 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  img:{
-    flex: 1
-  },
   stub: {
     margin:50,
     fontSize: 45
   },
-   list: {
-        flexDirection: 'row',
-        flexWrap: 'wrap'
-    },
-    item: {
-        margin: 3,
-        height: 100,
-        width: 100
-    }
+  list: {
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+  },
+  item: {
+      margin: 3,
+      height: 100,
+      width: 100
+  }
 });
 
 var TestCmp = React.createClass({
   render: function() {
     return (
       <View style={styles.imageContainer}>
-        <Image style={styles.img}  source={{uri: this.props.uri}}/>
+        <Image style={basicStyles.flex1}  source={{uri: this.props.uri}}/>
       </View>
     );
   }
 });
 
 
-class Photos extends React.Component{
+class Photos extends ParseComponent{
 
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.state = { 
-      dataSource: this.ds.cloneWithRows(imageList),
+    this.imageOptions = this.imageOptions.bind(this);
+  }
+  observe(props, state) {
+    return {
+      imageList: (new Parse.Query('GroupPhotos')).equalTo('groupId', this.props.group.objectId),
     }
   }
+
   onPressRow(image) {
     this.props.navigator.push({
       title: 'Photo',
       component: TestCmp,
       passProps: {
-        uri: image,
+        uri: image.imgFile.url(),
       },
     });
   }
   imageOptions() {
+    var that = this;
     UIImagePickerManager.showImagePicker(options, (didCancel, response) => {
 
       if (didCancel) {
         console.log('User cancelled image picker');
+      } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
       }
       else {
-        if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
-        }
-        else {
-          // You can display the image using either:
-          const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-          //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-          var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
-          photoItem.set("description", "mytest");
-          photoItem.set("uploadedBy", "Emma Zhang");
-          photoItem.set("imgFile", file);
+        // You can display the image using either:
+        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+        //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
+        photoItem.set("description", "test picture upload"); // might need to input description
+        console.log(Parse.User.current().id);
+        photoItem.set("uploadedBy", Parse.User.current().id);
+        photoItem.set("imgFile", file);
+        photoItem.set('groupId', this.props.group.objectId);
 
-      photoItem.save(null, {
-      success: function(photoItem) {
-        // Execute any logic that should take place after the object is saved.
-        var added = photoItem.get('imgFile').url();
-        imageList.push(added);
-        alert(added);
-        //alert('New photo added with objectId: ' + photoItem.imgFile.url());
+        photoItem.save(null, {
+          success: function(photoItem) {
+            // Execute any logic that should take place after the object is saved.
+            var added = photoItem.get('imgFile').url();
+            alert(added);
+            that.refreshQueries();
+            //alert('New photo added with objectId: ' + photoItem.imgFile.url());
+          },
+          error: function(photoItem, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+            alert('Pictures failed');     
+          }
+        });
 
-      },
-      error: function(photoItem, error) {
-        // Execute any logic that should take place if the save fails.
-        // error is a Parse.Error with an error code and message.
-        alert('Pictures failed');     
-      }
-      });
-
-          this.setState({
-            avatarSource: source
-          });
-        }
+        this.setState({
+          avatarSource: source
+        });
       }
     });
   }
@@ -154,20 +148,25 @@ class Photos extends React.Component{
       <TouchableHighlight onPress={this.imageOptions.bind(this)}>
         <Text>Take Photo</Text>
       </TouchableHighlight>
-      );
+    );
+  }
+  renderRow(image){
+    return(
+      <TouchableHighlight onPress={() => this.onPressRow(image)}>
+        <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
+      </TouchableHighlight>
+    );
   }
 
   render(){
-
     return (
-       <ListView contentContainerStyle={styles.list}
-          dataSource={this.state.dataSource}
-          renderFooter={this.renderFooter.bind(this)}
-          renderRow={(image) => 
-            <TouchableHighlight onPress={() => this.onPressRow(image)}>
-            <Image style={styles.item} source={{uri: image}}/>
-            </TouchableHighlight>} 
-            />
+      <ListView contentContainerStyle={styles.list}
+        dataSource={this.ds.cloneWithRows(this.data.imageList)}
+        renderFooter={this.renderFooter.bind(this)}
+        renderRow={this.renderRow.bind(this)} 
+        contentInset={{top:64}}
+        automaticallyAdjustContentInsets={false}
+      />
     );
   }
 };

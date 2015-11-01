@@ -5,6 +5,10 @@
  */
 
 var React = require('react-native');
+var ParseReact = require('parse-react/react-native');
+var ParseComponent = ParseReact.Component(React);
+var Parse = require('parse/react-native');
+Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
 var {
   View,
@@ -26,17 +30,23 @@ var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
 });
 
-class TodoList extends React.Component{
+class TodoList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.state = {
+    
+    /*this.state = {
       dataSource: this.ds.cloneWithRows(this.props.todos),
-    };
+    };*/
+  }
+  observe(props, state) {
+    return {
+      todos: (new Parse.Query('Todo')).equalTo('group', this.props.group.objectId),
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({dataSource: this.ds.cloneWithRows(nextProps.todos)});
+    this.setState({dataSource: this.ds.cloneWithRows(/*nextProps.todos*/ this.data.todos)});
   }
   
   onPressNewTodo() {
@@ -66,11 +76,13 @@ class TodoList extends React.Component{
     return (
       <View style={basicStyles.flex1}>
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={this.ds.cloneWithRows(this.data.todos)}
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
+          contentInset={{top:64, bottom: 50}}
+          automaticallyAdjustContentInsets={false}
         />
-        <Modal ref={'addTodo'}>
+        <Modal ref={'addTodo'} >
           <TodoAdd/>
         </Modal>
       </View>
@@ -78,8 +90,9 @@ class TodoList extends React.Component{
   }
 };
 
+/*
 TodoList.propTypes = {
   todos: React.PropTypes.array.isRequired,
-}
+}*/
 
 module.exports = TodoList;

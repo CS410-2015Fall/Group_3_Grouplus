@@ -44,7 +44,7 @@ class TodoItem extends React.Component{
     var dueDate = todo.dueDate ? moment(todo.dueDate).format('MMM D') : '';
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> {todo.title} </Text>
+        <Text style={styles.title}> {todo.name} </Text>
         <View style={styles.info}>
           <Text style={styles.dueDate}> {dueDate} </Text>
           <People people={todo.whoAreDone} />

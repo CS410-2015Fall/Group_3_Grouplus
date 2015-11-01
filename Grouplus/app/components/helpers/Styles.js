@@ -16,7 +16,7 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },  
-  bottonText: {
+  buttonText: {
     color: 'white',
     fontSize: 20,
   },  

@@ -50,7 +50,7 @@ class Grouplus extends React.Component{
             this.setState({loading: false, loggedIn: true})
           },
            error: (error) => {
-            console.error("Error login" + error.toString());
+            console.error("Error login" + error);
             this.setState({loading: false, loggedIn: false});
           }
 
@@ -70,6 +70,9 @@ class Grouplus extends React.Component{
           initialRoute={{
             title: 'Grouplus',
             component : GroupList,
+            passProps: {
+              user: Parse.User.current()
+            }
           }}
         />
       );
