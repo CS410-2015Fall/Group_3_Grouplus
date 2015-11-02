@@ -132,6 +132,34 @@ class Nav extends React.Component {
         <Grouplus navigator={navigator} user={route.user}/>
       );
     }
+    if (id === 'GroupAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'TodoAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'EventAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'GroupAddMember') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'MyAccount') {
+      return (
+        <View></View>
+      );
+    } 
+    if (id === 'GroupPanel') {
+
+    }
     else {
       return this.plainTextScreen('Opps! You found a bug :(');
     }
