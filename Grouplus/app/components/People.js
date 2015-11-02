@@ -32,9 +32,9 @@ class People extends React.Component{
   render(){
     var people = this.props.people;
     var list = people.map((item, index) => {
-      return (
-        <Image style={styles.avatar} source={{uri: people[index].avatar_url}} />
-      );
+     // return (
+        //<Image style={styles.avatar} source={{uri: people[index].avatar_url}} />
+     // );
     });
     var content = (list.length === 0) ? <Text style={styles.first}>Be the first!</Text> : list;
 
