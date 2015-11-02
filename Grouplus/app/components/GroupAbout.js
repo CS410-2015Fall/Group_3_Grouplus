@@ -56,10 +56,17 @@ class GroupAbout extends React.Component{
   // }
   
   onPressAddMember() {
-    this.refs.addMember.open();
+    var that = this;
+    console.log("ADD MEMBER TO GROUP : " + this.props.group);
+    this.props.navigator.push({
+                   title: 'Add new member',
+                   component: GroupAddMember,
+                   passProps: {group: that.props.group},
+                 });
   }
 
   renderRow(rowData) {
+    //console.log("ALERT ALERT: "+this.props.group.members[0].get("name"));
     //var color = colors[rowID % colors.length];
     return (
       <View>
@@ -68,7 +75,7 @@ class GroupAbout extends React.Component{
                         underlayColor='#E6FFFF'>
           <View style={styles.group}>
             <View style={styles.groupDetail}>
-              <Text style={styles.groupName}> {rowData.name} </Text>
+              <Text style={styles.groupName}> {rowData.objectId} </Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -98,9 +105,6 @@ class GroupAbout extends React.Component{
           contentInset={{top:64, bottom: 50}}
           automaticallyAdjustContentInsets={false}
         />
-        <Modal ref='addMember'>
-          <GroupAddMember groupId={this.props.group.id} modal={this.refs.addMember} />
-        </Modal>
       </View>
     );
   }

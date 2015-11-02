@@ -48,21 +48,29 @@ class GroupAddMember extends React.Component {
   onUpdate() {
     var value = this.refs.form.getValue();
     if (value) {
+      // Check if the user with that email exists
       var User = Parse.Object.extend("User");
       var query = new Parse.Query(User);
       query.equalTo("email", value.email);
+      var that = this;
       query.find({
   success: function(result) {
-    {
-      var creator = ParseReact.Mutation.AddUnique('', {
+    console.log(result);
+    if(result.length === 0){
+      alert("Error: there is no user with that email!");
+    }
+      else{
+      // AddUnique for only adding member once
+      var creator = ParseReact.Mutation.AddUnique({
         className: 'Group',
         //TODO: change the group id
-        objectId: this.props.group.id
+        objectId: that.props.group.objectId
     }, "members", result);
         creator.dispatch();
-        this.props.close();
+        that.props.navigator.pop();
               }
     // The object was retrieved successfully.
+
   },
   error: function(error) {
     alert("Error: there is no user with that email!");

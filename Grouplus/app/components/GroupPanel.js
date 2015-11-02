@@ -84,7 +84,7 @@ class GroupPanel extends React.Component {
       case 'Events':
         return <Events group={this.props.group}/>;
       case 'About':
-        return <About group={this.props.group} />;
+        return <About group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
         return <TodoList //todos={this.props.group.todos}
