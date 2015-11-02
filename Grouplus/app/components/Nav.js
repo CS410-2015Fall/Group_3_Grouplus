@@ -6,7 +6,6 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -19,10 +18,12 @@ var Login = require('./Login');
 var GroupList = require('./GroupList');
 var Grouplus = require('./Grouplus');
 
-var FBSDKCore = require('react-native-fbsdkcore');
-var {
-  FBSDKAccessToken,
-} = FBSDKCore;
+if (Platform.OS === 'ios') {
+  var FBSDKCore = require('react-native-fbsdkcore');
+  var {
+    FBSDKAccessToken,
+  } = FBSDKCore;
+}
 
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
@@ -33,7 +34,6 @@ var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   textScreen: {
     flex: 1, 
-    alignItems: 'stretch', 
     justifyContent: 'center', 
     alignItems: 'center',
     backgroundColor: '#FF9966',
@@ -44,7 +44,6 @@ var styles = StyleSheet.create({
     opacity: 50,
     padding: 10,
   }
-
 });
 
 
