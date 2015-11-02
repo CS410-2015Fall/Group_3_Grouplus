@@ -15,8 +15,9 @@ var {
 } = React;
 
 var Login = require('./Login');
-var GroupList = require('./GroupList');
 var Grouplus = require('./Grouplus');
+var GroupAdd = require('./GroupAdd');
+var GroupAddMember = require('./GroupAddMember');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -122,9 +123,9 @@ class Nav extends React.Component {
         <Login navigator={navigator} />
       );
     }
-    if (id === 'GroupList') {
+    if (id === 'GroupPanel') {
       return (
-        <GroupList user={route.user}/>
+        <GroupPanel group={route.group} user={route.user}/>
       );
     }
     if (id === 'Grouplus') {
