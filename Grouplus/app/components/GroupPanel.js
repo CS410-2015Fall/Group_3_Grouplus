@@ -4,6 +4,7 @@ var React = require('react-native');
 var TodoList = require('./TodoList');
 var Photos = require('./Photos');
 var Events = require('./Events');
+var About = require('./GroupAbout');
 var Separator = require('./helpers/Separator');
 
 var {
@@ -70,6 +71,7 @@ class GroupPanel extends React.Component {
             {this.renderTabIcon('material|format-list-bulleted', 'Todos')}
             {this.renderTabIcon('material|camera', 'Photos')}
             {this.renderTabIcon('material|calendar', 'Events')}
+            {this.renderTabIcon('material|info-outline', 'About')}
           </View>
         </View>
       </View>
@@ -81,6 +83,8 @@ class GroupPanel extends React.Component {
         return <Photos group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
         return <Events group={this.props.group}/>;
+      case 'About':
+        return <About group={this.props.group} />;
       case 'TodoList':
       default:
         return <TodoList //todos={this.props.group.todos}
