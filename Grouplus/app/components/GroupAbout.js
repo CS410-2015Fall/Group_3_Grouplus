@@ -20,7 +20,7 @@ var {
   NavigatorIOS,
 } = React;
 
-var Modal = require('./helpers/Modal');
+var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var GroupAddMember = require('./GroupAddMember');
 
@@ -68,7 +68,7 @@ class GroupAbout extends React.Component{
                         underlayColor='#E6FFFF'>
           <View style={styles.group}>
             <View style={styles.groupDetail}>
-              <Text style={styles.groupName}> {rowData} </Text>
+              <Text style={styles.groupName}> {rowData.name} </Text>
             </View>
           </View>
         </TouchableHighlight>
@@ -78,12 +78,14 @@ class GroupAbout extends React.Component{
   }
 
   renderFooter() {
+    if (this.props.group.createdBy == Parse.User.current().id){
     return (
       <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
           group={this.props.group} onPress={() => this.onPressAddMember()}>
         <Text style={basicStyles.buttonText}>Add New Member</Text>
       </TouchableHighlight>
       );
+    }
   }
 
   render(){
@@ -96,7 +98,9 @@ class GroupAbout extends React.Component{
           contentInset={{top:64, bottom: 50}}
           automaticallyAdjustContentInsets={false}
         />
-        <Modal ref={'addMember'} component={GroupAddMember} />
+        <Modal ref='addMember'>
+          <GroupAddMember groupId={this.props.group.id} modal={this.refs.addMember} />
+        </Modal>
       </View>
     );
   }
