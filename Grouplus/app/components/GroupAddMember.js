@@ -44,7 +44,8 @@ class GroupAddMember extends React.Component {
     this.onUpdate = this.onUpdate.bind(this);
   }
 
-//Create new group
+//Create new group member
+// TODO: If not unique, send alert??
   onUpdate() {
     var value = this.refs.form.getValue();
     if (value) {
@@ -54,28 +55,28 @@ class GroupAddMember extends React.Component {
       query.equalTo("email", value.email);
       var that = this;
       query.find({
-  success: function(result) {
-    console.log("Found the user" + result[0]);
-    if(result.length === 0){
-      alert("Error: there is no user with that email!");
-    }
-      else{
-      // AddUnique for only adding member once
-      var creator = ParseReact.Mutation.AddUnique({
-        className: 'Group',
-        //TODO: change the group id
-        objectId: that.props.group.objectId
-    }, "members", result[0].id);
-        creator.dispatch();
-        that.props.navigator.pop();
-              }
-    // The object was retrieved successfully.
+        success: function(result) {
+          console.log("Found the user" + result[0]);
+          if(result.length === 0){
+            alert("Error: there is no user with that email!");
+          }
+            else{
+            // AddUnique for only adding member once
+            var creator = ParseReact.Mutation.AddUnique({
+              className: 'Group',
+              //TODO: change the group id
+              objectId: that.props.group.objectId
+          }, "members", result[0].id);
+              creator.dispatch();
+              that.props.navigator.pop();
+                    }
+          // The object was retrieved successfully.
 
-  },
-  error: function(error) {
-    alert("Error: there is no user with that email!");
-  }
-});
+        },
+        error: function(error) {
+          alert("Error: there is no user with that email!");
+        }
+      });
     }
   }
 
