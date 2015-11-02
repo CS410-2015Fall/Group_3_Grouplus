@@ -55,7 +55,7 @@ class GroupAddMember extends React.Component {
       var that = this;
       query.find({
   success: function(result) {
-    console.log(result);
+    console.log("Found the user" + result[0]);
     if(result.length === 0){
       alert("Error: there is no user with that email!");
     }
@@ -65,7 +65,7 @@ class GroupAddMember extends React.Component {
         className: 'Group',
         //TODO: change the group id
         objectId: that.props.group.objectId
-    }, "members", result);
+    }, "members", result[0].id);
         creator.dispatch();
         that.props.navigator.pop();
               }

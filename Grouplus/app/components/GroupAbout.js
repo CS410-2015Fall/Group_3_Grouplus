@@ -43,12 +43,12 @@ class GroupAbout extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-
+    var that = this;
   }
 
   observe(props, state) {
     return {
-      members : this.props.group.include("members"),
+      //members : this.props.group.include("members"),
 
     }
   }
@@ -68,7 +68,6 @@ class GroupAbout extends ParseComponent{
   }
 
   renderRow(rowData) {
-console.log("OBJECT GET USER: " + this.data.members);
 //console.log("OBJECT GET USER: " + result.get("name"));
     //var color = colors[rowID % colors.length];
     return (
