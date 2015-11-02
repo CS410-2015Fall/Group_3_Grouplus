@@ -6,7 +6,6 @@
 
 var React = require('react-native');
 var {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -16,13 +15,16 @@ var {
 } = React;
 
 var Login = require('./Login');
-var GroupList = require('./GroupList');
 var Grouplus = require('./Grouplus');
+var GroupAdd = require('./GroupAdd');
+var GroupAddMember = require('./GroupAddMember');
 
-var FBSDKCore = require('react-native-fbsdkcore');
-var {
-  FBSDKAccessToken,
-} = FBSDKCore;
+if (Platform.OS === 'ios') {
+  var FBSDKCore = require('react-native-fbsdkcore');
+  var {
+    FBSDKAccessToken,
+  } = FBSDKCore;
+}
 
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
@@ -33,7 +35,6 @@ var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   textScreen: {
     flex: 1, 
-    alignItems: 'stretch', 
     justifyContent: 'center', 
     alignItems: 'center',
     backgroundColor: '#FF9966',
@@ -44,7 +45,6 @@ var styles = StyleSheet.create({
     opacity: 50,
     padding: 10,
   }
-
 });
 
 
@@ -123,15 +123,43 @@ class Nav extends React.Component {
         <Login navigator={navigator} />
       );
     }
-    if (id === 'GroupList') {
+    if (id === 'GroupPanel') {
       return (
-        <GroupList user={route.user}/>
+        <GroupPanel group={route.group} user={route.user}/>
       );
     }
     if (id === 'Grouplus') {
       return (
         <Grouplus navigator={navigator} user={route.user}/>
       );
+    }
+    if (id === 'GroupAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'TodoAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'EventAdd') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'GroupAddMember') {
+      return (
+        <View></View>
+      );
+    }
+    if (id === 'MyAccount') {
+      return (
+        <View></View>
+      );
+    } 
+    if (id === 'GroupPanel') {
+
     }
     else {
       return this.plainTextScreen('Opps! You found a bug :(');
