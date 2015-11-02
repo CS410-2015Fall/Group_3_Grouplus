@@ -8,8 +8,6 @@ var ParseReact = require('parse-react/react-native');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
-var mockdata = require('../utils/MockData');
-
 var Event = t.struct({
   name: t.Str, 
   location: t.maybe(t.Str),
