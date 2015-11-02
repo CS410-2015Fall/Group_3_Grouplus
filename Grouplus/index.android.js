@@ -12,5 +12,5 @@ var {
   AppRegistry,
 } = React;
 
-var Grouplus = require('./app/components/Grouplus');
-AppRegistry.registerComponent('Grouplus', () => Grouplus);
+var Nav = require('./app/components/Nav');
+AppRegistry.registerComponent('Grouplus', () => Nav);
