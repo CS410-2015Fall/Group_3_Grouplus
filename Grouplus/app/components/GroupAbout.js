@@ -23,7 +23,7 @@ var {
 var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var GroupAddMember = require('./GroupAddMember');
-
+var ParseComponent = ParseReact.Component(React);
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   group: {
@@ -39,17 +39,19 @@ var styles = StyleSheet.create({
   }
 });
 
-class GroupAbout extends React.Component{
+class GroupAbout extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 
   }
-  // observe(props, state) {
-  //   return {
-  //     members: this.props.group.members
-  //   }
-  // }
+
+  observe(props, state) {
+    return {
+      members : this.props.group.include("members"),
+
+    }
+  }
 
   // componentWillReceiveProps(nextProps) {
   //   this.setState({dataSource: this.ds.cloneWithRows(/*nextProps.todos*/ this.data.members)});
@@ -57,7 +59,7 @@ class GroupAbout extends React.Component{
   
   onPressAddMember() {
     var that = this;
-    console.log("ADD MEMBER TO GROUP : " + this.props.group);
+    //console.log("ADD MEMBER TO GROUP : " + this.data.members);
     this.props.navigator.push({
                    title: 'Add new member',
                    component: GroupAddMember,
@@ -66,7 +68,8 @@ class GroupAbout extends React.Component{
   }
 
   renderRow(rowData) {
-    //console.log("ALERT ALERT: "+this.props.group.members[0].get("name"));
+console.log("OBJECT GET USER: " + this.data.members);
+//console.log("OBJECT GET USER: " + result.get("name"));
     //var color = colors[rowID % colors.length];
     return (
       <View>
