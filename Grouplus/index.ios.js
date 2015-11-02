@@ -51,6 +51,7 @@ class Grouplus extends React.Component{
               success: (user) => {
                 console.log("Logging in with: " + token.userId);
                 this.setState({loading: false, loggedIn: true})
+                console.log(Parse.User.current());
               },
               error: (error) => {
                 console.error("Error login" + error);
@@ -67,6 +68,7 @@ class Grouplus extends React.Component{
       }
     });
   }
+  //TODO: Parse.User.current() returns undefined when it first logins.
   render() {
     if (this.state.loading) {
       return <Text>loading...</Text>;
