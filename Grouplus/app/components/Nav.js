@@ -108,7 +108,7 @@ class Nav extends React.Component {
     } else if (this.state.login === 'loading') {
       return <PlainTextScreen text={'Loading...'}/>;
     } else if (this.state.login === 'loggedIn') {
-      initialRoute = {id: 'GroupList', user: ParseReact.currentUser()};
+      initialRoute = {id: 'GroupList', user: Parse.User.current()};
     } else if (this.state.login === 'needLogin') {
       initialRoute = {id: 'Login'}
     } else if (this.state.login === 'error') {
