@@ -179,7 +179,7 @@ class Nav extends React.Component {
     }
     if (id === 'GroupAddMember') {
       return (
-        <View></View>
+        <GroupAddMember group={route.group} navigator={navigator}/>
       );
     }
     if (id === 'MyAccount') {
