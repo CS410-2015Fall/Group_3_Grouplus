@@ -62,7 +62,7 @@ renderRow(rowData) {
 
   var exportBtn = {
   text: 'Export', 
-    backgroundColor: 'FFA500',
+    backgroundColor: '#FFA500',
         onPress: function(){
    if (Platform.OS === 'ios') {
     CalendarManager.addEvent(rowData.name, rowData.location, rowData.dueDate, rowData.enddate, 
