@@ -169,7 +169,7 @@ class Nav extends React.Component {
     }
     if (id === 'TodoAdd') {
       return (
-        <TodoAdd navigator={navigator}/>
+        <TodoAdd navigator={navigator} group={route.group}/>
       );
     }
     if (id === 'EventAdd') {

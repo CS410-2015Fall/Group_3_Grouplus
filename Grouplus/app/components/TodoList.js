@@ -47,7 +47,11 @@
     }
     
     onPressNewTodo() {
-      this.props.navigator.push({id: 'TodoAdd'});
+      console.log("group ID pass to TODO : " + this.props.group.objectId);
+      this.props.navigator.push({
+        id: 'TodoAdd',
+        group: this.props.group.objectId,
+    });
     }
 
     onPressDelete(rowData){
