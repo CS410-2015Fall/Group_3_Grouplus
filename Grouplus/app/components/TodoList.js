@@ -53,16 +53,6 @@
     });
     }
 
-    onPressDelete(rowData){
-      alert(rowData);
-     var target = {
-    className: 'Todo',
-    objectId: rowData.objectId,
-    };
-
-      ParseReact.Mutation.Destroy(target).dispatch();
-    }
-
     renderRow(rowData) {
 
       var deleteBtn = {
