@@ -14,7 +14,9 @@ var {
   TouchableOpacity,
 } = React;
 
-var Modal = require('./helpers/Modal');
+var { Icon } = require('react-native-icons');
+
+var NavBar = require('./helpers/NavBar');
 var Separator = require('./helpers/Separator');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
@@ -42,21 +44,6 @@ var styles = StyleSheet.create({
   groupName: {
     fontSize: 24,
   },
-  navBar: {
-    height: 64,
-    backgroundColor: '#3399FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navTitle: {
-    color: 'white', 
-    margin: 10, 
-    fontSize: 22,
-  },
-  navTouchTitle: {
-    flex: 1, 
-    justifyContent: 'center',
-  }
 });
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
@@ -113,27 +100,18 @@ class GroupList extends ParseComponent{
   render() {
     return (
       <View style={basicStyles.flex1}>
-        <View style={styles.navBar}>
-          <View style={{height: 20}}/> 
-          <TouchableOpacity style={styles.navTouchTitle}
-            onPress={()=> this.refreshQueries('groups')}>
-            <Text style={styles.navTitle}>My Groups</Text>
-          </TouchableOpacity>
-        </View>
+        <NavBar 
+          onPressLeft={this.onPressMyAccount.bind(this)}
+          leftIcon={'material|account'}
+          title='My Groups'/>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.groups)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>
-        <View>
-          <TouchableOpacity style={basicStyles.button} 
-                              onPress={this.onPressNewGroup.bind(this)}>
-            <Text style={basicStyles.buttonText}>Add Group</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={basicStyles.button} 
-                              onPress={this.onPressMyAccount.bind(this)}>
-            <Text style={basicStyles.buttonText}>Setting</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={basicStyles.button} 
+                            onPress={this.onPressNewGroup.bind(this)}>
+          <Text style={basicStyles.buttonText}>Add Group</Text>
+        </TouchableOpacity>
       </View>
      );
    }

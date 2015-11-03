@@ -21,31 +21,25 @@ var {
 var options = {
   fields: {
     txt: {
-      label: 'Add New Group',
+      label: 'Group Name:',
       placeholder: 'enter a new group name here',
       autoFocus: true
     }
   }
 };
 
+var NavBar = require('./helpers/NavBar');
+
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   group: {
-    alignSelf: 'stretch',
-    marginTop: 100,
     flex: 1,
-    padding: 10,
     backgroundColor: '#ffffff',
   },
 });
 
 class GroupAdd extends React.Component {
-  constructor() {
-    super();
-    this.onUpdate = this.onUpdate.bind(this);
-  }
-
-//Create new group
-  onUpdate() {
+  save() {
     var value = this.refs.form.getValue();
     if (value) {
       var creator = ParseReact.Mutation.Create('Group', {
@@ -57,25 +51,24 @@ class GroupAdd extends React.Component {
         this.props.navigator.pop();
     }
   }
-
   render() {
     return (
       <View 
-        style={styles.group}
-        contentInset={{top:64}}
-        automaticallyAdjustContentInsets={false}>
-        <Form
-          ref="form"
-          type={Group}
-          onChange={this._onChange}
-          options={options}
-          value={this.props.item}/>
-        <TouchableHighlight
-          style={basicStyles.button}
-          onPress={this.onUpdate}
-          underlayColor='#99d9f4'>
-          <Text style={basicStyles.buttonText}>Save</Text>
-        </TouchableHighlight>
+        style={styles.group}>
+        <NavBar 
+          title={'New Todo'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|check'} 
+          onPressRight={this.save.bind(this)}/>
+        <View style={basicStyles.form}>
+          <Form
+            ref="form"
+            type={Group}
+            onChange={this._onChange}
+            options={options}
+            value={this.props.item}/>
+        </View>
       </View>
     )
   }

@@ -50,7 +50,6 @@ var options = {
 
 var styles = StyleSheet.create({
   todo: {
-    marginTop: 100,
     flex: 1,
     padding: 10,
     backgroundColor: '#ffffff',

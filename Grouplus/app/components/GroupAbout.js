@@ -18,6 +18,7 @@ var {
   TouchableHighlight,
   Text,
   NavigatorIOS,
+  TouchableOpacity,
 } = React;
 
 var Modal = require('react-native-modalbox');
@@ -78,10 +79,10 @@ class GroupAbout extends ParseComponent{
   renderAdd() {
     if (this.props.group.createdBy == Parse.User.current().id){
     return (
-      <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
+      <TouchableOpacity style={basicStyles.button}  navigator={this.props.navigator}
           group={this.props.group} onPress={() => this.onPressAddMember()}>
         <Text style={basicStyles.buttonText}>Add New Member</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
       );
     }
   }

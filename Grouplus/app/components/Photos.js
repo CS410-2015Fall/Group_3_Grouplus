@@ -107,7 +107,7 @@ class Photos extends ParseComponent{
           success: function(photoItem) {
             // Execute any logic that should take place after the object is saved.
             var added = photoItem.get('imgFile').url();
-            alert(added);
+            //alert(added);
             that.refreshQueries();
             //alert('New photo added with objectId: ' + photoItem.imgFile.url());
           },

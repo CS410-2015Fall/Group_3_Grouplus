@@ -55,11 +55,12 @@ module.exports = StyleSheet.create({
     backgroundColor: '#fb3d38',
   },
   colorPrimary: {
-    backgroundColor: '#006fff'
+    backgroundColor: '#006fff',
   },
   colorSecondary: {
-    backgroundColor: '#fd9427'
+    backgroundColor: '#fd9427',
   },
-
-  
+  form: {
+    margin: 20,
+  },
 });

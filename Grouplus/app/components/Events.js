@@ -16,12 +16,13 @@ var mockdata = require('../utils/MockData');
 
 
 var {
-StyleSheet,
-View,
-ListView,
-Text,
-Platform,
-TouchableHighlight,
+  StyleSheet,
+  View,
+  ListView,
+  Text,
+  Platform,
+  TouchableHighlight,
+  TouchableOpacity,
 } = React;
 
 var {
@@ -106,11 +107,11 @@ render(){
       <ListView 
         dataSource={this.ds.cloneWithRows(this.data.events)}
         renderRow={this.renderRow.bind(this)} />
-      <TouchableHighlight 
+      <TouchableOpacity 
         style={basicStyles.button}
         onPress={()=> this.onPressNewEvent()}>
         <Text style={basicStyles.buttonText}>Add Events</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 }

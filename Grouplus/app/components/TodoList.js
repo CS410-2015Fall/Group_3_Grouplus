@@ -16,6 +16,7 @@
     StyleSheet,
     ScrollView,
     TouchableHighlight,
+    TouchableOpacity,
     Text,
     NavigatorIOS,
   } = React;
@@ -106,10 +107,10 @@
           <ListView
             dataSource={this.ds.cloneWithRows(this.data.todos)}
             renderRow={this.renderRow.bind(this)} />       
-          <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
+          <TouchableOpacity style={basicStyles.button}  navigator={this.props.navigator}
             group={this.props.group} onPress={() => this.onPressNewTodo()}>
             <Text style={basicStyles.buttonText}>Add New Todo</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       );
     }
