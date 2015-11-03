@@ -55,9 +55,8 @@ class GroupAbout extends ParseComponent{
   onPressAddMember() {
     var that = this;
     this.props.navigator.push({
-                   title: 'Add new member',
-                   component: GroupAddMember,
-                   passProps: {group: that.props.group},
+                   id: 'GroupAddMember',
+                   group: that.props.group,
                  });
   }
 
@@ -76,7 +75,7 @@ class GroupAbout extends ParseComponent{
     );
   }
 
-  renderFooter() {
+  renderAdd() {
     if (this.props.group.createdBy == Parse.User.current().id){
     return (
       <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
@@ -93,8 +92,8 @@ class GroupAbout extends ParseComponent{
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)} 
-          renderFooter={this.renderFooter.bind(this)}
         />
+        {this.renderAdd()}
       </View>
     );
   }
