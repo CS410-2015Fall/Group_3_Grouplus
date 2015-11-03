@@ -82,14 +82,12 @@ class GroupPanel extends React.Component {
       case 'Photos':
         return <Photos group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
-        return <Events group={this.props.group}/>;
+        return <Events group={this.props.group} navigator={this.props.navigator}/>;
       case 'About':
         return <About group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
-        return <TodoList //todos={this.props.group.todos}
-                         group={this.props.group}
-                         navigator={this.props.navigator}/>;
+        return <TodoList group={this.props.group} navigator={this.props.navigator}/>;
     }
   }
   renderTabIcon(iconName, name){

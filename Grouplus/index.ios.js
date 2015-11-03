@@ -99,4 +99,4 @@ class Grouplus extends React.Component{
 }
 
 
-AppRegistry.registerComponent('Grouplus', () => Grouplus);
+AppRegistry.registerComponent('Grouplus', () => Nav);

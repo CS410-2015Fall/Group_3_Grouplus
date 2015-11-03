@@ -46,7 +46,7 @@
     }
     
     onPressNewTodo() {
-      this.refs.addTodo.open();
+      this.props.navigator.push({id: 'TodoAdd'});
     }
 
     onPressDelete(rowData){
@@ -106,26 +106,16 @@
       );
     }
 
-    renderFooter() {
-        console.log(this.props.group);
-      return (
-        <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
-            group={this.props.group} onPress={() => this.onPressNewTodo()}>
-          <Text style={basicStyles.buttonText}>Add New Todo</Text>
-        </TouchableHighlight>
-        );
-    }
-
     render(){
       return (
         <View style={basicStyles.flex1}>
           <ListView
             dataSource={this.ds.cloneWithRows(this.data.todos)}
-            renderRow={this.renderRow.bind(this)} 
-            renderFooter={this.renderFooter.bind(this)}
-            contentInset={{top:64, bottom: 50}}
-            automaticallyAdjustContentInsets={false}/>
-          <Modal ref={'addTodo'} component={TodoAdd} />
+            renderRow={this.renderRow.bind(this)} />       
+          <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
+            group={this.props.group} onPress={() => this.onPressNewTodo()}>
+            <Text style={basicStyles.buttonText}>Add New Todo</Text>
+          </TouchableHighlight>
         </View>
       );
     }

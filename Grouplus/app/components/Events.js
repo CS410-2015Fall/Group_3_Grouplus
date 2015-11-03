@@ -32,7 +32,7 @@ var styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 0.5,
     margin: 3,
-      },
+  },
   name: {
     fontSize: 18,
   },
@@ -48,12 +48,12 @@ class Events extends ParseComponent{
       events: (new Parse.Query('Event')).equalTo('groupId', this.props.group.objectId).ascending('dueDate'),
     }
   }
-
   onPressNewEvent() {
-    this.refs.addEvent.open();
+    var that = this;
+    this.props.navigator.push({id: 'EventAdd', groupId: that.props.group.objectId});
   }
 
-  _renderRow(rowData) {
+  renderRow(rowData) {
      var swipeBtn = [{
       text: 'Delete', 
       backgroundColor: '#ff0000',
@@ -75,36 +75,20 @@ class Events extends ParseComponent{
       </Swipeout>
     );
   }
-
-  _renderFooter() {
-    return (
-      <TouchableHighlight 
-        style={basicStyles.button}
-        onPress={()=> this.onPressNewEvent()}
-        >
-      <Text style={basicStyles.buttonText}>Add Events</Text>
-      </TouchableHighlight>
-    );
-  }
-
   render(){
     return (
       <View style={basicStyles.flex1}>
         <ListView 
           dataSource={this.ds.cloneWithRows(this.data.events)}
-          renderRow={this._renderRow.bind(this)} 
-          renderFooter={this._renderFooter.bind(this)}
-          contentInset={{top:64}}
-          automaticallyAdjustContentInsets={false}/>
-        <Modal ref='addEvent'>
-          <EventAdd groupId={this.props.group.objectId} modal={this.refs.addEvent} />
-        </Modal>
+          renderRow={this.renderRow.bind(this)} />
+        <TouchableHighlight 
+          style={basicStyles.button}
+          onPress={()=> this.onPressNewEvent()}>
+          <Text style={basicStyles.buttonText}>Add Events</Text>
+        </TouchableHighlight>
       </View>
     );
   }
 };
-
-Events.propTypes = {
-}
 
 module.exports = Events;

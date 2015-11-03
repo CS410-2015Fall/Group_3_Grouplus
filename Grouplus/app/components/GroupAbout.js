@@ -43,50 +43,36 @@ class GroupAbout extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    var that = this;
   }
 
   observe(props, state) {
     return {
-      //members : this.props.group.include("members"),
-
+    members : new Parse.Query("User").containedIn("objectId", this.props.group.members),
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setState({dataSource: this.ds.cloneWithRows(/*nextProps.todos*/ this.data.members)});
-  // }
-  
   onPressAddMember() {
     var that = this;
-    //console.log("ADD MEMBER TO GROUP : " + this.data.members);
     this.props.navigator.push({
-                   title: 'Add new member',
-                   component: GroupAddMember,
-                   passProps: {group: that.props.group},
+                   id: 'GroupAddMember',
+                   group: that.props.group,
                  });
   }
 
   renderRow(rowData) {
-//console.log("OBJECT GET USER: " + result.get("name"));
-    //var color = colors[rowID % colors.length];
     return (
       <View>
-        <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
-                        navigator={this.props.navigator}
-                        underlayColor='#E6FFFF'>
           <View style={styles.group}>
             <View style={styles.groupDetail}>
-              <Text style={styles.groupName}> {rowData.objectId} </Text>
+              <Text style={styles.groupName}> {rowData.name} </Text>
             </View>
           </View>
-        </TouchableHighlight>
         <Separator/>
       </View>
     );
   }
 
-  renderFooter() {
+  renderAdd() {
     if (this.props.group.createdBy == Parse.User.current().id){
     return (
       <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
@@ -101,12 +87,10 @@ class GroupAbout extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         <ListView
-          dataSource={this.ds.cloneWithRows(this.props.group.members)}
+          dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)} 
-          renderFooter={this.renderFooter.bind(this)}
-          contentInset={{top:64, bottom: 50}}
-          automaticallyAdjustContentInsets={false}
         />
+        {this.renderAdd()}
       </View>
     );
   }
