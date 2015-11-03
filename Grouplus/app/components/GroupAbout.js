@@ -23,6 +23,7 @@ var {
 var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var GroupAddMember = require('./GroupAddMember');
+var UserIcon = require('./UserIcon');
 var ParseComponent = ParseReact.Component(React);
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
@@ -60,9 +61,11 @@ class GroupAbout extends ParseComponent{
   }
 
   renderRow(rowData) {
+    console.log("FACE ID : " + rowData.facebookId);
     return (
       <View>
           <View style={styles.group}>
+          <UserIcon facebookId={rowData.facebookId}/>
             <View style={styles.groupDetail}>
               <Text style={styles.groupName}> {rowData.name} </Text>
             </View>

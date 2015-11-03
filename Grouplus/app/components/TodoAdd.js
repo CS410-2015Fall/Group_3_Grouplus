@@ -83,17 +83,17 @@ class TodoAdd extends React.Component {
 
   onUpdate() {
     var value = this.refs.form.getValue();
-
+    var that = this;
     if (value) {
       var creator = ParseReact.Mutation.Create('Todo', {
       name: value.txt,
       createdBy: Parse.User.current().id,
-      //TODO: show only groups that we added so far
-      //group: this.props.group.id,
+      group: that.props.group,
       dueDate: value.duedate,
       priority: value.priority,
       individual: value.individual,
       done: false,
+      whoAreDone: [],
     });
     creator.dispatch();
     this.props.navigator.pop();
@@ -102,7 +102,6 @@ class TodoAdd extends React.Component {
   
 
   render() {
-     console.log("group ID : " + this.props.group);
     return (
       <ScrollView 
         style={styles.todo}>
