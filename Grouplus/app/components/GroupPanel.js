@@ -58,7 +58,7 @@ class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
-      selected: 'Events'
+      selected: 'TodoList'
     }
   }
   render(){
@@ -68,7 +68,7 @@ class GroupPanel extends React.Component {
         <View>
           <Separator/>
           <View style={styles.tabBar}>
-            {this.renderTabIcon('material|format-list-bulleted', 'Todos')}
+            {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
             {this.renderTabIcon('material|camera', 'Photos')}
             {this.renderTabIcon('material|calendar', 'Events')}
             {this.renderTabIcon('material|info-outline', 'About')}

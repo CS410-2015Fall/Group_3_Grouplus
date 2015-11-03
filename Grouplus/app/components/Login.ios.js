@@ -88,29 +88,13 @@ var Login = React.createClass({
                 className: '_User',
                 objectId: user.id
               }, {
+                //setting username, email, name and facebook Id
                 username: email,
                 email: email,
                 name: name,
+                facebookId: facebookId,
+
               }).dispatch({waitForServer: true});
-              /**
-                * Both solution got same issue
-              */
-              // fetch(api)
-              //   .then((response) => response.json())
-              //   .then((responseData) => {
-              //     console.log('[responseData]: ', responseData);
-              //
-              //     name: responseData.name;
-              //     email: responseData.email;
-              //     ParseReact.Mutation.Set({
-              //       className: '_User',
-              //       objectId: user.id
-              //     }, {
-              //       username: email,
-              //       email: email,
-              //     }).dispatch();
-              //   })
-              //   .done();
               this.setState({isLoadingCurrentUser: false});
             }
           }, '/me?fields=name,email,id,picture');
