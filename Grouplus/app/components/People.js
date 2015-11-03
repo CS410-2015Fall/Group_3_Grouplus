@@ -22,9 +22,9 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   avatar: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
+    height: 30,
+    width: 30,
+    borderRadius: 15,
   },
   first: {
     fontSize: 10,
@@ -39,15 +39,10 @@ class People extends ParseComponent{
       }
   }
   render(){
-   // var people = this.props.people;
     var list = this.data.completeUsers.map((item, index) => {
       return(
-       // <Image style={styles.avatar} source={{uri: 'http://graph.facebook.com/{item.authData.facebook.id}/picture?type=small'}}/>
-            <Text style={styles.first}>{item.name}</Text>
+        <Image style={styles.avatar} source={{uri: item.tempUrl}}/>
         );
-     // return (
-        //<Image style={styles.avatar} source={{uri: people[index].avatar_url}} />
-     // );
     });
     var content = (list.length === 0) ? <Text style={styles.first}>Be the first!</Text> : list;
 

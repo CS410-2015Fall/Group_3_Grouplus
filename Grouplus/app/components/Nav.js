@@ -12,6 +12,7 @@ var {
   Navigator,
   TouchableOpacity,
   Platform,
+  Image,
 } = React;
 
 var Login = require('./Login');
@@ -60,6 +61,10 @@ var styles = StyleSheet.create({
     color: 'white', 
     margin: 10, 
     fontSize: 22,
+  },  
+  imageContainer: {
+    flex: 1,
+    alignItems: 'stretch',
   },
 });
 
@@ -187,6 +192,13 @@ class Nav extends React.Component {
         <MyAccount navigator={navigator}/>
       );
     } 
+    if (id === 'Photo') {
+      return (      
+        <View style={styles.imageContainer}>
+          <Image style={basicStyles.flex1}  source={{uri: route.uri}}/>
+        </View>
+      );
+    }
     else {
       return this.plainTextScreen('Opps! You found a bug :(');
     }

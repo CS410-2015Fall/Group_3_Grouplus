@@ -45,10 +45,6 @@ var options = {
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
-  imageContainer: {
-    flex: 1,
-    alignItems: 'stretch'
-  },
   container: {
     flex: 1,
     alignItems: 'center'
@@ -68,16 +64,6 @@ var styles = StyleSheet.create({
   }
 });
 
-var TestCmp = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.imageContainer}>
-        <Image style={basicStyles.flex1}  source={{uri: this.props.uri}}/>
-      </View>
-    );
-  }
-});
-
 
 class Photos extends ParseComponent{
 
@@ -93,11 +79,8 @@ class Photos extends ParseComponent{
 
   onPressRow(image) {
     this.props.navigator.push({
-      title: 'Photo',
-      component: TestCmp,
-      passProps: {
-        uri: image.imgFile.url(),
-      },
+      id: 'Photo',
+      uri: image.imgFile.url(),
     });
   }
   imageOptions() {
