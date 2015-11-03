@@ -9,6 +9,7 @@ Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK
 
 var Modal = require('react-native-modalbox');
 var EventItem = require('./EventItem');
+var Swipeout = require('./helpers/Swipeout');
 var Separator = require('./helpers/Separator');
 var EventAdd = require('./EventAdd');
 var mockdata = require('../utils/MockData');
@@ -53,11 +54,25 @@ class Events extends ParseComponent{
   }
 
   _renderRow(rowData) {
+     var swipeBtn = [{
+      text: 'Delete', 
+      backgroundColor: '#ff0000',
+          onPress: function(){
+      var target = {
+        className: 'Event',
+        objectId: rowData.objectId,
+       };
+       ParseReact.Mutation.Destroy(target).dispatch();
+    }
+  }];
+
     return (
+        <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
       <View stylle={styles.container}>
         <EventItem event={rowData}/>
         <Separator/>
       </View>
+      </Swipeout>
     );
   }
 

@@ -38,12 +38,11 @@
     observe(props, state) {
       return {
         todos: (new Parse.Query('Todo')).equalTo('group', this.props.group.objectId),
-        user: Parse.User.current(), 
       }
     }
 
     componentWillReceiveProps(nextProps) {
-      this.setState({dataSource: this.ds.cloneWithRows(/*nextProps.todos*/ this.data.todos)});
+      this.setState({dataSource: this.ds.cloneWithRows(this.data.todos)});
     }
     
     onPressNewTodo() {
@@ -57,7 +56,7 @@
     objectId: rowData.objectId,
     };
 
-  //ParseReact.Mutation.Destroy(target).dispatch();
+      ParseReact.Mutation.Destroy(target).dispatch();
     }
 
     renderRow(rowData) {
@@ -108,7 +107,7 @@
     }
 
     renderFooter() {
-        console.log("group : " + this.props.group);
+        console.log(this.props.group);
       return (
         <TouchableHighlight style={basicStyles.button}  navigator={this.props.navigator}
             group={this.props.group} onPress={() => this.onPressNewTodo()}>
