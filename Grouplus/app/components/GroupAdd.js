@@ -40,8 +40,8 @@ class GroupAdd extends React.Component {
     if (value) {
       var creator = ParseReact.Mutation.Create('Group', {
         name: value.txt,
-        createdBy: ParseReact.currentUser.id,
-        members: [ParseReact.currentUser.id]
+        createdBy: Parse.User.current().id,
+        members: [Parse.User.current().id]
     });
         creator.dispatch();
         this.props.navigator.pop();

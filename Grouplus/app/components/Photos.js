@@ -93,7 +93,7 @@ class Photos extends ParseComponent{
         //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
         var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
         photoItem.set("description", "test picture upload"); // might need to input description
-        photoItem.set("uploadedBy", ParseReact.currentUser.id);
+        photoItem.set("uploadedBy", Parse.User.current().id);
         photoItem.set("imgFile", file);
         photoItem.set('groupId', this.props.group.objectId);
 

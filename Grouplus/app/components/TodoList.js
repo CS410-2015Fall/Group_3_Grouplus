@@ -40,11 +40,10 @@ class TodoList extends ParseComponent{
   observe(props, state) {
     var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
     var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
-    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', ParseReact.currentUser.id
+    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', ParseReact.currentUser.id);
       );
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
-      //todos: Parse.Query.or(queryGroupTodoDone)
     }
   }
 
@@ -80,7 +79,7 @@ class TodoList extends ParseComponent{
           className: 'Todo',
           objectId: rowData.objectId,
         };
-        var uid = ParseReact.currentUser.id; 
+        var uid = Parse.User.current().id; 
         var index = rowData.whoAreDone.indexOf(uid);
         if(index <0){
           rowData.whoAreDone.push(uid); 
