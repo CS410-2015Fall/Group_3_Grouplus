@@ -16,6 +16,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  Platform,
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -40,8 +41,8 @@ class GroupAdd extends React.Component {
     if (value) {
       var creator = ParseReact.Mutation.Create('Group', {
         name: value.txt,
-        createdBy: Parse.User.current().id,
-        members: [Parse.User.current().id]
+        createdBy: Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI",
+        members: [Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"],
     });
         creator.dispatch();
         this.props.navigator.pop();

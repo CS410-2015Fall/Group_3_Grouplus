@@ -20,7 +20,7 @@ var {
   View,
   Text,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
 } = React;
 
 var NavBar = require('./helpers/NavBar');

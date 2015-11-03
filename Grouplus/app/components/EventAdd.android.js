@@ -76,7 +76,7 @@ onUpdate() {
     var that = this;
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
-        createdBy: ParseReact.currentUser.id,
+        createdBy: "jIZUlILeeI",
         location: that.state.location,
         groupId: that.props.groupId, 
         dueDate: that.state.startdate,

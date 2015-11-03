@@ -19,6 +19,7 @@ var {
   TouchableOpacity,
   Text,
   NavigatorIOS,
+  Platform,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
@@ -39,8 +40,8 @@ class TodoList extends ParseComponent{
   }
   observe(props, state) {
     var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId); 
-    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Parse.User.current().id
-      );
+    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId)
+    .equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI");
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
     }
@@ -78,7 +79,7 @@ class TodoList extends ParseComponent{
           className: 'Todo',
           objectId: rowData.objectId,
         };
-        var uid = Parse.User.current().id; 
+        var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
         var index = rowData.whoAreDone.indexOf(uid);
         if(index <0){
           rowData.whoAreDone.push(uid); 
