@@ -79,11 +79,6 @@ class EventItem extends React.Component{
           <Text style={styles.text}> {moment(event.dueDate).format('LLL')} </Text>
           <Text style={styles.text}> {event.location} </Text>
         </View>
-        <TouchableHighlight 
-        style={styles.button}
-        onPress={this.onSave.bind(this, event)}>
-          <Text style={styles.buttonText}>Export</Text>
-        </TouchableHighlight>
       </View>
     );
   }
