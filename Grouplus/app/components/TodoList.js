@@ -38,11 +38,13 @@ class TodoList extends ParseComponent{
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
   }
   observe(props, state) {
-    var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId); 
+    var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
+    var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
     var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', ParseReact.currentUser.id
       );
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
+      //todos: Parse.Query.or(queryGroupTodoDone)
     }
   }
 
