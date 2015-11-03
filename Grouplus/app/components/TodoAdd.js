@@ -75,13 +75,13 @@ var styles = StyleSheet.create({
   },
 });
 
-class TodoTemplate extends React.Component {
+class TodoAdd extends React.Component {
   constructor() {
     super();
     this.onUpdate = this.onUpdate.bind(this);
   }
 
-onUpdate() {
+  onUpdate() {
     var value = this.refs.form.getValue();
 
     if (value) {
@@ -95,8 +95,8 @@ onUpdate() {
       individual: value.individual,
       done: false,
     });
-      creator.dispatch();
-      this.props.close();
+    creator.dispatch();
+    this.props.navigator.pop();
     }
   }
   
@@ -124,4 +124,4 @@ onUpdate() {
 }
 
 
-module.exports = TodoTemplate;
+module.exports = TodoAdd;

@@ -10,8 +10,6 @@ module.exports = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
@@ -23,7 +21,7 @@ module.exports = StyleSheet.create({
   flex1: {
     flex: 1,
   },
-swipeout: {
+  swipeout: {
     backgroundColor: '#dbddde',
     flex: 1,
     overflow: 'hidden',

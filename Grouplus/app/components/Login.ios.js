@@ -120,10 +120,10 @@ var Login = React.createClass({
           // TODO: add loading.... button?
           FBSDKGraphRequestManager.batchRequests([fetchProfile], function() {}, 10)
         }
-                   this.props.navigator.replace({
-                   title: 'GroupList',
-                   component: GroupList,
-                 });
+        this.props.navigator.replace({
+          id: 'GroupList',
+          user: Parse.User.current(),
+        });
       },
       error: (user, error) => {
         switch (error.code) {
