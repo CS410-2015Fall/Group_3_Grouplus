@@ -53,6 +53,10 @@ var styles = StyleSheet.create({
     margin: 10, 
     fontSize: 22,
   },
+  navTouchTitle: {
+    flex: 1, 
+    justifyContent: 'center',
+  }
 });
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
@@ -111,7 +115,8 @@ class GroupList extends ParseComponent{
       <View style={basicStyles.flex1}>
         <View style={styles.navBar}>
           <View style={{height: 20}}/> 
-          <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+          <TouchableOpacity style={styles.navTouchTitle}
+            onPress={()=> this.refreshQueries('groups')}>
             <Text style={styles.navTitle}>My Groups</Text>
           </TouchableOpacity>
         </View>
