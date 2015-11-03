@@ -110,7 +110,7 @@ class EventCreation extends React.Component{
           <Form
             ref="form"
             type={Event}
-            onChange={this.save.bind(this)}
+            onChange={this._onChange}
             options={options}
             value={this.props.item}/>
         </ScrollView>

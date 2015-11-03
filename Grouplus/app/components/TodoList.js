@@ -40,7 +40,7 @@ class TodoList extends ParseComponent{
   observe(props, state) {
     var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
     var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
-    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', ParseReact.currentUser.id);
+    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', ParseReact.currentUser.id).equalTo('done', false);
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
     }
@@ -83,6 +83,10 @@ class TodoList extends ParseComponent{
         if(index <0){
           rowData.whoAreDone.push(uid); 
           ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+        }
+        //If the todo is individual, set done to true
+        if(rowData.individual === true) {
+          ParseReact.Mutation.Set(target, {done: true}).dispatch();
         }
       }
     }; 
