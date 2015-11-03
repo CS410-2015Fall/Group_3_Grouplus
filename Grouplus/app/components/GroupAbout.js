@@ -66,7 +66,7 @@ class GroupAbout extends ParseComponent{
     return (
       <View>
           <View style={styles.group}>
-          <UserIcon facebookId={rowData.facebookId}/>
+          <UserIcon user={rowData}/>
             <View style={styles.groupDetail}>
               <Text style={styles.groupName}> {rowData.name} </Text>
             </View>
