@@ -62,19 +62,18 @@ constructor() {
 
 
   render() {
-    console.log("USER ICON FB : " + this.props.facebookId);
+    console.log("USER ICON FB : " + this.props.user.tempUrl);
     return (
-        //<Text style={styles.text}>{this.props.letter}</Text>
           <Image
           style={[styles.circle]}
-          //source={{uri: this.state.profile.source}}
+          source={{uri: this.props.user.tempUrl}}
           />
     );
   }
 };
 
 UserIcon.propTypes = {
-  color: React.PropTypes.array.isRequired,
+  user: React.PropTypes.object.isRequired,
 }
 
 module.exports = UserIcon;
