@@ -98,7 +98,10 @@ class Grouplus extends React.Component {
   renderDrawer(){
     return (
       <View style={styles.drawer}>
-        <GroupList onPressGroup={this.onSelectGroup.bind(this)} user={{id: "JnzM6wdSIF"}}/>
+        <GroupList 
+          onPressGroup={this.onSelectGroup.bind(this)} 
+          user={{id: "JnzM6wdSIF"}} 
+          navigator={this.props.navigator}/>
       </View>
     );
   }
@@ -113,7 +116,7 @@ class Grouplus extends React.Component {
           title={this.state.screen.title}
           titleColor='#FFFFFF'
         />
-        <Component group={this.state.screen.group}/>
+        <Component group={this.state.screen.group} navigator={this.props.navigator}/>
       </View>
     );
   }

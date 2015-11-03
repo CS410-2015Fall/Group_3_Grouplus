@@ -5,6 +5,7 @@
 var React = require('react-native');
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
+Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
 
 var {
@@ -13,12 +14,19 @@ var {
   Text,
   TextInput,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
+  NativeModules,
 } = React;
 
 
 
 var styles = StyleSheet.create({  
+    instructions: {
+      textAlign: 'center',
+      color: '#333333',
+      margin: 5,
+    },
     event: {
         marginTop: 10,
         flex: 1,
@@ -57,19 +65,25 @@ class EventCreation extends React.Component{
         };
     }
 
+handleClickDate() {
+       var that=this;
+      NativeModules.DateAndroid.showDatepicker(function() {}, function(date) {
+        that.setState({startdate: date})
+      });
+    }
+
 onUpdate() {
     var that = this;
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
-        createdBy: Parse.User.current().id,
+        createdBy: ParseReact.currentUser.id,
         location: that.state.location,
         groupId: that.props.groupId, 
         dueDate: that.state.startdate,
         enddate: that.state.enddate
     });
         creator.dispatch();
-        this.props.close();
-    }
+        this.props.modal.close();
   }
 
   render(){
@@ -94,11 +108,14 @@ onUpdate() {
                 <Text style={styles.events}>
                     Start Time
                 </Text>
-                <TextInput
-                 style={styles.TextInput}
-                 onChangeText={(text) => this.setState({startdate: text})}
-                 value={this.state.startdate}
-                />
+                <TouchableOpacity onPress={this.handleClickDate.bind(this)}>
+                 <Text style={styles.instructions}>
+                   Select Start Date
+                 </Text>
+                 <Text style={styles.events}>
+                    {this.state.startdate}
+                </Text>
+               </TouchableOpacity> 
                 <Text style={styles.events}>
                     End Time
                  </Text>
@@ -106,7 +123,8 @@ onUpdate() {
                  style={styles.TextInput}
                  onChangeText={(text) => this.setState({enddate: text})}
                  value={this.state.enddate}
-                />               
+                />         
+                    
                 <TouchableHighlight
                     style={[styles.button, styles.saveButton]}
                     onPress={this.onUpdate.bind(this)}

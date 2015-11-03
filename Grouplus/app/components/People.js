@@ -4,6 +4,10 @@
  */
 
 var React = require('react-native');
+var ParseReact = require('parse-react/react-native');
+var ParseComponent = ParseReact.Component(React);
+var Parse = require('parse/react-native');
+Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
 var {
   View,
@@ -28,10 +32,19 @@ var styles = StyleSheet.create({
   }
 });
 
-class People extends React.Component{
+class People extends ParseComponent{
+  observe(){
+    return {
+        completeUsers: new Parse.Query("User").containedIn("objectId", this.props.people),     
+      }
+  }
   render(){
-    var people = this.props.people;
-    var list = people.map((item, index) => {
+   // var people = this.props.people;
+    var list = this.data.completeUsers.map((item, index) => {
+      return(
+       // <Image style={styles.avatar} source={{uri: 'http://graph.facebook.com/{item.authData.facebook.id}/picture?type=small'}}/>
+            <Text style={styles.first}>{item.name}</Text>
+        );
      // return (
         //<Image style={styles.avatar} source={{uri: people[index].avatar_url}} />
      // );
