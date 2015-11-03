@@ -36,8 +36,10 @@
       this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     }
     observe(props, state) {
+      var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId); 
+      var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Parse.User.current().id);
       return {
-        todos: (new Parse.Query('Todo')).equalTo('group', this.props.group.objectId),
+        todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
       }
     }
 
