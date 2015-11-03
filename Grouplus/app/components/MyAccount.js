@@ -26,17 +26,14 @@ var {
   NavigatorIOS,
 } = React;
 
+var NavBar = require('./helpers/NavBar');
+
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   loginImage: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
   loginButton: {
@@ -46,6 +43,22 @@ var styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 1,
     shadowOffset: {width: 0, height: 0},
+  },  
+  loginContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
+  },
+  name: {
+    fontSize: 24,
+    color: 'white',
+    paddingBottom: 5,
+  },
+  email: {
+    fontSize: 16,
+    color: 'white',
+    paddingBottom: 20,
   },
 });
 
@@ -57,17 +70,29 @@ class MyAccount extends React.Component{
   render(){
     var user = Parse.User.current(); 
     return (
-        <View style={styles.mainView}>
-          <FBSDKLoginButton
-            style={styles.loginButton}
-            onLogoutFinished={() => {
-              Parse.User.logOut();
-              this.props.navigator.replace({
-                     id: 'Login',
-                   });
-              alert('Logged out.');
-            }}
-          />
+      <View 
+        style={basicStyles.blank}>
+        <NavBar 
+          title={'My Account'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}/>
+        <Image
+          source={{uri: user.get('tempUrl')}}
+          style={styles.loginImage}>
+          <View style={styles.loginContainer}>
+            <Text style={styles.name}>{user.get('name')}</Text>
+            <Text style={styles.email}>{user.get('email')}</Text>
+            <FBSDKLoginButton
+              style={styles.loginButton}
+              onLogoutFinished={() => {
+                Parse.User.logOut();
+                this.props.navigator.replace({
+                  id: 'Login',
+                });
+              }}
+            />
+          </View>
+        </Image>
       </View>
     );
   }
