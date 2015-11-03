@@ -104,8 +104,6 @@ class GroupAbout extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.props.group.members)}
           renderRow={this.renderRow.bind(this)} 
           renderFooter={this.renderFooter.bind(this)}
-          contentInset={{top:64, bottom: 50}}
-          automaticallyAdjustContentInsets={false}
         />
       </View>
     );

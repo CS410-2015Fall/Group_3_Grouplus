@@ -54,7 +54,7 @@ class GroupAdd extends React.Component {
         members: [Parse.User.current().id]
     });
         creator.dispatch();
-        this.props.close();
+        this.props.navigator.pop();
     }
   }
 
