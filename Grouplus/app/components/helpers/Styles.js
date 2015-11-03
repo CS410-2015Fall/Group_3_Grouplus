@@ -21,6 +21,10 @@ module.exports = StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  blank: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
   swipeout: {
     backgroundColor: '#dbddde',
     flex: 1,
@@ -61,6 +65,6 @@ module.exports = StyleSheet.create({
     backgroundColor: '#fd9427',
   },
   form: {
-    margin: 20,
+    padding: 20,
   },
 });

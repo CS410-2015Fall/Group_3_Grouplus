@@ -23,6 +23,8 @@ var {
   ScrollView
 } = React;
 
+var NavBar = require('./helpers/NavBar');
+
 
 var options = {
   fields: {
@@ -46,6 +48,7 @@ var options = {
   }
 };
 
+var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   event: {
     marginTop: 100,
@@ -74,46 +77,45 @@ var styles = StyleSheet.create({
 class EventCreation extends React.Component{
   constructor() {
     super();
-    this.onUpdate = this.onUpdate.bind(this);
   }
 
-//create new event
-  onUpdate() {
+  save() {
     var value = this.refs.form.getValue();
     if (value){
-    var creator = ParseReact.Mutation.Create('Event', {
-        name: value.name,
-        createdBy: Parse.User.current().id,
-        location: value.location,
-        groupId: this.props.groupId, 
-        dueDate: value.eventstartdate,
-        enddate: value.eventenddate
-    });
-        creator.dispatch();
-        this.props.navigator.pop();
+      var creator = ParseReact.Mutation.Create('Event', {
+          name: value.name,
+          createdBy: Parse.User.current().id,
+          location: value.location,
+          groupId: this.props.groupId, 
+          dueDate: value.eventstartdate,
+          enddate: value.eventenddate
+      });
+      creator.dispatch();
+      this.props.navigator.pop();
     }
   }
 
 
   render(){
-  return (
-      <ScrollView style={styles.event} 
-        automaticallyAdjustContentInsets={false} 
-        contentInset={{top:64, bottom: 50}}>          
-        <Form
-          ref="form"
-          type={Event}
-          onChange={this._onChange}
-          options={options}
-          value={this.props.item}/>
-        <TouchableHighlight
-          style={[styles.button, styles.saveButton]}
-          onPress={this.onUpdate}
-          underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableHighlight>
-      </ScrollView>
-  )
+    return (
+      <View 
+        style={basicStyles.blank}>
+        <NavBar 
+          title={'New Todo'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|check'} 
+          onPressRight={this.save.bind(this)}/>
+        <ScrollView style={basicStyles.form}>
+          <Form
+            ref="form"
+            type={Event}
+            onChange={this.save.bind(this)}
+            options={options}
+            value={this.props.item}/>
+        </ScrollView>
+      </View>
+    );
   }
 }
 

@@ -18,6 +18,12 @@ var {
   TouchableHighlight,
 } = React;
 
+var NavBar = require('./helpers/NavBar');
+
+var basicStyles = require('./helpers/Styles');
+var styles = StyleSheet.create({
+});
+
 var options = {
   fields: {
     txt: {
@@ -27,16 +33,6 @@ var options = {
     }
   }
 };
-
-var NavBar = require('./helpers/NavBar');
-
-var basicStyles = require('./helpers/Styles');
-var styles = StyleSheet.create({
-  group: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-});
 
 class GroupAdd extends React.Component {
   save() {
@@ -54,9 +50,9 @@ class GroupAdd extends React.Component {
   render() {
     return (
       <View 
-        style={styles.group}>
+        style={basicStyles.blank}>
         <NavBar 
-          title={'New Todo'}
+          title={'New Group'}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 

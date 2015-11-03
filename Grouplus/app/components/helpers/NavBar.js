@@ -75,7 +75,7 @@ class NavBar extends React.Component{
     } else {
       return (
         <View style={styles.navTitleWrapper}>
-          <Text style={styles.navTitle}></Text>
+          <Text style={styles.navTitle}>{this.props.title}</Text>
         </View>
       );
     }

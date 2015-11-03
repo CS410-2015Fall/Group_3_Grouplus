@@ -31,6 +31,12 @@ var {
   TouchableHighlight,
 } = React;
 
+var NavBar = require('./helpers/NavBar');
+
+var basicStyles = require('./helpers/Styles');
+var styles = StyleSheet.create({
+});
+
 var options = {
   fields: {
     txt: {
@@ -48,39 +54,12 @@ var options = {
   }
 };
 
-var styles = StyleSheet.create({
-  todo: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#ffffff',
-    alignSelf: 'stretch',
-  },
-  button: {
-    height: 36,
-    backgroundColor: '#48BBEC',
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-
-  saveButton: {
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-});
-
 class TodoAdd extends React.Component {
   constructor() {
     super();
-    this.onUpdate = this.onUpdate.bind(this);
   }
 
-  onUpdate() {
+  save() {
     var value = this.refs.form.getValue();
     var that = this;
     if (value) {
@@ -102,21 +81,23 @@ class TodoAdd extends React.Component {
 
   render() {
     return (
-      <ScrollView 
-        style={styles.todo}>
-        <Form
-          ref="form"
-          type={ToDo}
-          onChange={this._onChange}
-          options={options}
-          value={this.props.item}/>
-        <TouchableHighlight
-          style={[styles.button, styles.saveButton]}
-          onPress={this.onUpdate}
-          underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableHighlight>
-      </ScrollView>
+      <View 
+        style={basicStyles.blank}>
+        <NavBar 
+          title={'New Todo'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|check'} 
+          onPressRight={this.save.bind(this)}/>
+        <ScrollView style={basicStyles.form}>
+          <Form
+            ref="form"
+            type={ToDo}
+            onChange={this._onChange}
+            options={options}
+            value={this.props.item}/>
+        </ScrollView>
+      </View>
     )
   }
 }
