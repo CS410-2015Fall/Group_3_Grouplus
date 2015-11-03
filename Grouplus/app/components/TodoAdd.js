@@ -65,7 +65,7 @@ class TodoAdd extends React.Component {
     if (value) {
       var creator = ParseReact.Mutation.Create('Todo', {
       name: value.txt,
-      createdBy: Parse.User.current().id,
+      createdBy: ParseReact.currentUser.id,
       group: that.props.group,
       dueDate: value.duedate,
       priority: value.priority,

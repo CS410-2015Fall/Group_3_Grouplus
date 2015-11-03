@@ -84,7 +84,7 @@ class EventCreation extends React.Component{
     if (value){
       var creator = ParseReact.Mutation.Create('Event', {
           name: value.name,
-          createdBy: Parse.User.current().id,
+          createdBy: ParseReact.currentUser.id,
           location: value.location,
           groupId: this.props.groupId, 
           dueDate: value.eventstartdate,
