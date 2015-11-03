@@ -103,7 +103,8 @@ class GroupList extends ParseComponent{
         <NavBar 
           onPressLeft={this.onPressMyAccount.bind(this)}
           leftIcon={'material|account'}
-          title='My Groups'/>
+          title='My Groups'
+          onPressTitle={()=>this.refreshQueries('groups')}/>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.groups)}
           renderRow={this.renderRow.bind(this)} 

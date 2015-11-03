@@ -24,6 +24,7 @@ var TodoAdd = require('./TodoAdd');
 var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
+var PlainTextScreen = require('./helpers/PlainTextScreen');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -39,18 +40,6 @@ Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  textScreen: {
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    backgroundColor: '#FF9966',
-  },
-  textScreenText: {
-    fontSize: 20,
-    color: 'white',
-    opacity: 50,
-    padding: 10,
-  },  
   navBar: {
     height: 64,
     backgroundColor: '#3399FF',
@@ -116,13 +105,13 @@ class Nav extends React.Component {
     if (Platform.OS === 'android') {
       initialRoute = {id: 'Grouplus'}
     } else if (this.state.login === 'loading') {
-      return this.plainTextScreen('Loading...');
+      return <PlainTextScreen text={'Loading...'}/>;
     } else if (this.state.login === 'loggedIn') {
       initialRoute = {id: 'GroupList', user: Parse.User.current()};
     } else if (this.state.login === 'needLogin') {
       initialRoute = {id: 'Login'}
     } else if (this.state.login === 'error') {
-      return this.plainTextScreen('Fatal error logging in :(')
+      return <PlainTextScreen text={'Fatal error logging in :('}/>;
     }
     return (
       <Navigator
@@ -156,15 +145,7 @@ class Nav extends React.Component {
     }
     if (id === 'GroupPanel') {
       return (
-        <View style={basicStyles.flex1}>
-          <View style={styles.navBar}>
-            <View style={{height: 20}}/> 
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-              <Text style={styles.navTitle}>{route.group.name}</Text>
-            </TouchableOpacity>
-          </View>
-          <GroupPanel group={route.group} navigator={navigator}/>
-        </View>
+        <GroupPanel ref={'panel'} group={route.group} navigator={navigator}/>
       );
     }
     if (id === 'GroupAdd') {
@@ -200,7 +181,7 @@ class Nav extends React.Component {
       );
     }
     else {
-      return this.plainTextScreen('Opps! You found a bug :(');
+      return <PlainTextScreen text={'Opps! You found a bug :('}/>;
     }
   }
   plainTextScreen(text) {

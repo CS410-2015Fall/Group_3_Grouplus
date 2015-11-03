@@ -6,6 +6,7 @@ var Photos = require('./Photos');
 var Events = require('./Events');
 var About = require('./GroupAbout');
 var Separator = require('./helpers/Separator');
+var NavBar = require('./helpers/NavBar');
 
 var {
   AppRegistry,
@@ -14,6 +15,7 @@ var {
   Text,
   View,
   TouchableWithoutFeedback,
+  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -61,9 +63,22 @@ class GroupPanel extends React.Component {
       selected: 'TodoList'
     }
   }
+  renderNav(){
+    if (Platform.OS === 'ios') {
+      return (          
+        <NavBar
+          leftIcon={'material|chevron-left'}
+          onPressLeft={()=>this.props.navigator.pop()}
+          title={this.props.group.name}
+          onPressTitle={()=>this.refs.content.refreshQueries()}
+          />
+      );
+    }
+  }
   render(){
     return (
       <View style={basicStyles.flex1}>
+        {this.renderNav()}
         {this.renderTabContent()}
         <View>
           <Separator/>
@@ -78,16 +93,17 @@ class GroupPanel extends React.Component {
     );
   }
   renderTabContent(){
+    var ref = 'content'
     switch (this.state.selected) {
       case 'Photos':
-        return <Photos group={this.props.group} navigator={this.props.navigator}/>;
+        return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
-        return <Events group={this.props.group} navigator={this.props.navigator}/>;
+        return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'About':
         return <About group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
-        return <TodoList group={this.props.group} navigator={this.props.navigator}/>;
+        return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
     }
   }
   renderTabIcon(iconName, name){

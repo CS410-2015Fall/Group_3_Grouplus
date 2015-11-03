@@ -62,7 +62,6 @@ var styles = StyleSheet.create({
 
 
 class Photos extends ParseComponent{
-
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -72,7 +71,6 @@ class Photos extends ParseComponent{
       imageList: (new Parse.Query('GroupPhotos')).equalTo('groupId', this.props.group.objectId),
     }
   }
-
   onPressRow(image) {
     this.props.navigator.push({
       id: 'Photo',

@@ -30,7 +30,7 @@ var styles = StyleSheet.create({
     fontSize: 22,
     alignSelf: 'center',
   },
-  navTouchTitle: {
+  navTitleWrapper: {
     flex: 6, 
     alignSelf: 'center',
     justifyContent: 'center',
@@ -63,6 +63,23 @@ class NavBar extends React.Component{
       return (<View style={basicStyles.flex1}/>);
     }
   }
+  renderTitle(title, onPress){
+    if (onPress) {
+      return (          
+        <TouchableOpacity 
+          style={basicStyles.navTitleWrapper}
+          onPress={onPress}>
+          <Text style={styles.navTitle}>{this.props.title}</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <View style={styles.navTitleWrapper}>
+          <Text style={styles.navTitle}></Text>
+        </View>
+      );
+    }
+  }
   render(){
     return (
       <View style={styles.navBar}>
@@ -71,10 +88,7 @@ class NavBar extends React.Component{
           {this.renderIcon(this.props.leftIcon, 
                            this.props.onPressLeft, 
                            {alignSelf: 'flex-start'})}
-          <TouchableOpacity style={basicStyles.navTouchTitle}
-            onPress={()=> this.refreshQueries('groups')}>
-            <Text style={styles.navTitle}>{this.props.title}</Text>
-          </TouchableOpacity>
+          {this.renderTitle(this.props.title, this.props.onPressTitle)}
           {this.renderIcon(this.props.rightIcon, 
                            this.props.onPressRight,
                            {alignSelf: 'flex-end'})}
