@@ -58,8 +58,15 @@ var styles = StyleSheet.create({
     fontSize: 14,
     color: 'black',
     textAlign: 'left',
-
   },
+  time: {
+    fontSize: 14,
+    color: 'red',
+  },
+  loc: {
+    fontSize: 14,
+    color: 'orange',
+  }
 });
 
 class EventItem extends React.Component{
@@ -76,8 +83,8 @@ class EventItem extends React.Component{
       <View style={styles.container}>
         <View style={styles.info}>
           <Text style={styles.title}> {event.name} </Text>
-          <Text style={styles.text}> {moment(event.dueDate).format('LLL')} </Text>
-          <Text style={styles.text}> {event.location} </Text>
+          <Text style={styles.time}> {moment(event.dueDate).calendar()} </Text>
+          <Text style={styles.loc}> {event.location} </Text>
         </View>
       </View>
     );
