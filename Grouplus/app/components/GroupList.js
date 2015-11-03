@@ -12,6 +12,7 @@ var {
   Text,
   TouchableHighlight,
   TouchableOpacity,
+  Navigator,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -67,6 +68,7 @@ class GroupList extends ParseComponent{
       this.props.navigator.push({
         id: 'GroupPanel',
         group: group,
+        sceneConfig: Navigator.SceneConfigs.FloatFromRight,
       });
     }
   }

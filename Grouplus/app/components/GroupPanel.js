@@ -63,6 +63,13 @@ class GroupPanel extends React.Component {
       selected: 'TodoList'
     }
   }
+  gotoAbout(){
+    var that = this;
+    this.props.navigator.push({
+      id:'GroupAbout', 
+      group: that.props.group,
+    });
+  }
   renderNav(){
     if (Platform.OS === 'ios') {
       return (          
@@ -71,7 +78,8 @@ class GroupPanel extends React.Component {
           onPressLeft={()=>this.props.navigator.pop()}
           title={this.props.group.name}
           onPressTitle={()=>this.refs.content.refreshQueries()}
-          />
+          rightIcon={'material|accounts'}
+          onPressRight={this.gotoAbout.bind(this)}/>
       );
     }
   }
@@ -86,7 +94,6 @@ class GroupPanel extends React.Component {
             {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
             {this.renderTabIcon('material|camera', 'Photos')}
             {this.renderTabIcon('material|calendar', 'Events')}
-            {this.renderTabIcon('material|info-outline', 'About')}
           </View>
         </View>
       </View>
@@ -99,8 +106,6 @@ class GroupPanel extends React.Component {
         return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
         return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
-      case 'About':
-        return <About group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
         return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;

@@ -24,6 +24,7 @@ var TodoAdd = require('./TodoAdd');
 var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
+var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
 
 if (Platform.OS === 'ios') {
@@ -121,7 +122,7 @@ class Nav extends React.Component {
             if (route.sceneConfig) {
               return route.sceneConfig;
             }
-            return Navigator.SceneConfigs.FloatFromRight;
+            return Navigator.SceneConfigs.FloatFromBottom;
           }
         } />
     );
@@ -178,6 +179,11 @@ class Nav extends React.Component {
         <View style={styles.imageContainer}>
           <Image style={basicStyles.flex1}  source={{uri: route.uri}}/>
         </View>
+      );
+    }
+    if (id === 'GroupAbout') {
+      return (
+        <GroupAbout group={route.group} navigator={navigator}/>
       );
     }
     else {
