@@ -21,6 +21,7 @@ var {
   NavigatorIOS,
 } = React;
 
+var AddButton = require('./helpers/AddButton');
 var Modal = require('./helpers/Modal');
 var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
@@ -105,10 +106,7 @@ class TodoList extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.data.todos)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>       
-        <TouchableOpacity style={basicStyles.button}  navigator={this.props.navigator}
-          group={this.props.group} onPress={() => this.onPressNewTodo()}>
-          <Text style={basicStyles.buttonText}>Add New Todo</Text>
-        </TouchableOpacity>
+        <AddButton onPress={() => this.onPressNewTodo()}/>
       </View>
     );
   }

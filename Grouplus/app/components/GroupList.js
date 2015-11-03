@@ -19,6 +19,7 @@ var { Icon } = require('react-native-icons');
 
 var NavBar = require('./helpers/NavBar');
 var Separator = require('./helpers/Separator');
+var AddButton = require('./helpers/AddButton');
 var GroupIcon = require('./GroupIcon');
 var GroupPanel = require('./GroupPanel');
 var GroupAdd = require('./GroupAdd');
@@ -111,10 +112,7 @@ class GroupList extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.data.groups)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>
-        <TouchableOpacity style={basicStyles.button} 
-                            onPress={this.onPressNewGroup.bind(this)}>
-          <Text style={basicStyles.buttonText}>Add Group</Text>
-        </TouchableOpacity>
+        <AddButton onPress={this.onPressNewGroup.bind(this)}/>
       </View>
      );
    }

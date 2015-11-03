@@ -83,7 +83,7 @@ class GroupAddMember extends React.Component {
       <View 
         style={basicStyles.blank}>
         <NavBar 
-          title={'New Invite'}
+          title={'New Member'}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 

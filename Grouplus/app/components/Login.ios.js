@@ -32,6 +32,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
   loginButton: {
@@ -41,10 +42,13 @@ var styles = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 1,
     shadowOffset: {width: 0, height: 0},
+    paddingBottom: 30,
   },
-  spacer: {
-    flex: 3,
-    backgroundColor: 'transparent',
+  loginContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 40,
   },
 });
 
@@ -130,29 +134,29 @@ var Login = React.createClass({
       <Image
         source={{uri: 'launch_screenshot'}}
         style={styles.loginImage}>
-        <View style={styles.spacer} />
-        <FBSDKLoginButton
-          style={styles.loginButton}
-          onLoginFinished={(error, result) => {
-            if (error) {
-              alert('Error logging in.');
-            } else {
-              if (result.isCancelled) {
-                alert('Login cancelled.');
+        <View style={styles.loginContainer}>
+          <FBSDKLoginButton
+            style={styles.loginButton}
+            onLoginFinished={(error, result) => {
+              if (error) {
+                alert('Error logging in.');
               } else {
-                FBSDKAccessToken.getCurrentAccessToken(                  
-                  (token) => {
-                    console.log("token: " + token.tokenString);
-                    this.onFacebookLogin(token)
-                  }
-                );
+                if (result.isCancelled) {
+                  alert('Login cancelled.');
+                } else {
+                  FBSDKAccessToken.getCurrentAccessToken(                  
+                    (token) => {
+                      console.log("token: " + token.tokenString);
+                      this.onFacebookLogin(token)
+                    }
+                  );
+                }
               }
-            }
-          }}
-          onLogoutFinished={() => alert('Logged out.')}
-          readPermissions={['email']}
-          publishPermissions={[]}/>
-        <View style={styles.spacer} />
+            }}
+            onLogoutFinished={() => alert('Logged out.')}
+            readPermissions={['email']}
+            publishPermissions={[]}/>
+        </View>
       </Image>
     );
 }

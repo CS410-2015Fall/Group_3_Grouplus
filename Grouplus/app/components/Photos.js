@@ -11,7 +11,6 @@ var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
 var photoItem = new item();
 
-
 var {
   TouchableHighlight,
   StyleSheet,
@@ -23,6 +22,8 @@ var {
   Text,
   TouchableOpacity,
 } = React;
+
+var AddButton = require('./helpers/AddButton');
 
 var options = {
   title: 'Upload Photo', // specify null or empty string to remove the title
@@ -136,9 +137,7 @@ class Photos extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.data.imageList)}
           renderRow={this.renderRow.bind(this)} 
         />
-        <TouchableOpacity style={basicStyles.button} onPress={this.imageOptions.bind(this)}>
-          <Text style={basicStyles.buttonText}>Take Photo</Text>
-        </TouchableOpacity>
+        <AddButton onPress={this.imageOptions.bind(this)}/>
       </View>
     );
   }

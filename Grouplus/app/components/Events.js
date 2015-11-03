@@ -28,6 +28,7 @@ var {
 var {
   CalendarManager
 } = require('NativeModules');
+var AddButton = require('./helpers/AddButton');
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
@@ -107,11 +108,8 @@ render(){
       <ListView 
         dataSource={this.ds.cloneWithRows(this.data.events)}
         renderRow={this.renderRow.bind(this)} />
-      <TouchableOpacity 
-        style={basicStyles.button}
-        onPress={()=> this.onPressNewEvent()}>
-        <Text style={basicStyles.buttonText}>Add Events</Text>
-      </TouchableOpacity>
+      <AddButton
+        onPress={()=> this.onPressNewEvent()}/>
     </View>
   );
 }

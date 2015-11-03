@@ -25,6 +25,7 @@ var {
 var NavBar = require('./helpers/NavBar');
 var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
+var AddButton = require('./helpers/AddButton');
 var GroupAddMember = require('./GroupAddMember');
 var UserIcon = require('./UserIcon');
 
@@ -64,15 +65,18 @@ class GroupAbout extends ParseComponent{
     console.log("FACE ID : " + rowData.facebookId);
     return (
       <View>
-          <View style={styles.group}>
+        <View style={styles.group}>
           <UserIcon user={rowData}/>
-            <View style={styles.groupDetail}>
-              <Text style={styles.groupName}> {rowData.name} </Text>
-            </View>
+          <View style={styles.groupDetail}>
+            <Text style={styles.groupName}> {rowData.name} </Text>
           </View>
-        <Separator/>
+        </View>
+        
       </View>
     );
+  }
+  renderSeparator() {
+    return <Separator/>;
   }
   render(){
     return (
@@ -80,13 +84,13 @@ class GroupAbout extends ParseComponent{
         <NavBar 
           title={'Members'}
           leftIcon={'material|close'} 
-          onPressLeft={()=>this.props.navigator.pop()}
-          rightIcon={'material|account-add'} 
-          onPressRight={this.onPressAddMember.bind(this)}/>
+          onPressLeft={()=>this.props.navigator.pop()}/>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.members)}
-          renderRow={this.renderRow.bind(this)} 
+          renderRow={this.renderRow.bind(this)}
+          renderSeparator={this.renderSeparator.bind(this)} 
         />
+        <AddButton onPress={this.onPressAddMember.bind(this)}/>
       </View>
     );
   }
