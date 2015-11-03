@@ -9,6 +9,7 @@ var ParseReact = require('parse-react/react-native');
 var ParseComponent = ParseReact.Component(React);
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
+var ParseComponent = ParseReact.Component(React);
 
 var {
   View,
@@ -21,11 +22,12 @@ var {
   TouchableOpacity,
 } = React;
 
+var NavBar = require('./helpers/NavBar');
 var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var GroupAddMember = require('./GroupAddMember');
 var UserIcon = require('./UserIcon');
-var ParseComponent = ParseReact.Component(React);
+
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   group: {
@@ -46,13 +48,11 @@ class GroupAbout extends ParseComponent{
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
   }
-
   observe(props, state) {
     return {
     members : new Parse.Query("User").containedIn("objectId", this.props.group.members),
     }
   }
-
   onPressAddMember() {
     var that = this;
     this.props.navigator.push({
@@ -60,7 +60,6 @@ class GroupAbout extends ParseComponent{
                    group: that.props.group,
                  });
   }
-
   renderRow(rowData) {
     console.log("FACE ID : " + rowData.facebookId);
     return (
@@ -75,26 +74,19 @@ class GroupAbout extends ParseComponent{
       </View>
     );
   }
-
-  renderAdd() {
-    if (this.props.group.createdBy == Parse.User.current().id){
-    return (
-      <TouchableOpacity style={basicStyles.button}  navigator={this.props.navigator}
-          group={this.props.group} onPress={() => this.onPressAddMember()}>
-        <Text style={basicStyles.buttonText}>Add New Member</Text>
-      </TouchableOpacity>
-      );
-    }
-  }
-
   render(){
     return (
-      <View style={basicStyles.flex1}>
+      <View style={basicStyles.blank}>
+        <NavBar 
+          title={'Members'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|account-add'} 
+          onPressRight={this.onPressAddMember.bind(this)}/>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)} 
         />
-        {this.renderAdd()}
       </View>
     );
   }

@@ -8,6 +8,7 @@ var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
 
 var Member = t.struct({email: t.Str});
+var NavBar = require('./helpers/NavBar');
 
 var basicStyles = require('./helpers/Styles');
 var {
@@ -21,7 +22,7 @@ var {
 var options = {
   fields: {
     email: {
-      label: 'Add an email of the member you want to add',
+      label: 'Email of Invitee:',
       placeholder: 'abc@gmail.com',
       autoFocus: true
     }
@@ -41,12 +42,11 @@ var styles = StyleSheet.create({
 class GroupAddMember extends React.Component {
   constructor() {
     super();
-    this.onUpdate = this.onUpdate.bind(this);
   }
 
 //Create new group member
 // TODO: If not unique, send alert??
-  onUpdate() {
+  save() {
     var value = this.refs.form.getValue();
     if (value) {
       // Check if the user with that email exists
@@ -59,19 +59,17 @@ class GroupAddMember extends React.Component {
           console.log("Found the user" + result[0]);
           if(result.length === 0){
             alert("Error: there is no user with that email!");
-          }
-            else{
+          } else{
             // AddUnique for only adding member once
             var creator = ParseReact.Mutation.AddUnique({
               className: 'Group',
               //TODO: change the group id
               objectId: that.props.group.objectId
-          }, "members", result[0].id);
-              creator.dispatch();
-              that.props.navigator.pop();
-                    }
+            }, "members", result[0].id);
+            creator.dispatch();
+            that.props.navigator.pop();
+          }
           // The object was retrieved successfully.
-
         },
         error: function(error) {
           alert("Error: there is no user with that email!");
@@ -83,21 +81,21 @@ class GroupAddMember extends React.Component {
   render() {
     return (
       <View 
-        style={styles.group}
-        contentInset={{top:64}}
-        automaticallyAdjustContentInsets={false}>
-        <Form
-          ref="form"
-          type={Member}
-          onChange={this._onChange}
-          options={options}
-          value={this.props.item}/>
-        <TouchableHighlight
-          style={basicStyles.button}
-          onPress={this.onUpdate}
-          underlayColor='#99d9f4'>
-          <Text style={basicStyles.buttonText}>Save</Text>
-        </TouchableHighlight>
+        style={basicStyles.blank}>
+        <NavBar 
+          title={'New Invite'}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|check'} 
+          onPressRight={this.save.bind(this)}/>
+        <View style={basicStyles.form}>
+          <Form
+            ref="form"
+            type={Member}
+            onChange={this._onChange}
+            options={options}
+            value={this.props.item}/>
+        </View>
       </View>
     )
   }

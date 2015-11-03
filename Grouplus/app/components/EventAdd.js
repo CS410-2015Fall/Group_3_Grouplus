@@ -101,7 +101,7 @@ class EventCreation extends React.Component{
       <View 
         style={basicStyles.blank}>
         <NavBar 
-          title={'New Todo'}
+          title={'New Event'}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 

@@ -93,11 +93,11 @@ renderRow(rowData) {
    var swipeBtn = [exportBtn, deleteBtn];
 
   return (
-      <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
-    <View stylle={styles.container}>
-      <EventItem event={rowData}/>
-      <Separator/>
-    </View>
+    <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
+      <View stylle={styles.container}>
+        <EventItem event={rowData}/>
+        <Separator/>
+      </View>
     </Swipeout>
   );
 }
