@@ -61,7 +61,7 @@ var Login = React.createClass({
       access_token: token.tokenString,
       expiration_date: token.expirationDate()
     };
-    console.log("authData" + token.userID);
+    console.log("authData " + token.userID);
     Parse.FacebookUtils.logIn(authData, {
       success: (user) => {
         if (user.existed()) {
@@ -83,6 +83,7 @@ var Login = React.createClass({
               console.log("[name]: ", result.name);
               var name = result.name;
               var email = result.email;
+              var facebookId= token.userID;
               ParseReact.Mutation.Set({
                 className: '_User',
                 objectId: user.id
