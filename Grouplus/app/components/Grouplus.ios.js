@@ -10,18 +10,41 @@ var {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity
 } = React;
 
 var GroupList = require('./GroupList');
 
 var styles = StyleSheet.create({
   navbar: {
-    backgroundColor: '#246dd5',
+    backgroundColor: '#3399FF',
   }
 });
 
 class Grouplus extends React.Component {
-  render(){
+
+  render(){  
+    var RouteMapper = {
+      LeftButton(route, navigator, index, nextState) {
+        return (
+          <View/>
+        );
+      },
+      RightButton(route, navigator, index, nextState) {
+        return (
+          <View/>
+        );
+      },
+      Title(route, navigator, index, nextState) {
+        return (
+          <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+            <Text style={{color: 'white', margin: 10, fontSize: 22}}>
+              Grouplus
+            </Text>
+          </TouchableOpacity>
+        );
+      }
+    }
     return (
       <Navigator
         renderScene={this.renderScene.bind(this)}
@@ -39,8 +62,6 @@ class Grouplus extends React.Component {
   }  
 };
 
-var RouteMapper = {
-  
-}
+
 
 module.exports = Grouplus;

@@ -75,34 +75,33 @@ var styles = StyleSheet.create({
   },
 });
 
-class TodoTemplate extends React.Component {
+class TodoAdd extends React.Component {
   constructor() {
     super();
     this.onUpdate = this.onUpdate.bind(this);
   }
 
-onUpdate() {
+  onUpdate() {
     var value = this.refs.form.getValue();
-
+    var that = this;
     if (value) {
       var creator = ParseReact.Mutation.Create('Todo', {
       name: value.txt,
       createdBy: Parse.User.current().id,
-      //TODO: show only groups that we added so far
-      //group: this.props.group.id,
+      group: that.props.group,
       dueDate: value.duedate,
       priority: value.priority,
       individual: value.individual,
       done: false,
+      whoAreDone: [],
     });
-      creator.dispatch();
-      this.props.close();
+    creator.dispatch();
+    this.props.navigator.pop();
     }
   }
   
 
   render() {
-     console.log("group ID : " + this.props.group);
     return (
       <ScrollView 
         style={styles.todo}>
@@ -124,4 +123,4 @@ onUpdate() {
 }
 
 
-module.exports = TodoTemplate;
+module.exports = TodoAdd;

@@ -11,7 +11,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
-  NavigatorIOS,
+  TouchableOpacity,
 } = React;
 
 var Modal = require('./helpers/Modal');
@@ -41,7 +41,18 @@ var styles = StyleSheet.create({
   },
   groupName: {
     fontSize: 24,
-  }
+  },
+  navBar: {
+    height: 64,
+    backgroundColor: '#3399FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  navTitle: {
+    color: 'white', 
+    margin: 10, 
+    fontSize: 22,
+  },
 });
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
@@ -63,65 +74,61 @@ class GroupList extends ParseComponent{
       this.props.onPressGroup(group);
     } else {
       this.props.navigator.push({
-        title: group.name,
-        component: GroupPanel,
-        passProps: {
-          group: group,
-        },
+        id: 'GroupPanel',
+        group: group,
       });
     }
   }
   onPressNewGroup() {
-    this.refs.addGroup.open();
+    this.props.navigator.push({id: 'GroupAdd'});
   }
   onPressMyAccount() {
-    this.refs.myAccount.open();
+    this.props.navigator.push({id: 'MyAccount'});
   }
   renderRow(rowData, sectionID, rowID) {
     var color = colors[rowID % colors.length];
     return (
       <View>
         <TouchableHighlight onPress={() => this.onPressRow(rowData)} 
-                        navigator={this.props.navigator}
-                        underlayColor='#E6FFFF'>
+                        underlayColor='#EEEEEE'>
           <View style={styles.group}>
             <GroupIcon color={color} letter={rowData.name.charAt(0)}/>
             <View style={styles.groupDetail}>
               <Text style={styles.groupName}> {rowData.name} </Text>
             </View>
           </View>
-        </TouchableHighlight>
-        <Separator/>
+        </TouchableHighlight>      
       </View>
     );
   }
-  //TODO: render this somewhere else, preferably a fab 
-  //      (floating action button)
-  renderFooter() {
+  renderSeparator() {
     return (
-      <View>
-      <TouchableHighlight style={basicStyles.button} 
-                          onPress={this.onPressNewGroup.bind(this)}>
-        <Text style={basicStyles.buttonText}>Add Group</Text>
-      </TouchableHighlight>
-      <TouchableHighlight style={basicStyles.button} 
-                          onPress={this.onPressMyAccount.bind(this)}>
-        <Text style={basicStyles.buttonText}>Setting</Text>
-      </TouchableHighlight>
-      </View>
-      );
+      <Separator/>
+    );
   }
   render() {
     return (
       <View style={basicStyles.flex1}>
+        <View style={styles.navBar}>
+          <View style={{height: 20}}/> 
+          <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+            <Text style={styles.navTitle}>My Groups</Text>
+          </TouchableOpacity>
+        </View>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.groups)}
           renderRow={this.renderRow.bind(this)} 
-          renderFooter={this.renderFooter.bind(this)}
-          contentInset={{top:64}}
-          automaticallyAdjustContentInsets={false}/>
-        <Modal ref={'addGroup'} component={GroupAdd}/>
-        <Modal ref={'myAccount'} component={MyAccount}/>
+          renderSeparator={this.renderSeparator.bind(this)}/>
+        <View>
+          <TouchableOpacity style={basicStyles.button} 
+                              onPress={this.onPressNewGroup.bind(this)}>
+            <Text style={basicStyles.buttonText}>Add Group</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={basicStyles.button} 
+                              onPress={this.onPressMyAccount.bind(this)}>
+            <Text style={basicStyles.buttonText}>Setting</Text>
+          </TouchableOpacity>
+        </View>
       </View>
      );
    }

@@ -16,8 +16,13 @@ var {
 
 var Login = require('./Login');
 var Grouplus = require('./Grouplus');
+var GroupList = require('./GroupList');
 var GroupAdd = require('./GroupAdd');
+var EventAdd = require('./EventAdd');
+var TodoAdd = require('./TodoAdd');
+var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
+var MyAccount = require('./MyAccount');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -44,7 +49,18 @@ var styles = StyleSheet.create({
     color: 'white',
     opacity: 50,
     padding: 10,
-  }
+  },  
+  navBar: {
+    height: 64,
+    backgroundColor: '#3399FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  navTitle: {
+    color: 'white', 
+    margin: 10, 
+    fontSize: 22,
+  },
 });
 
 
@@ -123,44 +139,54 @@ class Nav extends React.Component {
         <Login navigator={navigator} />
       );
     }
-    if (id === 'GroupPanel') {
-      return (
-        <GroupPanel group={route.group} user={route.user}/>
-      );
-    }
-    if (id === 'Grouplus') {
+    if (id === 'Grouplus') { //Android main screen
       return (
         <Grouplus navigator={navigator} user={route.user}/>
       );
     }
+    if (id === 'GroupList') { //iOS main screen
+      return (
+        <GroupList navigator={navigator} user={route.user}/>
+      );
+    }
+    if (id === 'GroupPanel') {
+      return (
+        <View style={basicStyles.flex1}>
+          <View style={styles.navBar}>
+            <View style={{height: 20}}/> 
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+              <Text style={styles.navTitle}>{route.group.name}</Text>
+            </TouchableOpacity>
+          </View>
+          <GroupPanel group={route.group} navigator={navigator}/>
+        </View>
+      );
+    }
     if (id === 'GroupAdd') {
       return (
-        <View></View>
+        <GroupAdd navigator={navigator}/>
       );
     }
     if (id === 'TodoAdd') {
       return (
-        <View></View>
+        <TodoAdd navigator={navigator} group={route.group}/>
       );
     }
     if (id === 'EventAdd') {
       return (
-        <View></View>
+        <EventAdd navigator={navigator} groupId={route.groupId}/>
       );
     }
     if (id === 'GroupAddMember') {
       return (
-        <View></View>
+        <GroupAddMember group={route.group} navigator={navigator}/>
       );
     }
     if (id === 'MyAccount') {
       return (
-        <View></View>
+        <MyAccount navigator={navigator}/>
       );
     } 
-    if (id === 'GroupPanel') {
-
-    }
     else {
       return this.plainTextScreen('Opps! You found a bug :(');
     }

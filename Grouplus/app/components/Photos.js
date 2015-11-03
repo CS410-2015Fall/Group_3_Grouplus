@@ -22,6 +22,7 @@ var {
   Image,
   View,
   Text,
+  TouchableOpacity,
 } = React;
 
 var options = {
@@ -83,7 +84,6 @@ class Photos extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.imageOptions = this.imageOptions.bind(this);
   }
   observe(props, state) {
     return {
@@ -143,13 +143,7 @@ class Photos extends ParseComponent{
   }
 //<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
 
-  renderFooter(){
-    return (
-      <TouchableHighlight style={basicStyles.button} onPress={this.imageOptions.bind(this)}>
-        <Text style={basicStyles.buttonText}>Take Photo</Text>
-      </TouchableHighlight>
-    );
-  }
+
   renderRow(image){
     return(
       <TouchableHighlight onPress={() => this.onPressRow(image)}>
@@ -160,13 +154,15 @@ class Photos extends ParseComponent{
 
   render(){
     return (
-      <ListView contentContainerStyle={styles.list}
-        dataSource={this.ds.cloneWithRows(this.data.imageList)}
-        renderFooter={this.renderFooter.bind(this)}
-        renderRow={this.renderRow.bind(this)} 
-        contentInset={{top:64}}
-        automaticallyAdjustContentInsets={false}
-      />
+      <View style={basicStyles.flex1}>
+        <ListView contentContainerStyle={styles.list}
+          dataSource={this.ds.cloneWithRows(this.data.imageList)}
+          renderRow={this.renderRow.bind(this)} 
+        />
+        <TouchableOpacity style={basicStyles.button} onPress={this.imageOptions.bind(this)}>
+          <Text style={basicStyles.buttonText}>Take Photo</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 };
