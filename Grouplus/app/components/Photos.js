@@ -10,8 +10,6 @@ Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK
 var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
 var photoItem = new item();
-//var query = new Parse.Query(item);
-
 
 
 var {
@@ -19,6 +17,7 @@ var {
   StyleSheet,
   ListView,
   Component,
+  Dimensions,
   Image,
   View,
   Text,
@@ -26,13 +25,13 @@ var {
 } = React;
 
 var options = {
-  title: 'Select Avatar', // specify null or empty string to remove the title
+  title: 'Upload Photo', // specify null or empty string to remove the title
   cancelButtonTitle: 'Cancel',
   takePhotoButtonTitle: 'Take Photo...', // specify null or empty string to remove this button
-  chooseFromLibraryButtonTitle: 'Choose from Library...', // specify null or empty string to remove this button
-  customButtons: {
+  chooseFromLibraryButtonTitle: 'Choose from Library...', // specify null or empty string to remove this button 
+  /*customButtons: {
     'Choose Photo from Facebook': 'fb', // [Button Text] : [String returned upon selection]
-  },
+  },*/
   maxWidth: 500,
   maxHeight: 500,
   quality: 0.5,
@@ -42,25 +41,22 @@ var options = {
     path: 'images' // will save image at /Documents/images rather than the root
   }
 };
-
+var windowSize = Dimensions.get('window');
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   container: {
     flex: 1,
-    alignItems: 'center'
-  },
-  stub: {
-    margin:50,
-    fontSize: 45
+    alignItems: 'center',
   },
   list: {
       flexDirection: 'row',
       flexWrap: 'wrap'
   },
   item: {
-      margin: 3,
-      height: 100,
-      width: 100
+      height: windowSize.width/3,
+      width: windowSize.width/3,
+      borderWidth: 1,
+      borderColor: '#fff'
   }
 });
 
