@@ -156,7 +156,7 @@ class Nav extends React.Component {
     }
     if (id === 'TodoAdd') {
       return (
-        <TodoAdd navigator={navigator} group={route.group}/>
+        <TodoAdd navigator={navigator} group={route.group} refresh={route.refresh}/>
       );
     }
     if (id === 'EventAdd') {

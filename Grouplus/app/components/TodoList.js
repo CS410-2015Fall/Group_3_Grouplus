@@ -62,10 +62,12 @@ class TodoList extends ParseComponent{
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
+      refresh: this.refreshQueries.bind(this),
     });
   }
 
   renderRow(rowData) {
+    var that = this;
     var deleteBtn = {
       text: 'Delete', 
       backgroundColor: '#ff0000',
@@ -95,6 +97,7 @@ class TodoList extends ParseComponent{
         if(rowData.individual === true) {
           ParseReact.Mutation.Set(target, {done: true}).dispatch();
         }
+        that.refreshQueries();
       }
     }; 
     var swipeBtn = [checkFinishBtn, deleteBtn];

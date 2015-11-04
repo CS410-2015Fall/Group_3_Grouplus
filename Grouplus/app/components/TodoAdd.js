@@ -74,6 +74,7 @@ class TodoAdd extends React.Component {
       whoAreDone: [],
     });
     creator.dispatch();
+    this.props.refresh();
     this.props.navigator.pop();
     }
   }
