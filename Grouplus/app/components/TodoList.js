@@ -42,7 +42,7 @@ class TodoList extends ParseComponent{
   }
   observe(props, state) {
     var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
-    var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
+    var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
     var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
@@ -88,16 +88,24 @@ class TodoList extends ParseComponent{
           objectId: rowData.objectId,
         };
         var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
-        var index = rowData.whoAreDone.indexOf(uid);
-        if(index <0){
-          rowData.whoAreDone.push(uid); 
-          ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
-        }
+
         //If the todo is individual, set done to true
         if(rowData.individual === true) {
           ParseReact.Mutation.Set(target, {done: true}).dispatch();
+        }else{
+
+        var index = rowData.whoAreDone.indexOf(uid);
+        if(index <0){
+          rowData.whoAreDone.push(uid); 
+          if(rowData.whoAreDone.length === that.props.group.members.length){
+          ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
+          }else{
+            ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+          }
         }
-        that.refreshQueries();
+      }
+
+       // that.refreshQueries();
       }
     }; 
     var swipeBtn = [checkFinishBtn, deleteBtn];

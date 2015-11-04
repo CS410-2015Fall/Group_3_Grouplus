@@ -36,6 +36,8 @@ var options = {
   /*customButtons: {
     'Choose Photo from Facebook': 'fb', // [Button Text] : [String returned upon selection]
   },*/
+  maxWidth: 1000,
+  maxHeight: 1000,
   quality: 1,
   allowsEditing: false, // Built in iOS functionality to resize/reposition the image
   storageOptions: { // if this key is provided, the image will get saved in the documents directory (rather than a temporary directory)
