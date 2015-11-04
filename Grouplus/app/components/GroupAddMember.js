@@ -60,8 +60,7 @@ class GroupAddMember extends React.Component {
         success: function(result) {
           console.log("Found the user" + result[0]);
           if(result.length === 0){
-            Utils.alert("Opps, 404 user not found! Double" + 
-              " check the email or ask your friend to get this app first :)");
+            Utils.alertToast("Opps, there aren't any user with this email.");
           } else{
             // AddUnique for only adding member once
             var creator = ParseReact.Mutation.AddUnique({
@@ -70,12 +69,13 @@ class GroupAddMember extends React.Component {
               objectId: that.props.group.objectId
             }, "members", result[0].id);
             creator.dispatch();
+            that.props.refresh();
             that.props.navigator.pop();
           }
           // The object was retrieved successfully.
         },
         error: function(error) {
-          alert("There was a problem with the internet :( May be try again later");
+          Utils.alertToast("There was a problem with the internet :( May be try again later.");
         }
       });
     }

@@ -59,7 +59,7 @@ observe(props, state) {
 }
 onPressNewEvent() {
   if (Platform.OS === 'android') {
-    Utils.alert('Stay Tuned; Android support is coming! :)');
+    Utils.alertToast('Stay Tuned; Android support is coming! :)');
     return;
   }
   var that = this;
@@ -82,7 +82,7 @@ renderRow(rowData) {
           }
         });
       } else {
-        Utils.alert('Stay Tuned; Android support is coming! :)');
+        Utils.alertToast('Stay Tuned; Android support is coming! :)');
         return;
       }
     } 

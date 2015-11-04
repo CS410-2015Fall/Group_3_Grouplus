@@ -81,7 +81,7 @@ class GroupList extends ParseComponent{
   }
   onPressMyAccount() {
     if (Platform.OS === 'android') {
-      Utils.alert('Stay Tuned; Android support is coming! :)');
+      Utils.alertToast('Stay Tuned; Android support is coming! :)');
       return;
     }
     this.props.navigator.push({id: 'MyAccount'});

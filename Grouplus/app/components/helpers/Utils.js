@@ -4,11 +4,12 @@ var React = require('react-native');
 var {
   Platform,
   ToastAndroid,
+  AlertIOS,
 } = React;
 
 var Utils = {
-  alert(msg){
-    if (Platform === 'ios') {
+  alertToast(msg){
+    if (Platform.OS === 'ios') {
       alert(msg);
     } else {
       ToastAndroid.show(msg, ToastAndroid.SHORT);

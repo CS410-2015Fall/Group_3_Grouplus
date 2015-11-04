@@ -49,17 +49,29 @@ class GroupAbout extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {
+      members: props.group.members,
+    }
   }
   observe(props, state) {
     return {
-      members : new Parse.Query("User").containedIn("objectId", this.props.group.members),
+      members : new Parse.Query('User').containedIn('objectId', state.members),
     }
+  }
+  refresh() {
+    var that = this;
+    new Parse.Query('Group').equalTo('objectId', this.props.group.objectId).first({
+      success: function(results) {
+        that.setState({members: results.get('members')});
+      }
+    });
   }
   onPressAddMember() {
     var that = this;
     this.props.navigator.push({
                    id: 'GroupAddMember',
                    group: that.props.group,
+                   refresh: that.refresh.bind(that),
                  });
   }
   renderRow(rowData) {
@@ -72,7 +84,6 @@ class GroupAbout extends ParseComponent{
             <Text style={styles.groupName}> {rowData.name} </Text>
           </View>
         </View>
-        
       </View>
     );
   }
@@ -91,7 +102,7 @@ class GroupAbout extends ParseComponent{
       <View style={basicStyles.blank}>
         <NavBar 
           title={'Members'}
-          onPressTitle={()=>{this.refreshQueries()}}
+          onPressTitle={()=>{this.refresh()}}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}/>
         <ListView

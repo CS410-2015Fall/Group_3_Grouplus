@@ -81,7 +81,7 @@ class Photos extends ParseComponent{
   }
   imageOptions() {
     if (Platform.OS === 'android') {
-      Utils.alert('Stay Tuned; Android support is coming! :)');
+      Utils.alertToast('Stay Tuned; Android support is coming! :)');
       return;
     }
     var that = this;
