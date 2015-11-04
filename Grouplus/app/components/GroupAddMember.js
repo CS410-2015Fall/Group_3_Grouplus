@@ -1,16 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-var t = require('tcomb-form-native');
-var { View, TouchableHighlight, Text } = React;
-var Form = t.form.Form;
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
 
-var Member = t.struct({email: t.Str});
-var NavBar = require('./helpers/NavBar');
-
-var basicStyles = require('./helpers/Styles');
 var {
   View,
   ListView,
@@ -18,6 +11,25 @@ var {
   Text,
   TouchableHighlight,
 } = React;
+
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var Member = t.struct({email: t.Str});
+
+var NavBar = require('./helpers/NavBar');
+
+var Utils = require('./helpers/Utils'); 
+
+var basicStyles = require('./helpers/Styles');
+var styles = StyleSheet.create({
+  group: {
+    alignSelf: 'stretch',
+    marginTop: 100,
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#ffffff',
+  },
+});
 
 var options = {
   fields: {
@@ -28,16 +40,6 @@ var options = {
     }
   }
 };
-
-var styles = StyleSheet.create({
-  group: {
-    alignSelf: 'stretch',
-    marginTop: 100,
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#ffffff',
-  },
-});
 
 class GroupAddMember extends React.Component {
   constructor() {
@@ -58,7 +60,8 @@ class GroupAddMember extends React.Component {
         success: function(result) {
           console.log("Found the user" + result[0]);
           if(result.length === 0){
-            alert("Error: there is no user with that email!");
+            Utils.alert("Opps, 404 user not found! Double" + 
+              " check the email or ask your friend to get this app first :)");
           } else{
             // AddUnique for only adding member once
             var creator = ParseReact.Mutation.AddUnique({
@@ -72,7 +75,7 @@ class GroupAddMember extends React.Component {
           // The object was retrieved successfully.
         },
         error: function(error) {
-          alert("Error: there is no user with that email!");
+          alert("There was a problem with the internet :( May be try again later");
         }
       });
     }

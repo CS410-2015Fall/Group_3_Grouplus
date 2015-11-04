@@ -15,7 +15,6 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
-  Platform,
 } = React;
 
 var styles = StyleSheet.create({
@@ -37,23 +36,6 @@ var styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
   text: {
     fontSize: 14,
     color: 'black',
@@ -70,13 +52,6 @@ var styles = StyleSheet.create({
 });
 
 class EventItem extends React.Component{
-  onSave(event){
-    if (Platform.OS === 'ios') {
-      CalendarManager.addEvent(event.name, event.location, event.dueDate, event.enddate)
-    } else {
-
-    }
-  }
   render(){
     var event = this.props.event;
     return (

@@ -26,6 +26,8 @@ var {
 
 var AddButton = require('./helpers/AddButton');
 
+var Utils = require('./helpers/Utils'); 
+
 var options = {
   title: 'Upload Photo', // specify null or empty string to remove the title
   cancelButtonTitle: 'Cancel',
@@ -80,6 +82,10 @@ class Photos extends ParseComponent{
     });
   }
   imageOptions() {
+    if (Platform.OS === 'android') {
+      Utils.alert('Stay Tuned; Android support is coming! :)');
+      return;
+    }
     var that = this;
     UIImagePickerManager.showImagePicker(options, (didCancel, response) => {
 

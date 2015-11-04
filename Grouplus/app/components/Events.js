@@ -23,8 +23,10 @@ var {
   Platform,
   TouchableHighlight,
   TouchableOpacity,
+  Platform,
 } = React;
 
+var Utils = require('./helpers/Utils'); 
 var {
   CalendarManager
 } = require('NativeModules');
@@ -56,6 +58,10 @@ observe(props, state) {
   }
 }
 onPressNewEvent() {
+  if (Platform.OS === 'android') {
+    Utils.alert('Stay Tuned; Android support is coming! :)');
+    return;
+  }
   var that = this;
   this.props.navigator.push({id: 'EventAdd', groupId: that.props.group.objectId});
 }
@@ -63,19 +69,22 @@ onPressNewEvent() {
 renderRow(rowData) {
 
   var exportBtn = {
-  text: 'Export', 
+    text: 'Export', 
     backgroundColor: '#FFA500',
-        onPress: function(){
-   if (Platform.OS === 'ios') {
-    CalendarManager.addEvent(rowData.name, rowData.location, rowData.dueDate, rowData.enddate, 
-      (response) =>{
-        if(response){
-          alert("Export Successful!");
-        }else{
-          alert("Export Event Failed. Please check event date format or access to calcendar!");
-        }
-      });
-    }
+    onPress: function(){
+     if (Platform.OS === 'ios') {
+      CalendarManager.addEvent(rowData.name, rowData.location, rowData.dueDate, rowData.enddate, 
+        (response) =>{
+          if(response){
+            alert("Export Successful!");
+          }else{
+            alert("Export Event Failed. Please check event date format or access to calcendar!");
+          }
+        });
+      } else {
+        Utils.alert('Stay Tuned; Android support is coming! :)');
+        return;
+      }
     } 
   }
 

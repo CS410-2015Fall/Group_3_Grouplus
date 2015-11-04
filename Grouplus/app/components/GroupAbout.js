@@ -20,6 +20,7 @@ var {
   Text,
   NavigatorIOS,
   TouchableOpacity,
+  Platform,
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -51,7 +52,7 @@ class GroupAbout extends ParseComponent{
   }
   observe(props, state) {
     return {
-    members : new Parse.Query("User").containedIn("objectId", this.props.group.members),
+      members : new Parse.Query("User").containedIn("objectId", this.props.group.members),
     }
   }
   onPressAddMember() {
@@ -78,11 +79,19 @@ class GroupAbout extends ParseComponent{
   renderSeparator() {
     return <Separator/>;
   }
+  renderAddButton() {
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      return (
+        <AddButton onPress={this.onPressAddMember.bind(this)}/>
+      );
+    }
+  }
   render(){
     return (
       <View style={basicStyles.blank}>
         <NavBar 
           title={'Members'}
+          onPressTitle={()=>{this.refreshQueries()}}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}/>
         <ListView
@@ -90,7 +99,7 @@ class GroupAbout extends ParseComponent{
           renderRow={this.renderRow.bind(this)}
           renderSeparator={this.renderSeparator.bind(this)} 
         />
-        <AddButton onPress={this.onPressAddMember.bind(this)}/>
+        {this.renderAddButton()}
       </View>
     );
   }

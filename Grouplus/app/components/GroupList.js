@@ -13,6 +13,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Navigator,
+  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -25,6 +26,8 @@ var GroupPanel = require('./GroupPanel');
 var GroupAdd = require('./GroupAdd');
 var TodoList = require('./TodoList');
 var MyAccount = require('./MyAccount');
+
+var Utils = require('./helpers/Utils'); 
 
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
@@ -77,6 +80,10 @@ class GroupList extends ParseComponent{
     this.props.navigator.push({id: 'GroupAdd'});
   }
   onPressMyAccount() {
+    if (Platform.OS === 'android') {
+      Utils.alert('Stay Tuned; Android support is coming! :)');
+      return;
+    }
     this.props.navigator.push({id: 'MyAccount'});
   }
   renderRow(rowData, sectionID, rowID) {

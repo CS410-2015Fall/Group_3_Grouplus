@@ -62,12 +62,12 @@ constructor() {
 
 
   render() {
-    console.log("USER ICON FB : " + this.props.user.tempUrl);
+    //console.log("USER ICON FB : " + this.props.user.tempUrl);
     return (
-          <Image
-          style={[styles.circle]}
-          source={{uri: this.props.user.tempUrl}}
-          />
+      <Image
+        style={[styles.circle]}
+        source={{uri: this.props.user.tempUrl}}
+      />
     );
   }
 };

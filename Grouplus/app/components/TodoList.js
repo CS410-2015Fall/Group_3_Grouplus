@@ -29,6 +29,8 @@ var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
 
+var Utils = require('./helpers/Utils'); 
+
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
 });
@@ -52,7 +54,11 @@ class TodoList extends ParseComponent{
   }
   
   onPressNewTodo() {
-    console.log("group ID pass to TODO : " + this.props.group.objectId);
+    if (Platform.OS === 'android') {
+      Utils.alert('Stay Tuned; Android support is coming! :)');
+      return;
+    }
+    //console.log("group ID pass to TODO : " + this.props.group.objectId);
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
