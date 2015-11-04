@@ -9,7 +9,7 @@ var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 var mockdata = require('../utils/MockData.js');
 var item = Parse.Object.extend("GroupPhotos");
-var photoItem = new item();
+
 
 var {
   TouchableHighlight,
@@ -88,15 +88,16 @@ class Photos extends ParseComponent{
     UIImagePickerManager.showImagePicker(options, (didCancel, response) => {
 
       if (didCancel) {
-        console.log('User cancelled image picker');
+        //console.log('User cancelled image picker');
       } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
+        //console.log('User tapped custom button: ', response.customButton);
       }
       else {
         // You can display the image using either:
         const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
         //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
         var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
+        var photoItem = new item();
         photoItem.set("description", "test picture upload"); // might need to input description
         photoItem.set("uploadedBy", Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI");
         photoItem.set("imgFile", file);
