@@ -63,6 +63,18 @@ class StubView extends React.Component {
   }
 }
 
+var actions = [{
+  title: 'refresh', 
+  icon: require('image!ic_refresh_white_24dp'), 
+  show: 'always', 
+  showWithText: false
+},
+{
+  title: 'members', 
+  icon: require('image!ic_people_white_24dp'), 
+  show: 'always', 
+  showWithText: false}]
+
 class Grouplus extends React.Component {
   constructor(props){
     super(props);
@@ -82,6 +94,19 @@ class Grouplus extends React.Component {
         group: group,
       } 
     })
+  }
+  onActionSelected(index){
+    var that = this;
+    if (this.state.screen.group) {
+      if (index === 0) {
+        this.refs.main.refresh();
+      } else {
+        this.props.navigator.push({
+          id:'GroupAbout',
+          group: that.state.screen.group,
+        })
+      }
+    }
   }
   render(){
     return (
@@ -115,8 +140,10 @@ class Grouplus extends React.Component {
           style={styles.toolbar}
           title={this.state.screen.title}
           titleColor='#FFFFFF'
+          onActionSelected={this.onActionSelected.bind(this)}
+          actions={actions}
         />
-        <Component group={this.state.screen.group} navigator={this.props.navigator}/>
+        <Component ref={'main'} group={this.state.screen.group} navigator={this.props.navigator}/>
       </View>
     );
   }
