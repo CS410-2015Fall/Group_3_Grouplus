@@ -36,16 +36,22 @@ var styles = StyleSheet.create({
     fontSize: 14,
     color: 'red',
   },
+  individual: {
+    fontSize: 10,
+    color: 'grey',
+  },
 });
 
 class TodoItem extends React.Component{
   render(){
     var todo = this.props.todo;
     var dueDate = todo.dueDate ? moment(todo.dueDate).format('MMM D') : '';
+    var individual = todo.individual ? 'individual ' : '';
     return (
       <View style={styles.container}>
         <Text style={styles.title}> {todo.name} </Text>
         <View style={styles.info}>
+          <Text style={styles.individual}> {individual} </Text>
           <Text style={styles.dueDate}> {dueDate} </Text>
           <People people={todo.whoAreDone} />
         </View>
