@@ -17,6 +17,9 @@ var {
   FBSDKLoginButton,
 } = FBSDKLogin;
 
+var { Icon,
+} = require('react-native-icons');
+
 var {
   View,
   Image,
@@ -24,6 +27,7 @@ var {
   ListView,
   Text,
   NavigatorIOS,
+  TouchableHighlight,
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -50,15 +54,25 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 30,
   },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   name: {
     fontSize: 24,
     color: 'white',
     paddingBottom: 5,
-  },
+      },
+
   email: {
     fontSize: 16,
     color: 'white',
     paddingBottom: 20,
+  },
+  edit: {
+    width: 30,
+    height: 30,
   },
 });
 
@@ -79,8 +93,17 @@ class MyAccount extends React.Component{
         <Image
           source={{uri: user.get('tempUrl')}}
           style={styles.loginImage}>
+
           <View style={styles.loginContainer}>
-            <Text style={styles.name}>{user.get('name')}</Text>
+            <View style={styles.nameContainer}>
+            <Text style={styles.name}>{user.get('name')} </Text>
+            <Icon
+              name='ion|edit'
+              size={20}
+              color='white'
+              style={styles.edit}
+              />
+              </View>
             <Text style={styles.email}>{user.get('email')}</Text>
             <FBSDKLoginButton
               style={styles.loginButton}
