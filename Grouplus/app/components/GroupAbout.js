@@ -27,8 +27,10 @@ var NavBar = require('./helpers/NavBar');
 var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var AddButton = require('./helpers/AddButton');
+var EditButton = require('./helpers/EditButton');
 var GroupAddMember = require('./GroupAddMember');
 var UserIcon = require('./UserIcon');
+var GroupEdit = require('./GroupEdit');
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
@@ -74,6 +76,14 @@ class GroupAbout extends ParseComponent{
                    refresh: that.refresh.bind(that),
                  });
   }
+  OnPressEditGroup() {
+    var that = this;
+    this.props.navigator.push({
+                   id: 'GroupEdit',
+                   group: that.props.group,
+                   refresh: that.refresh.bind(that),
+                 });
+  }
   renderRow(rowData) {
     console.log("FACE ID : " + rowData.facebookId);
     return (
@@ -97,6 +107,13 @@ class GroupAbout extends ParseComponent{
       );
     }
   }
+  renderEditButton() {
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      return (
+        <EditButton onPress={this.OnPressEditGroup.bind(this)}/>
+      );
+    }
+  }
   render(){
     return (
       <View style={basicStyles.blank}>
@@ -111,6 +128,7 @@ class GroupAbout extends ParseComponent{
           renderSeparator={this.renderSeparator.bind(this)} 
         />
         {this.renderAddButton()}
+        {this.renderEditButton()}
       </View>
     );
   }

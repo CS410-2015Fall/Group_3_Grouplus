@@ -65,7 +65,6 @@ class GroupAddMember extends React.Component {
             // AddUnique for only adding member once
             var creator = ParseReact.Mutation.AddUnique({
               className: 'Group',
-              //TODO: change the group id
               objectId: that.props.group.objectId
             }, "members", result[0].id);
             creator.dispatch();
