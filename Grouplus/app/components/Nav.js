@@ -26,6 +26,7 @@ var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
 var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
+var MyAccountEdit = require('./MyAccountEdit');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -184,6 +185,11 @@ class Nav extends React.Component {
     if (id === 'GroupAbout') {
       return (
         <GroupAbout group={route.group} navigator={navigator}/>
+      );
+    }
+    if (id === 'MyAccountEdit') {
+      return (
+        <MyAccountEdit navigator={navigator}/>
       );
     }
     else {

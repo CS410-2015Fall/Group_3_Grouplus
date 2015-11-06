@@ -31,7 +31,8 @@ var {
 } = React;
 
 var NavBar = require('./helpers/NavBar');
-
+var MyAccountEdit = require('./MyAccountEdit');
+var GroupAdd = require('./GroupAdd');
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   loginImage: {
@@ -81,8 +82,17 @@ class MyAccount extends React.Component{
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
   }
+
+  onPressEditName(){
+    //TODO: Is it supported by Android?
+      this.props.navigator.push({
+      id: 'MyAccountEdit',
+    });
+  }
+
   render(){
     var user = Parse.User.current(); 
+    console.log("NAME: " + user.get('name') + user.get('email'));
     return (
       <View 
         style={basicStyles.blank}>
@@ -93,16 +103,17 @@ class MyAccount extends React.Component{
         <Image
           source={{uri: user.get('tempUrl')}}
           style={styles.loginImage}>
-
           <View style={styles.loginContainer}>
             <View style={styles.nameContainer}>
             <Text style={styles.name}>{user.get('name')} </Text>
+            <TouchableHighlight onPress={this.onPressEditName.bind(this)}>
             <Icon
               name='ion|edit'
               size={20}
               color='white'
               style={styles.edit}
               />
+              </TouchableHighlight>
               </View>
             <Text style={styles.email}>{user.get('email')}</Text>
             <FBSDKLoginButton
