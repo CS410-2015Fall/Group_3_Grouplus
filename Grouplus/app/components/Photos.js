@@ -81,6 +81,7 @@ class Photos extends ParseComponent{
       uri: image.imgFile.url(),
     });
   }
+  
   imageOptions() {
     if (Platform.OS === 'android') {
       Utils.alertToast('Stay Tuned; Android support is coming! :)');
@@ -142,8 +143,7 @@ class Photos extends ParseComponent{
       <View style={basicStyles.flex1}>
         <ListView contentContainerStyle={styles.list}
           dataSource={this.ds.cloneWithRows(this.data.imageList)}
-          renderRow={this.renderRow.bind(this)} 
-        />
+          renderRow={this.renderRow.bind(this)}  />
         <AddButton onPress={this.imageOptions.bind(this)}/>
       </View>
     );

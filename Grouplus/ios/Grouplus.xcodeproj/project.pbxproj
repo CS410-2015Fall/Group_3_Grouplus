@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5724C1F51BDAA18000A9DAFA /* UIImagePickerManager in Resources */ = {isa = PBXBuildFile; fileRef = 5724C1F41BDAA18000A9DAFA /* UIImagePickerManager */; };
 		5724C1F81BDAA23D00A9DAFA /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */; };
+		573D8AAF1BEF226C00290F2B /* libActivityView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 573D8AA01BEF226200290F2B /* libActivityView.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		902EC3951BCA4F8800B38D60 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3931BCA4F8800B38D60 /* FBSDKCoreKit.framework */; };
 		902EC3961BCA4F8800B38D60 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902EC3941BCA4F8800B38D60 /* FBSDKLoginKit.framework */; };
@@ -107,6 +108,13 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		573D8A9F1BEF226200290F2B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 573D8A9B1BEF226200290F2B /* ActivityView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = ActivityView;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -173,6 +181,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		5724C1F41BDAA18000A9DAFA /* UIImagePickerManager */ = {isa = PBXFileReference; lastKnownFileType = folder; name = UIImagePickerManager; path = "../node_modules/react-native-image-picker/UIImagePickerManager"; sourceTree = "<absolute>"; };
 		5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/UIImagePickerManager/UIImagePickerManager.m"; sourceTree = "<group>"; };
+		573D8A9B1BEF226200290F2B /* ActivityView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ActivityView.xcodeproj; path = "../node_modules/react-native-activity-view/ActivityView.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		902EC3931BCA4F8800B38D60 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -214,6 +223,7 @@
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				902EC3B31BCA50D000B38D60 /* libRCTFBSDKShare.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				573D8AAF1BEF226C00290F2B /* libActivityView.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				902EC3B41BCA50D800B38D60 /* libRCTFBSDKLogin.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
@@ -330,6 +340,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		573D8A9C1BEF226200290F2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				573D8AA01BEF226200290F2B /* libActivityView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +359,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				573D8A9B1BEF226200290F2B /* ActivityView.xcodeproj */,
 				5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */,
 				908803251BD494470020B7E5 /* ReactNativeIcons.xcodeproj */,
 				902EC3AD1BCA50C000B38D60 /* RCTFBSDKShare.xcodeproj */,
@@ -505,6 +524,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 573D8A9C1BEF226200290F2B /* Products */;
+					ProjectRef = 573D8A9B1BEF226200290F2B /* ActivityView.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -624,6 +647,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		573D8AA01BEF226200290F2B /* libActivityView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libActivityView.a;
+			remoteRef = 573D8A9F1BEF226200290F2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
