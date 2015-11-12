@@ -28,6 +28,7 @@ var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
 var MyAccountEdit = require('./MyAccountEdit');
 var GroupEdit = require('./GroupEdit');
+var PhotoItem = require('./PhotoItem');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -177,10 +178,12 @@ class Nav extends React.Component {
       );
     } 
     if (id === 'Photo') {
-      return (      
+      return (  
+      <PhotoItem navigator={navigator} photoUrl={route.uri}/>   
+      /* 
         <View style={styles.imageContainer}>
           <Image style={basicStyles.flex1}  source={{uri: route.uri}}/>
-        </View>
+        </View>*/
       );
     }
     if (id === 'GroupAbout') {
