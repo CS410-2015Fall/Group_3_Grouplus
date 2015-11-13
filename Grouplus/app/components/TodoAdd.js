@@ -9,10 +9,9 @@ var ParseReact = require('parse-react/react-native');
 //TODO: tcomb doesn't support android so well
 //TODO: Change the wording, this is temporary
 var Priority = t.enums({
-  L: 'Low',
-  M: 'Medium',
-  H: 'High',
-  C: 'Critical'
+  3: 'Low',
+  2: 'Medium',
+  1: 'High',
 });
 
 var ToDo = t.struct({

@@ -33,7 +33,16 @@ var Utils = require('./helpers/Utils');
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    width: 22,
+    color: 'white',
+  },
 });
+
+var { Icon } = require('react-native-icons');
+//var ActionButton = require('react-native-action-button');
 
 class TodoList extends ParseComponent{
   constructor(props){
@@ -129,7 +138,7 @@ class TodoList extends ParseComponent{
           dataSource={this.ds.cloneWithRows(this.data.todos)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>       
-        <AddButton onPress={() => this.onPressNewTodo()}/>
+        <AddButton onPress={() => this.onPressNewTodo()} />
       </View>
     );
   }

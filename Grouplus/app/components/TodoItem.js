@@ -26,24 +26,17 @@ var styles = StyleSheet.create({
     flex: 7,
     textAlign: 'left',
   },
-  titleCritical: {
-    fontSize: 22,
-    flex: 7,
-    textAlign: 'left',
-    color: 'red',
-    fontWeight: 'bold',
-  },
   titleHigh: {
     fontSize: 22,
     flex: 7,
     textAlign: 'left',
-    color: 'orange',
+    color: 'red',
   },
   titleMedium: {
     fontSize: 22,
     flex: 7,
     textAlign: 'left',
-    color: 'blue',
+    color: 'orange',
   },
   info: {
     flex: 2,
@@ -71,13 +64,10 @@ class TodoItem extends React.Component{
     var dueDate = todo.dueDate ? moment(todo.dueDate).format('MMM D') : '';
     var individual = todo.individual ? 'individual ' : '';
     var todoStyle = styles.title;
-    if(todo.priority === "C"){
-      todoStyle = styles.titleCritical;
-    }
-    if(todo.priority === "H"){
+    if(todo.priority === "1"){
       todoStyle = styles.titleHigh;
     }
-    if(todo.priority === "M"){
+    if(todo.priority === "2"){
       todoStyle = styles.titleMedium;
     }
     var dueDateStyle = styles.dueDate;
