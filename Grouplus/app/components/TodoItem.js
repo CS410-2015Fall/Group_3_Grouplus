@@ -81,7 +81,6 @@ class TodoItem extends React.Component{
       todoStyle = styles.titleMedium;
     }
     var dueDateStyle = styles.dueDate;
-    console.log("Current Date: " + new Date());
     if(todo.dueDate < new Date()) {
       dueDateStyle = styles.dueDatePast;
     }
