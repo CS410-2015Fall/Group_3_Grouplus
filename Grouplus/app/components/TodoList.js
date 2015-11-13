@@ -45,7 +45,7 @@ class TodoList extends ParseComponent{
     var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
     var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
     return {
-      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
+      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate')
     }
   }
 
