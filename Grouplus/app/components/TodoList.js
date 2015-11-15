@@ -20,6 +20,7 @@ var {
   Text,
   NavigatorIOS,
   Platform,
+  SwitchIOS,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
@@ -28,6 +29,7 @@ var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
+var TodoDoneList = require('./TodoDoneList');
 
 var Utils = require('./helpers/Utils'); 
 
@@ -48,31 +50,40 @@ class TodoList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-  }
-  observe(props, state) {
-    var queryGroupTodoDone = (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', true); 
-    var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
-    var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
-    return {
-      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate')
+    this.state = {
+      doneSwitchIsOn: false
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({dataSource: this.ds.cloneWithRows(this.data.todos)});
+  observe(props, state) {
+    var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
+    var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
+    return {
+      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate'),
+      todosDone: new Parse.Query('Todo').descending('dueDate').equalTo('group', this.props.group.objectId).equalTo('done', true),
+    }
   }
-  
+
   onPressNewTodo() {
     if (Platform.OS === 'android') {
       Utils.alertToast('Stay Tuned; Android support is coming! :)');
       return;
     }
-    //console.log("group ID pass to TODO : " + this.props.group.objectId);
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
       refresh: this.refreshQueries.bind(this),
     });
+  }
+
+  onPressViewDone(value) {
+    if (Platform.OS === 'android') {
+      Utils.alertToast('Stay Tuned; Android support is coming! :)');
+      return;
+    }
+    this.setState({doneSwitchIsOn: value});
+    console.log("DONE SWITCH : " + value);
+    
   }
 
   renderRow(rowData) {
@@ -131,13 +142,25 @@ class TodoList extends ParseComponent{
       <Separator/>
     );
   }
+
   render(){
+    var todoData;
+    if(this.state.doneSwitchIsOn) {
+      console.log("todoData true + " + this.state.doneSwitchIsOn);
+      todoData = this.data.todosDone;
+    } else {
+      console.log("todoData false+ " + this.state.doneSwitchIsOn);
+      todoData = this.data.todos;
+    }
     return (
       <View style={basicStyles.flex1}>
+        <SwitchIOS
+          onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
+          value={this.state.doneSwitchIsOn} />    
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.todos)}
+          dataSource={this.ds.cloneWithRows(todoData)}
           renderRow={this.renderRow.bind(this)} 
-          renderSeparator={this.renderSeparator.bind(this)}/>       
+          renderSeparator={this.renderSeparator.bind(this)}/> 
         <AddButton onPress={() => this.onPressNewTodo()} />
       </View>
     );
