@@ -24,6 +24,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Platform,
+  SwitchIOS,
 } = React;
 
 var Utils = require('./helpers/Utils'); 
@@ -51,10 +52,15 @@ class Events extends ParseComponent{
 constructor(props){
   super(props);
   this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+  this.state = {
+      doneSwitchIsOn: false
+    }
 }
 observe(props, state) {
+  var current = new Date();
   return {
-    events: (new Parse.Query('Event')).equalTo('groupId', this.props.group.objectId).ascending('dueDate'),
+    pastEvents: (new Parse.Query('Event')).equalTo('groupId', this.props.group.objectId).lessThan('dueDate', current).descending('dueDate'),
+    events: (new Parse.Query('Event')).equalTo('groupId', this.props.group.objectId).greaterThanOrEqualTo('dueDate', current).ascending('dueDate'),
   }
 }
 onPressNewEvent() {
@@ -112,10 +118,21 @@ renderRow(rowData) {
   );
 }
 render(){
+  var events;
+    if(this.state.doneSwitchIsOn) {
+      console.log("todoData true + " + this.state.doneSwitchIsOn);
+      events = this.data.pastEvents;
+    } else {
+      console.log("todoData false+ " + this.state.doneSwitchIsOn);
+      events = this.data.events;
+    }
   return (
     <View style={basicStyles.flex1}>
+      <SwitchIOS
+        onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
+        value={this.state.doneSwitchIsOn} />    
       <ListView 
-        dataSource={this.ds.cloneWithRows(this.data.events)}
+        dataSource={this.ds.cloneWithRows(events)}
         renderRow={this.renderRow.bind(this)} />
       <AddButton
         onPress={()=> this.onPressNewEvent()}/>

@@ -34,7 +34,7 @@ var options = {
       autoFocus: true
     },
     location: {
-      label: 'Eneter your event location',
+      label: 'Enter your event location',
       placeholder: 'enter location here',
       autoFocus: true
     },

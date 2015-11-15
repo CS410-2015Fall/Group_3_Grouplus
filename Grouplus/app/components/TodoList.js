@@ -29,7 +29,6 @@ var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
-var TodoDoneList = require('./TodoDoneList');
 
 var Utils = require('./helpers/Utils'); 
 
