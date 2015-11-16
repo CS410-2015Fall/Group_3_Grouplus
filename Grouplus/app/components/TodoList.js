@@ -15,6 +15,7 @@ var {
   ListView,
   StyleSheet,
   ScrollView,
+  AsyncStorage,
   TouchableHighlight,
   TouchableOpacity,
   Text,
@@ -39,6 +40,13 @@ class TodoList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {todoList: ""};
+   // AsyncStorage.setItem("todos"+this.props.group.objectId, ""); 
+    AsyncStorage.getItem("todos"+this.props.group.objectId).then((value) => {
+          if(value !== null && value.length >0){
+              this.setState({"todoList": JSON.parse(value)});   
+          }
+    });
   }
   observe(props, state) {
     var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
@@ -48,11 +56,31 @@ class TodoList extends ParseComponent{
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
     }
   }
+  /*
+  componentDidMount(){
+     //AsyncStorage.setItem("appleKey", 'testval');
+    AsyncStorage.getItem("todosAll").then((value) => {
+          if(value.length>0){
+              this.setState({"todoList": JSON.parse(value)});   
+          }else{
+              this.setState({"todoList": null});
+          }
+        }).done();
+  }*/
+  componentDidUpdate(){
+     if(this.data.todos.length>0 && this.props.group.objectId !== null){
+         AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(this.data.todos)); 
+      }
+  }
 
+  updateAsync(data){
+    AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(this.data.todos)); 
+  }
+/*
   componentWillReceiveProps(nextProps) {
     this.setState({dataSource: this.ds.cloneWithRows(this.data.todos)});
   }
-  
+  */
   onPressNewTodo() {
     if (Platform.OS === 'android') {
       Utils.alertToast('Stay Tuned; Android support is coming! :)');
@@ -77,6 +105,9 @@ class TodoList extends ParseComponent{
           objectId: rowData.objectId,
         };
         ParseReact.Mutation.Destroy(target).dispatch();
+        // force to delete from asynchorous storage as well
+        AsyncStorage.setItem("todos"+that.props.group.objectId, JSON.stringify(that.data.todos)); 
+        that.setState({"todoList": that.data.todos});  
       }
     }; 
     var checkFinishBtn = {
@@ -126,7 +157,7 @@ class TodoList extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.todos)}
+          dataSource={this.ds.cloneWithRows(this.data.todos.length > 0 ? this.data.todos : this.state.todoList)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>       
         <AddButton onPress={() => this.onPressNewTodo()}/>
