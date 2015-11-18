@@ -22,10 +22,18 @@ var {
 
 
 var styles = StyleSheet.create({  
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        height: 70,
+        margin: 3,
+        justifyContent: 'space-between',
+    },
     instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      margin: 5,
+        flex: 15,
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
     },
     event: {
         marginTop: 10,
@@ -54,6 +62,7 @@ var styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1
     },
+
 });
 
 class EventCreation extends React.Component{
@@ -61,29 +70,65 @@ class EventCreation extends React.Component{
         super();
         this.onUpdate = this.onUpdate.bind(this);
         this.state = {
-
         };
     }
 
-handleClickDate() {
+handleClickstartDate() {
        var that=this;
-      NativeModules.DateAndroid.showDatepicker(function() {}, function(date) {
-        that.setState({startdate: date})
+      NativeModules.DateAndroid.showDatepicker(function() {}, function(year,month,day) {
+        that.setState({startyear: year})
+        that.setState({startmonth: month+1})
+        that.setState({startday: day})
+        var startd = year.toString()+"/"+(month+1).toString()+"/"+day.toString();
+        that.setState({startdate: startd})
+      });
+    }
+
+handleClickendDate() {
+       var that=this;
+      NativeModules.DateAndroid.showDatepicker(function() {}, function(year,month,day) {
+        that.setState({endyear: year})
+        that.setState({endmonth: month+1})
+        that.setState({enday: day})
+        var endd = year.toString()+"-"+(month+1).toString()+"-"+day.toString();
+        that.setState({enddate: endd})
+      });
+    }
+
+handleClickstartTime() {
+       var that=this;
+      NativeModules.DateAndroid.showTimepicker(function() {}, function(hour,minute) {
+        that.setState({starthour: hour})
+        that.setState({startminute: minute})
+        var startt=hour.toString()+":"+minute.toString();
+        that.setState({starttime: startt})        
+      });
+    }    
+
+handleClickendTime() {
+       var that=this;
+      NativeModules.DateAndroid.showTimepicker(function() {}, function(hour,minute) {
+        that.setState({endhour: hour})
+        that.setState({endminute: minute})
+        var endt=hour.toString()+":"+minute.toString();
+        that.setState({endtime: endt})  
       });
     }
 
 onUpdate() {
     var that = this;
+    var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
+    var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
         createdBy: "jIZUlILeeI",
         location: that.state.location,
         groupId: that.props.groupId, 
-        dueDate: that.state.startdate,
-        enddate: that.state.enddate
+        dueDate: startdatecom,
+        enddate: enddatecom,
     });
         creator.dispatch();
-        this.props.modal.close();
+      this.props.navigator.pop();
   }
 
   render(){
@@ -106,25 +151,51 @@ onUpdate() {
                  value={this.state.location}
                 />
                 <Text style={styles.events}>
-                    Start Time
+                    Start Date
                 </Text>
-                <TouchableOpacity onPress={this.handleClickDate.bind(this)}>
-                 <Text style={styles.instructions}>
+                <View style={styles.container}>
+                 <TouchableOpacity onPress={this.handleClickstartDate.bind(this)}>
+                  <Text style={styles.instructions}>
                    Select Start Date
-                 </Text>
-                 <Text style={styles.events}>
-                    {this.state.startdate}
+                  </Text>            
+                 </TouchableOpacity> 
+                 <Text>
+                   {this.state.startdate}
+                 </Text>   
+                </View>
+              <View style={styles.container}>
+                <TouchableOpacity onPress={this.handleClickstartTime.bind(this)}>
+                 <Text style={styles.instructions}>
+                   Select Start Time
+                 </Text>            
+                 </TouchableOpacity> 
+                <Text>
+                   {this.state.starttime}
+                 </Text>   
+               </View>
+               <Text style={styles.events}>
+                    End Date
                 </Text>
-               </TouchableOpacity> 
-                <Text style={styles.events}>
-                    End Time
-                 </Text>
-                <TextInput
-                 style={styles.TextInput}
-                 onChangeText={(text) => this.setState({enddate: text})}
-                 value={this.state.enddate}
-                />         
-                    
+                <View style={styles.container}>
+                 <TouchableOpacity onPress={this.handleClickendDate.bind(this)}>
+                  <Text style={styles.instructions}>
+                   Select End Date
+                  </Text>            
+                 </TouchableOpacity> 
+                 <Text>
+                   {this.state.enddate}
+                 </Text>   
+                </View>
+              <View style={styles.container}>
+                <TouchableOpacity onPress={this.handleClickendTime.bind(this)}>
+                 <Text style={styles.instructions}>
+                   Select End Time
+                 </Text>            
+                 </TouchableOpacity> 
+                <Text>
+                   {this.state.endtime}
+                 </Text>   
+               </View>
                 <TouchableHighlight
                     style={[styles.button, styles.saveButton]}
                     onPress={this.onUpdate.bind(this)}
