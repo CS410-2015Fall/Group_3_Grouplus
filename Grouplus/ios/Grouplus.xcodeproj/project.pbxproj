@@ -41,6 +41,7 @@
 		ED13E8ED1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EA1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf */; };
 		ED13E8F01BDF327900E555A3 /* FAKIcon.h in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EE1BDF327900E555A3 /* FAKIcon.h */; };
 		ED13E8F11BDF327900E555A3 /* FAKIcon.m in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EF1BDF327900E555A3 /* FAKIcon.m */; };
+		EDA8C7C51BFC746F00DA0E06 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDA8C7BE1BFC743B00DA0E06 /* libRCTPushNotification.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +157,13 @@
 			remoteGlobalIDString = 2F5A3EB81ACDBF8000439386;
 			remoteInfo = ReactNativeIcons;
 		};
+		EDA8C7BD1BFC743B00DA0E06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDA8C7B01BFC743B00DA0E06 /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTPushNotification;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +208,7 @@
 		ED13E8EA1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Material-Design-Iconic-Font.ttf"; sourceTree = "<group>"; };
 		ED13E8EE1BDF327900E555A3 /* FAKIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAKIcon.h; sourceTree = "<group>"; };
 		ED13E8EF1BDF327900E555A3 /* FAKIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAKIcon.m; sourceTree = "<group>"; };
+		EDA8C7B01BFC743B00DA0E06 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +225,7 @@
 			files = (
 				902EC39A1BCA4F9D00B38D60 /* Bolts.framework in Frameworks */,
 				908803381BD4945E0020B7E5 /* libReactNativeIcons.a in Frameworks */,
+				EDA8C7C51BFC746F00DA0E06 /* libRCTPushNotification.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				902EC3951BCA4F8800B38D60 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -356,6 +366,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				EDA8C7B01BFC743B00DA0E06 /* RCTPushNotification.xcodeproj */,
 				573D8A9B1BEF226200290F2B /* ActivityView.xcodeproj */,
 				5724C1F71BDAA23D00A9DAFA /* UIImagePickerManager.m */,
 				908803251BD494470020B7E5 /* ReactNativeIcons.xcodeproj */,
@@ -453,6 +464,14 @@
 				902EC3971BCA4F9600B38D60 /* FBSDKShareKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EDA8C7B11BFC743B00DA0E06 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EDA8C7BE1BFC743B00DA0E06 /* libRCTPushNotification.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -556,6 +575,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = EDA8C7B11BFC743B00DA0E06 /* Products */;
+					ProjectRef = EDA8C7B01BFC743B00DA0E06 /* RCTPushNotification.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -694,6 +717,13 @@
 			fileType = archive.ar;
 			path = libReactNativeIcons.a;
 			remoteRef = 908803361BD494470020B7E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EDA8C7BE1BFC743B00DA0E06 /* libRCTPushNotification.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPushNotification.a;
+			remoteRef = EDA8C7BD1BFC743B00DA0E06 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -836,6 +866,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = Grouplus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -859,6 +890,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS",
 				);
 				INFOPLIST_FILE = Grouplus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
