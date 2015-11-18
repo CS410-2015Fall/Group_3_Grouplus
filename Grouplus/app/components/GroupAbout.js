@@ -10,6 +10,7 @@ var ParseComponent = ParseReact.Component(React);
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 var ParseComponent = ParseReact.Component(React);
+var { Icon } = require('react-native-icons');
 
 var {
   View,
@@ -21,6 +22,7 @@ var {
   NavigatorIOS,
   TouchableOpacity,
   Platform,
+  AlertIOS,
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -84,6 +86,40 @@ class GroupAbout extends ParseComponent{
                    refresh: that.refresh.bind(that),
                  });
   }
+
+  confirmQuitGroup() {
+    AlertIOS.alert(
+      'Quit Group',
+      'Are you sure you would like to quit from this group?',
+      [
+        {text: 'Yes', onPress: () => this.quitGroup()},
+        {text: 'Cancel'},
+      ]
+    )
+  }
+
+  quitGroup() {
+      var target = {
+      className: 'Group',
+      objectId: this.props.group.objectId,
+     };
+    ParseReact.Mutation.Remove(target, 'members', Parse.User.current().id).dispatch();
+    // Delete the group if there is no more member left in group
+    if(this.props.group.members.length === 0) {
+            var target = {
+            className: 'Group',
+            objectId: this.props.group.objectId,
+           };
+          console.log("The group has no more member, deleting " + this.props.group.name);
+          ParseReact.Mutation.Destroy(target).dispatch();
+    }
+    this.props.navigator.replace({
+          id: 'GroupList',
+          user: Parse.User.current(),
+    });
+  }
+
+
   renderRow(rowData) {
     console.log("FACE ID : " + rowData.facebookId);
     return (
@@ -121,7 +157,9 @@ class GroupAbout extends ParseComponent{
           title={'Members'}
           onPressTitle={()=>{this.refresh()}}
           leftIcon={'material|close'} 
-          onPressLeft={()=>this.props.navigator.pop()}/>
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|sign-in'} 
+          onPressRight={()=>this.confirmQuitGroup()}/>
         <ListView
           dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)}
