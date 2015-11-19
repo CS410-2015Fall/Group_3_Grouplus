@@ -78,7 +78,7 @@ class GroupPanel extends React.Component {
           onPressLeft={()=>this.props.navigator.pop()}
           title={this.props.group.name}
           onPressTitle={()=>this.refresh()}
-          rightIcon={'material|accounts'}
+          rightIcon={'material|settings'}
           onPressRight={this.gotoAbout.bind(this)}/>
       );
     }
