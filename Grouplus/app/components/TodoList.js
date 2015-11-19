@@ -72,6 +72,7 @@ class TodoList extends ParseComponent{
       id: 'TodoAdd',
       group: this.props.group.objectId,
       refresh: this.refreshQueries.bind(this),
+      status: 'add',
     });
   }
 
@@ -98,6 +99,22 @@ class TodoList extends ParseComponent{
         ParseReact.Mutation.Destroy(target).dispatch();
       }
     }; 
+    var that = this;
+    var editBtn = {
+      text: 'Edit', 
+      backgroundColor:'#ffd805',
+      onPress: function(){
+        that.props.navigator.push({
+        id: 'TodoAdd',
+        group: that.props.group.objectId,
+        todo: rowData,
+        refresh: that.refreshQueries.bind(that),
+        status: 'edit',
+    });
+        
+      }
+    }; 
+
     var checkFinishBtn = {
       text: 'Done', 
       backgroundColor:'#32cd32',
@@ -128,6 +145,10 @@ class TodoList extends ParseComponent{
        // that.refreshQueries();
       }
     }; 
+    // Edit button shows up only for the creator
+    if(rowData.createdBy === Parse.User.current().id){
+      var swipeBtn = [checkFinishBtn, editBtn, deleteBtn];
+    }else
     var swipeBtn = [checkFinishBtn, deleteBtn];
     return (
       <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
