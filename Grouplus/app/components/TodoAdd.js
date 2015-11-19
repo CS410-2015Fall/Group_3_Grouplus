@@ -68,12 +68,19 @@ class TodoAdd extends React.Component {
         var target = {
           className: 'Todo',
           objectId: that.props.todo.objectId,
-        };      
+        };  
+        var isDone = false;
+        if(value.individual === true) {
+          if(this.props.todo.whoAreDone.includes(Parse.User.current().id)) {
+            var isDone = true;
+          }
+        }    
         var creator = ParseReact.Mutation.Set(target, {
             name: value.txt,
             dueDate: value.duedate,
             priority: value.priority,
             individual: value.individual,
+            done: isDone,
         }); 
         } else {
         var creator = ParseReact.Mutation.Create('Todo', {
