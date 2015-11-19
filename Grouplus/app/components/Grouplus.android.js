@@ -65,13 +65,11 @@ class StubView extends React.Component {
 
 var actions = [{
   title: 'refresh', 
-  icon: require('image!ic_refresh_white_24dp'), 
   show: 'always', 
   showWithText: false
 },
 {
   title: 'members', 
-  icon: require('image!ic_people_white_24dp'), 
   show: 'always', 
   showWithText: false}]
 
@@ -135,7 +133,6 @@ class Grouplus extends React.Component {
     return (
       <View style={styles.container}>
         <ToolbarAndroid
-          navIcon={require('image!ic_menu_white_24dp')}
           onIconClicked={() => this.drawer.openDrawer()}
           style={styles.toolbar}
           title={this.state.screen.title}
