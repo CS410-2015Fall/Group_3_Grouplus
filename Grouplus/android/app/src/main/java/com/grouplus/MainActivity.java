@@ -16,6 +16,7 @@ import me.nucleartux.date.ReactDatePackage; // import
 import com.smixx.reactnativeicons.ReactNativeIcons;  // <--- import
 import java.util.Arrays; // <--- import this if you want to specify which fonts to load
 import com.smixx.reactnativeicons.IconFont; // <--- import this if you want to specify which fonts to load
+import com.grouplus.CalendarPackage;
 
 public class MainActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
 
@@ -34,6 +35,7 @@ public class MainActivity extends FragmentActivity implements DefaultHardwareBac
                 .addPackage(new MainReactPackage())
                 .addPackage(new ReactNativeIcons()) 
                 .addPackage(new ReactDatePackage(this)) 
+                .addPackage(new CalendarPackage())                
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();

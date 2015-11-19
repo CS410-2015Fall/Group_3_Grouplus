@@ -31,6 +31,7 @@ var Utils = require('./helpers/Utils');
 var {
   CalendarManager
 } = require('NativeModules');
+var {CalendarModule} = require('NativeModules');
 var AddButton = require('./helpers/AddButton');
 
 var basicStyles = require('./helpers/Styles');
@@ -84,9 +85,9 @@ renderRow(rowData) {
           }
         });
       } else {
-        return;
+        CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getMilliseconds(), rowData.enddate.getMilliseconds());
       }
-    } 
+    }
   }
 
   var deleteBtn = {
