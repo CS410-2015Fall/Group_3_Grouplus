@@ -110,7 +110,8 @@ class TodoList extends ParseComponent{
 
         //If the todo is individual, set done to true
         if(rowData.individual === true) {
-          ParseReact.Mutation.Set(target, {done: true}).dispatch();
+          rowData.whoAreDone.push(uid); 
+          ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
         }else{
 
         var index = rowData.whoAreDone.indexOf(uid);
