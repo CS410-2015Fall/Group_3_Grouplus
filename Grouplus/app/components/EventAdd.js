@@ -36,7 +36,6 @@ var options = {
     location: {
       label: 'Enter your event location',
       placeholder: 'enter location here',
-      autoFocus: true
     },
     eventstartdate: {
       label: 'Start Time',
@@ -81,27 +80,53 @@ class EventCreation extends React.Component{
 
   save() {
     var value = this.refs.form.getValue();
+    var that = this;
     if (value){
-      var creator = ParseReact.Mutation.Create('Event', {
+      if(this.props.currentEvent) {
+        var target = {
+          className: 'Event',
+          objectId: that.props.currentEvent.objectId,
+        };  
+        var creator = ParseReact.Mutation.Set(target, {
+          name: value.name,
+          location: value.location,
+          dueDate: value.eventstartdate,
+          enddate: value.eventenddate
+        }); 
+        } else {
+        var creator = ParseReact.Mutation.Create('Event', {
           name: value.name,
           createdBy: Parse.User.current().id,
           location: value.location,
           groupId: this.props.groupId, 
           dueDate: value.eventstartdate,
           enddate: value.eventenddate
-      });
-      creator.dispatch();
-      this.props.navigator.pop();
+          });
+      }     
+    creator.dispatch();
+    this.props.refresh();
+    this.props.navigator.pop();
     }
   }
 
 
   render(){
+    if(this.props.status === 'edit') {
+      var title = 'Edit Event';
+      var value = {
+        name: this.props.currentEvent.name,  
+        location: this.props.currentEvent.location,
+        eventstartdate: this.props.currentEvent.dueDate,
+        eventenddate: this.props.currentEvent.enddate,
+      };
+    } else {
+      var title = 'New Event'
+    }
     return (
       <View 
         style={basicStyles.blank}>
         <NavBar 
-          title={'New Event'}
+          title={title}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 
@@ -112,7 +137,7 @@ class EventCreation extends React.Component{
             type={Event}
             onChange={this._onChange}
             options={options}
-            value={this.props.item}/>
+            value={value}/>
         </ScrollView>
       </View>
     );

@@ -65,7 +65,12 @@ observe(props, state) {
 }
 onPressNewEvent() {
   var that = this;
-  this.props.navigator.push({id: 'EventAdd', groupId: that.props.group.objectId});
+  this.props.navigator.push({
+    id: 'EventAdd', 
+    groupId: that.props.group.objectId, 
+    status: 'add',
+    refresh: that.refreshQueries.bind(that),
+});
 }
 
 renderRow(rowData) {
@@ -87,7 +92,22 @@ renderRow(rowData) {
         return;
       }
     } 
-  }
+  };
+    var that = this;
+    var editBtn = {
+      text: 'Edit', 
+      backgroundColor:'#ffd805',
+      onPress: function(){
+        that.props.navigator.push({
+        id: 'EventAdd',
+        groupId: that.props.group.objectId,
+        currentEvent: rowData,
+        refresh: that.refreshQueries.bind(that),
+        status: 'edit',
+    });
+        
+      }
+    }; 
 
   var deleteBtn = {
     text: 'Delete', 
@@ -100,7 +120,10 @@ renderRow(rowData) {
      ParseReact.Mutation.Destroy(target).dispatch();
   }
 };
-
+    // Edit button shows up only for the creator
+    if(rowData.createdBy === Parse.User.current().id){
+      var swipeBtn = [exportBtn, editBtn, deleteBtn];
+    }else
    var swipeBtn = [exportBtn, deleteBtn];
 
   return (

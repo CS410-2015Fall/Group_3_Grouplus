@@ -41,7 +41,7 @@ var options = {
     txt: {
       // TODO: Check if one is the owner, only the owner can change
       label: 'Name',
-      //placeholder: 'enter a new group name here',
+      placeholder: 'enter a new group name here',
       autoFocus: true
     },
     priority: {
@@ -57,8 +57,6 @@ class TodoAdd extends React.Component {
   constructor(props) {
     super(props);
   }
-
-
 
   save() {
     var value = this.refs.form.getValue();

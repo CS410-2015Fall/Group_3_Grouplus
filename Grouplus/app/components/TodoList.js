@@ -99,7 +99,6 @@ class TodoList extends ParseComponent{
         ParseReact.Mutation.Destroy(target).dispatch();
       }
     }; 
-    var that = this;
     var editBtn = {
       text: 'Edit', 
       backgroundColor:'#ffd805',
@@ -167,10 +166,8 @@ class TodoList extends ParseComponent{
   render(){
     var todoData;
     if(this.state.doneSwitchIsOn) {
-      console.log("todoData true + " + this.state.doneSwitchIsOn);
       todoData = this.data.todosDone;
     } else {
-      console.log("todoData false+ " + this.state.doneSwitchIsOn);
       todoData = this.data.todos;
     }
     return (
