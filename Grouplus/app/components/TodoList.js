@@ -113,7 +113,7 @@ class TodoList extends ParseComponent{
       }
     }; 
 
-    var checkFinishBtn = {
+    var checkDoneBtn = {
       text: 'Done', 
       backgroundColor:'#32cd32',
       onPress: function(){
@@ -128,26 +128,43 @@ class TodoList extends ParseComponent{
           rowData.whoAreDone.push(uid); 
           ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
         }else{
-
-        var index = rowData.whoAreDone.indexOf(uid);
-        if(index <0){
-          rowData.whoAreDone.push(uid); 
-          if(rowData.whoAreDone.length === that.props.group.members.length){
-          ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
-          }else{
-            ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+          var index = rowData.whoAreDone.indexOf(uid);
+          if(index <0){
+            rowData.whoAreDone.push(uid); 
+            if(rowData.whoAreDone.length === that.props.group.members.length){
+            ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
+            }else{
+              ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+            }
           }
         }
       }
+    }; 
 
-       // that.refreshQueries();
+    var checkUndoneBtn = {
+      text: 'Undone', 
+      backgroundColor:'#32cd32',
+      onPress: function(){
+        var target = {
+          className: 'Todo',
+          objectId: rowData.objectId,
+        };
+        var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
+        //If the todo is done, set done to false
+        rowData.whoAreDone.pop(uid); 
+        ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: false}).dispatch();
       }
     }; 
+
+    if (rowData.whoAreDone.includes(Parse.User.current().id)) {
+      var checkBtn = checkUndoneBtn;
+    } else 
+      var checkBtn = checkDoneBtn;
     // Edit button shows up only for the creator
     if(rowData.createdBy === Parse.User.current().id){
-      var swipeBtn = [checkFinishBtn, editBtn, deleteBtn];
+      var swipeBtn = [checkBtn, editBtn, deleteBtn];
     }else
-    var swipeBtn = [checkFinishBtn];
+    var swipeBtn = [checkBtn];
     return (
       <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
         <View>
@@ -160,6 +177,14 @@ class TodoList extends ParseComponent{
     return (
       <Separator/>
     );
+  }
+
+  renderSwitch(){
+    return(
+      <SwitchIOS
+        onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
+        value={this.state.doneSwitchIsOn} />    
+      )
   }
 
   renderNav(){
@@ -196,9 +221,7 @@ class TodoList extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         {this.renderNav()}
-        <SwitchIOS
-          onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
-          value={this.state.doneSwitchIsOn} />    
+        {this.renderSwitch()}
         <ListView
           dataSource={this.ds.cloneWithRows(todoData)}
           renderRow={this.renderRow.bind(this)} 
