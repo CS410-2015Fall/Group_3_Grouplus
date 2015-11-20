@@ -141,9 +141,14 @@ class Settings extends ParseComponent{
   }
 
   confirmQuitGroup() {
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      var msg = 'Are you sure you would like to quit from this group? WARNING: As the creator, it will delete the entire group.';
+    } else {
+      var msg = 'Are you sure you would like to quit from this group?';
+    }
     AlertIOS.alert(
       'Quit Group',
-      'Are you sure you would like to quit from this group?',
+      msg,
       [
         {text: 'Yes', onPress: () => this.quitGroup()},
         {text: 'Cancel'},
@@ -164,6 +169,14 @@ class Settings extends ParseComponent{
             objectId: this.props.group.objectId,
            };
           console.log("The group has no more member, deleting " + this.props.group.name);
+          ParseReact.Mutation.Destroy(target).dispatch();
+    }
+    if(this.props.group.createdBy === Parse.User.current().id) {
+            var target = {
+            className: 'Group',
+            objectId: this.props.group.objectId,
+           };
+          console.log("The group creator has deleted the group, deleting " + this.props.group.name);
           ParseReact.Mutation.Destroy(target).dispatch();
     }
     this.props.navigator.replace({
