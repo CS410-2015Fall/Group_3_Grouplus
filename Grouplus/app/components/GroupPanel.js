@@ -4,9 +4,8 @@ var React = require('react-native');
 var TodoList = require('./TodoList');
 var Photos = require('./Photos');
 var Events = require('./Events');
-var About = require('./GroupAbout');
+var Settings = require('./Settings');
 var Separator = require('./helpers/Separator');
-var NavBar = require('./helpers/NavBar');
 
 var {
   AppRegistry,
@@ -140,6 +139,7 @@ class StubView extends React.Component {
       {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
       {this.renderTabIcon('material|camera', 'Photos')}
       {this.renderTabIcon('material|calendar', 'Events')}
+      {this.renderTabIcon('material|settings', 'Settings')}
       </View>
       </View>
       );
@@ -154,6 +154,8 @@ class StubView extends React.Component {
       return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
       return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      case 'Settings':
+      return <Settings ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
       return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;

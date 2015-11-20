@@ -12,7 +12,6 @@ var ParseReact = require('parse-react/react-native');
 var ParseComponent = ParseReact.Component(React);
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
-var ParseComponent = ParseReact.Component(React);
 var { Icon } = require('react-native-icons');
 
 var {
@@ -50,22 +49,9 @@ var styles = StyleSheet.create({
   groupName: {
     fontSize: 24,
   },
-
   container: {
     flex: 1,
     backgroundColor: '#C5B9C9',
-  },
-  controlPanel: {
-    flex: 1,
-    backgroundColor:'#326945',
-  },
-  controlPanelText: {
-    color:'white',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 25,
   },
   categoryLabel: {
     fontSize: 24,
@@ -89,7 +75,7 @@ var styles = StyleSheet.create({
     fontSize:24,
     flex:1,
   },
-    rowInput: {
+  rowInput: {
     right:10,
   },
   buttonContainer: {
@@ -120,7 +106,7 @@ var styles = StyleSheet.create({
   },
 });
 
-class GroupAbout extends ParseComponent{
+class Settings extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -135,14 +121,7 @@ class GroupAbout extends ParseComponent{
       members : new Parse.Query('User').containedIn('objectId', state.members),
     }
   }
-  refresh() {
-    var that = this;
-    new Parse.Query('Group').equalTo('objectId', this.props.group.objectId).first({
-      success: function(results) {
-        that.setState({members: results.get('members')});
-      }
-    });
-  }
+
   onPressAddMember() {
     var that = this;
     this.props.navigator.push({
@@ -276,21 +255,35 @@ class GroupAbout extends ParseComponent{
     );
   }
 
-  render(){
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    var right = '';
     if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
       var right = 'material|edit';
-      }
-      else
-        var right = '';
+    }
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}
+      rightIcon={right} 
+      onPressRight={()=>this.OnPressEditGroup()}/>
+      );
+  }
+
+  render(){
     return (
-      <View style={basicStyles.blank}>
-        <NavBar 
-          title={this.props.group.name}
-          onPressTitle={()=>{this.refresh()}}
-          leftIcon={'material|close'} 
-          onPressLeft={()=>this.props.navigator.pop()}
-          rightIcon={right} 
-          onPressRight={()=>this.OnPressEditGroup()}/>
+      <View style={basicStyles.flex1}>
+        {this.renderNav()}
         <ListView
           renderHeader={this.renderHeader}
           dataSource={this.ds.cloneWithRows(this.data.members)}
@@ -309,4 +302,4 @@ GroupAbout.propTypes = {
   todos: React.PropTypes.array.isRequired,
 }*/
 
-module.exports = GroupAbout;
+module.exports = Settings;

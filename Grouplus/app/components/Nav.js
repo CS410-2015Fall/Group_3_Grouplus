@@ -24,7 +24,6 @@ var TodoAdd = require('./TodoAdd');
 var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
-var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
 var MyAccountEdit = require('./MyAccountEdit');
 var GroupEdit = require('./GroupEdit');
@@ -176,11 +175,6 @@ class Nav extends React.Component {
     if (id === 'Photo') {
       return (  
         <PhotoItem navigator={navigator} photoUrl={route.uri}/>
-      );
-    }
-    if (id === 'GroupAbout') {
-      return (
-        <GroupAbout group={route.group} navigator={navigator}/>
       );
     }
     if (id === 'MyAccountEdit') {
