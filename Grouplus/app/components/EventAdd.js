@@ -73,7 +73,7 @@ var styles = StyleSheet.create({
   },
 });
 
-class EventCreation extends React.Component{
+class EventAdd extends React.Component{
   constructor() {
     super();
   }
@@ -91,37 +91,36 @@ class EventCreation extends React.Component{
           name: value.name,
           location: value.location,
           dueDate: value.eventstartdate,
-          enddate: value.eventenddate
+          enddate: value.eventenddate,
         }); 
-        } else {
+      } else {
         var creator = ParseReact.Mutation.Create('Event', {
           name: value.name,
           createdBy: Parse.User.current().id,
           location: value.location,
           groupId: this.props.groupId, 
           dueDate: value.eventstartdate,
-          enddate: value.eventenddate
-          });
+          enddate: value.eventenddate,
+        });
       }     
-    creator.dispatch();
-    this.props.refresh();
-    this.props.navigator.pop();
+      creator.dispatch();
+      this.props.refresh();
+      this.props.navigator.pop();
     }
   }
 
 
   render(){
+    var title = 'New Event';
     if(this.props.status === 'edit') {
-      var title = 'Edit Event';
+      title = 'Edit Event';
       var value = {
         name: this.props.currentEvent.name,  
         location: this.props.currentEvent.location,
         eventstartdate: this.props.currentEvent.dueDate,
         eventenddate: this.props.currentEvent.enddate,
       };
-    } else {
-      var title = 'New Event'
-    }
+    } 
     return (
       <View 
         style={basicStyles.blank}>
@@ -144,4 +143,4 @@ class EventCreation extends React.Component{
   }
 }
 
-module.exports = EventCreation;
+module.exports = EventAdd;

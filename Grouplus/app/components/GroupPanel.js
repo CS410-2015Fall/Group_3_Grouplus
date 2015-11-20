@@ -62,14 +62,14 @@ class StubView extends React.Component {
   render() {
     return (
       <View style={styles.stubView}>
-        <View style={styles.spacer}/>
-        <Text style={styles.stubText}>
-          Pick a group from the drawer :) 
-        </Text>
-        <View style={styles.spacer}/>
-      </View>
-      );
-  }
+      <View style={styles.spacer}/>
+      <Text style={styles.stubText}>
+      Pick a group from the drawer :) 
+    </Text>
+    <View style={styles.spacer}/>
+    </View>
+    );
+}
 }
 
 /**
@@ -84,7 +84,7 @@ class StubView extends React.Component {
  * https://github.com/exponentjs/react-native-tab-navigator
  * (which is just made available at the time of writing.) 
  */
-class GroupPanel extends React.Component {
+ class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
@@ -110,13 +110,13 @@ class GroupPanel extends React.Component {
     }
     return (          
       <NavBar
-        leftIcon={backIcon}
-        onPressLeft={onBackPressed}
-        title={title}
-        onPressTitle={()=>this.refresh()}
-        rightIcon={'material|settings'}
-        onPressRight={this.gotoAbout.bind(this)}/>
-    );
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refresh()}
+      rightIcon={'material|settings'}
+      onPressRight={this.gotoAbout.bind(this)}/>
+      );
   }
   refresh(){
     this.refs.content.refreshQueries();
@@ -124,11 +124,11 @@ class GroupPanel extends React.Component {
   render(){
     return (
       <View style={basicStyles.flex1}>
-        {this.renderNav()}
-        {this.renderTabContent()}
-        {this.renderTabBar()}
+      {this.renderNav()}
+      {this.renderTabContent()}
+      {this.renderTabBar()}
       </View>
-    );
+      );
   }
   renderScreen(){
 
@@ -136,14 +136,14 @@ class GroupPanel extends React.Component {
   renderTabBar(){
     return (
       <View>
-        <Separator/>
-        <View style={styles.tabBar}>
-          {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
-          {this.renderTabIcon('material|camera', 'Photos')}
-          {this.renderTabIcon('material|calendar', 'Events')}
-        </View>
+      <Separator/>
+      <View style={styles.tabBar}>
+      {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
+      {this.renderTabIcon('material|camera', 'Photos')}
+      {this.renderTabIcon('material|calendar', 'Events')}
       </View>
-    );
+      </View>
+      );
   }
   renderTabContent(){
     var ref = 'content'
@@ -152,27 +152,27 @@ class GroupPanel extends React.Component {
     }
     switch (this.state.selected) {
       case 'Photos':
-        return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
-        return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
-        return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
     }
   }
   renderTabIcon(iconName, name){
     var color = this.state.selected === name ? '#3399FF' : '#CCCCCC';
     return (
       <TouchableWithoutFeedback
-        onPress={() => this.setState({selected: name})}>
-        <View style={styles.iconPlusText}>
-          <Icon 
-            name={iconName}
-            size={32} 
-            color={color} 
-            style={styles.icon}/>
-          <Text style={[styles.tabText, {color: color}]}> {name} </Text>
-        </View>
+      onPress={() => this.setState({selected: name})}>
+      <View style={styles.iconPlusText}>
+      <Icon 
+      name={iconName}
+      size={32} 
+      color={color} 
+      style={styles.icon}/>
+      <Text style={[styles.tabText, {color: color}]}> {name} </Text>
+      </View>
       </TouchableWithoutFeedback>
       );
   }
