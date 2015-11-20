@@ -18,6 +18,7 @@ var {
   AsyncStorage,
   TouchableHighlight,
   TouchableOpacity,
+  NetInfo,
   Text,
   NavigatorIOS,
   Platform,
@@ -41,7 +42,7 @@ class TodoList extends ParseComponent{
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {todoList: ""};
-   // AsyncStorage.setItem("todos"+this.props.group.objectId, ""); 
+    NetInfo.isConnected.fetch().done((connected) => {this.setState({"isConnected": connected});});
     AsyncStorage.getItem("todos"+this.props.group.objectId).then((value) => {
           if(value !== null && value.length >0){
               this.setState({"todoList": JSON.parse(value)});   
@@ -68,6 +69,7 @@ class TodoList extends ParseComponent{
         }).done();
   }*/
   componentDidUpdate(){
+        alert(this.state.isConnected);
      if(this.data.todos.length>0 && this.props.group.objectId !== null){
          AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(this.data.todos)); 
       }

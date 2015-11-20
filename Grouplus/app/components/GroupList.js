@@ -11,6 +11,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  AsyncStorage,
   TouchableOpacity,
   Navigator,
   Platform,
@@ -57,6 +58,12 @@ class GroupList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {groups: ""};
+    AsyncStorage.getItem("groups"+this.props.user.id).then((value) => {
+          if(value !== null && value.length >0){
+              this.setState({"groups": JSON.parse(value)});   
+          }
+    });
   }
   observe(props, state) {
     return {
@@ -64,7 +71,11 @@ class GroupList extends ParseComponent{
       groups: new Parse.Query('Group').equalTo('members', this.props.user.id),
     }
   }
-  
+  componentDidUpdate(){
+     if(this.data.groups.length>0 && this.props.user.id !== null){
+         AsyncStorage.setItem("groups"+this.props.user.id, JSON.stringify(this.data.groups)); 
+      }
+  }
   onPressRow(group) {
     if (this.props.onPressGroup) {
       this.props.onPressGroup(group);
@@ -116,7 +127,7 @@ class GroupList extends ParseComponent{
           title='My Groups'
           onPressTitle={()=>this.refreshQueries('groups')}/>
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.groups)}
+          dataSource={this.ds.cloneWithRows(this.data.groups.length > 0 ? this.data.groups : this.state.groups)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>
         <AddButton onPress={this.onPressNewGroup.bind(this)}/>
