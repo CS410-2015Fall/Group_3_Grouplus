@@ -24,7 +24,6 @@ var {
 } = React;
 
 var AddButton = require('./helpers/AddButton');
-var Modal = require('./helpers/Modal');
 var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');

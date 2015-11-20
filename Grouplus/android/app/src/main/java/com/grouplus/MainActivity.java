@@ -1,6 +1,6 @@
 package com.grouplus;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
@@ -16,8 +16,9 @@ import me.nucleartux.date.ReactDatePackage; // import
 import com.smixx.reactnativeicons.ReactNativeIcons;  // <--- import
 import java.util.Arrays; // <--- import this if you want to specify which fonts to load
 import com.smixx.reactnativeicons.IconFont; // <--- import this if you want to specify which fonts to load
+import com.grouplus.CalendarPackage;
 
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+public class MainActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new MainReactPackage())
                 .addPackage(new ReactNativeIcons()) 
                 .addPackage(new ReactDatePackage(this)) 
+                .addPackage(new CalendarPackage())                
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();

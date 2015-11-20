@@ -7,7 +7,6 @@ var ParseComponent = ParseReact.Component(React);
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
-var Modal = require('react-native-modalbox');
 var EventItem = require('./EventItem');
 var Swipeout = require('./helpers/Swipeout');
 var Separator = require('./helpers/Separator');
@@ -31,6 +30,7 @@ var Utils = require('./helpers/Utils');
 var {
   CalendarManager
 } = require('NativeModules');
+var {CalendarModule} = require('NativeModules');
 var AddButton = require('./helpers/AddButton');
 
 var basicStyles = require('./helpers/Styles');
@@ -89,10 +89,10 @@ renderRow(rowData) {
           }
         });
       } else {
-        return;
+        CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getMilliseconds(), rowData.enddate.getMilliseconds());
       }
     } 
-  };
+
     var that = this;
     var editBtn = {
       text: 'Edit', 
@@ -107,7 +107,7 @@ renderRow(rowData) {
     });
         
       }
-    }; 
+    }
 
   var deleteBtn = {
     text: 'Delete', 
