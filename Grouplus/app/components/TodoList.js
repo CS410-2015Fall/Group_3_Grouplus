@@ -28,7 +28,7 @@ var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
-
+var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
 
 var basicStyles = require('./helpers/Styles');
@@ -147,7 +147,7 @@ class TodoList extends ParseComponent{
     if(rowData.createdBy === Parse.User.current().id){
       var swipeBtn = [checkFinishBtn, editBtn, deleteBtn];
     }else
-    var swipeBtn = [checkFinishBtn, deleteBtn];
+    var swipeBtn = [checkFinishBtn];
     return (
       <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
         <View>
@@ -162,6 +162,30 @@ class TodoList extends ParseComponent{
     );
   }
 
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      var right = 'material|edit';
+    }
+    else
+      var right = '';
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}/>
+      );
+  }
+
   render(){
     var todoData;
     if(this.state.doneSwitchIsOn) {
@@ -171,6 +195,7 @@ class TodoList extends ParseComponent{
     }
     return (
       <View style={basicStyles.flex1}>
+        {this.renderNav()}
         <SwitchIOS
           onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
           value={this.state.doneSwitchIsOn} />    

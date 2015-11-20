@@ -124,7 +124,6 @@ class StubView extends React.Component {
   render(){
     return (
       <View style={basicStyles.flex1}>
-      {this.renderNav()}
       {this.renderTabContent()}
       {this.renderTabBar()}
       </View>

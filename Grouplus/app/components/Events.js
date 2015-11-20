@@ -12,7 +12,7 @@ var Swipeout = require('./helpers/Swipeout');
 var Separator = require('./helpers/Separator');
 var EventAdd = require('./EventAdd');
 var mockdata = require('../utils/MockData');
-
+var NavBar = require('./helpers/NavBar');
 
 var {
   StyleSheet,
@@ -124,7 +124,7 @@ class Events extends ParseComponent{
   if(rowData.createdBy === Parse.User.current().id){
     var swipeBtn = [exportBtn, editBtn, deleteBtn];
   }else
-    var swipeBtn = [exportBtn, deleteBtn];
+    var swipeBtn = [exportBtn];
 
   return (
     <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
@@ -135,6 +135,24 @@ class Events extends ParseComponent{
     </Swipeout>
   );
 }
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}/>
+      );
+  }
 
   render(){
     var events;
@@ -147,6 +165,7 @@ class Events extends ParseComponent{
       }
     return (
       <View style={basicStyles.flex1}>
+        {this.renderNav()}
         <SwitchIOS
           onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
           value={this.state.doneSwitchIsOn} />    

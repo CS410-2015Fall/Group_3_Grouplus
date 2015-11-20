@@ -25,7 +25,7 @@ var {
 } = React;
 
 var AddButton = require('./helpers/AddButton');
-
+var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
 
 var options = {
@@ -129,6 +129,29 @@ class Photos extends ParseComponent{
   }
 //<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
 
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      var right = 'material|edit';
+    }
+    else
+      var right = '';
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}/>
+      );
+  }
 
   renderRow(image){
     return(
@@ -141,6 +164,7 @@ class Photos extends ParseComponent{
   render(){
     return (
       <View style={basicStyles.flex1}>
+        {this.renderNav()}
         <ListView contentContainerStyle={styles.list}
           dataSource={this.ds.cloneWithRows(this.data.imageList)}
           renderRow={this.renderRow.bind(this)}  />
