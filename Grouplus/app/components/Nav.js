@@ -175,7 +175,7 @@ class Nav extends React.Component {
     } 
     if (id === 'Photo') {
       return (  
-      <PhotoItem navigator={navigator} photoUrl={route.uri}/>
+        <PhotoItem navigator={navigator} photoUrl={route.uri}/>
       );
     }
     if (id === 'GroupAbout') {
