@@ -127,7 +127,7 @@ class Settings extends ParseComponent{
     this.props.navigator.push({
                    id: 'GroupAddMember',
                    group: that.props.group,
-                   refresh: that.refresh.bind(that),
+                   refresh: that.refreshQueries,
                  });
   }
 
@@ -136,7 +136,7 @@ class Settings extends ParseComponent{
     this.props.navigator.push({
                    id: 'GroupEdit',
                    group: that.props.group,
-                   refresh: that.refresh.bind(that),
+                   refresh: that.refreshQueries,
                  });
   }
 

@@ -68,7 +68,7 @@ class GroupAddMember extends React.Component {
               objectId: that.props.group.objectId
             }, "members", result[0].id);
             creator.dispatch();
-            that.props.refresh();
+            //that.props.refresh();
             that.props.navigator.pop();
           }
           // The object was retrieved successfully.
