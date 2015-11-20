@@ -7,7 +7,6 @@ var ParseComponent = ParseReact.Component(React);
 var Parse = require('parse/react-native');
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
-var Modal = require('react-native-modalbox');
 var EventItem = require('./EventItem');
 var Swipeout = require('./helpers/Swipeout');
 var Separator = require('./helpers/Separator');
