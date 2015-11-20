@@ -26,7 +26,6 @@ var {
 } = React;
 
 var NavBar = require('./helpers/NavBar');
-var Modal = require('react-native-modalbox');
 var Separator = require('./helpers/Separator');
 var AddButton = require('./helpers/AddButton');
 var EditButton = require('./helpers/EditButton');

@@ -5,6 +5,7 @@ var {
   StyleSheet,
   TouchableOpacity,
   Text,
+  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -12,7 +13,7 @@ var { Icon } = require('react-native-icons');
 var basicStyles = require('./Styles');
 var styles = StyleSheet.create({
   statusBar: {
-    height: 20,
+    height: Platform.OS === 'ios' ? 20 : 0,
   },
   navBarContent: {
     flex: 1, 
@@ -21,7 +22,7 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   navBar: {
-    height: 64,
+    height: Platform.OS === 'ios' ? 64 : 50,
     backgroundColor: '#3399FF',
     justifyContent: 'flex-start',
   },

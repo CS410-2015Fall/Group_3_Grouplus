@@ -54,10 +54,6 @@ var styles = StyleSheet.create({
     color: 'white', 
     margin: 10, 
     fontSize: 22,
-  },  
-  imageContainer: {
-    flex: 1,
-    alignItems: 'stretch',
   },
 });
 
@@ -179,11 +175,7 @@ class Nav extends React.Component {
     } 
     if (id === 'Photo') {
       return (  
-      <PhotoItem navigator={navigator} photoUrl={route.uri}/>   
-      /* 
-        <View style={styles.imageContainer}>
-          <Image style={basicStyles.flex1}  source={{uri: route.uri}}/>
-        </View>*/
+      <PhotoItem navigator={navigator} photoUrl={route.uri}/>
       );
     }
     if (id === 'GroupAbout') {
@@ -204,13 +196,6 @@ class Nav extends React.Component {
     else {
       return <PlainTextScreen text={'Opps! You found a bug :('}/>;
     }
-  }
-  plainTextScreen(text) {
-    return (
-      <View style={styles.textScreen}>
-        <Text style={styles.textScreenText}>{text}</Text>
-      </View>
-    );
   }
 }
 
