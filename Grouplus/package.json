@@ -13,7 +13,7 @@
     "react-native-action-button": "^1.0.5",
     "react-native-activity-view": "^0.2.7",
     "react-native-date": "^1.0.1",
-    "react-native-facebook-login": "^0.5.8",
+    "react-native-facebook-login": "1.0.0",
     "react-native-fbsdkcore": "0.0.5",
     "react-native-fbsdklogin": "0.0.5",
     "react-native-fbsdkshare": "0.0.5",
