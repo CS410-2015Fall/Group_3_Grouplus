@@ -34,6 +34,8 @@ if (Platform.OS === 'ios') {
   var {
     FBSDKAccessToken,
   } = FBSDKCore;
+} else {
+  
 }
 
 var Parse = require('parse/react-native');

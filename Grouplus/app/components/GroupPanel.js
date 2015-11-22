@@ -19,6 +19,9 @@ var {
 
 var { Icon } = require('react-native-icons');
 
+var PlainTextScreen = require('./helpers/PlainTextScreen');
+var NavBar = require('./helpers/NavBar');
+
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   tabBar: {
@@ -28,6 +31,11 @@ var styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#FAFAFA',
+  },  
+  stubView: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   tabText: {
     fontSize: 8,
@@ -40,11 +48,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-  },
-  stubView: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
   },
   stubText: {
     fontSize: 36,
@@ -60,15 +63,12 @@ var styles = StyleSheet.create({
 class StubView extends React.Component {
   render() {
     return (
-      <View style={styles.stubView}>
-      <View style={styles.spacer}/>
-      <Text style={styles.stubText}>
-      Pick a group from the drawer :) 
-    </Text>
-    <View style={styles.spacer}/>
-    </View>
+      <View style={basicStyles.flex1}>
+        {this.props.nav}
+        <PlainTextScreen text={'Pick a group from the drawer :)'}/>
+      </View>
     );
-}
+  }
 }
 
 /**
@@ -97,84 +97,73 @@ class StubView extends React.Component {
       group: that.props.group,
     });
   }
-  renderNav(){
-    var backIcon, onBackPressed;
-    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-    if (Platform.OS === 'ios') {
-      backIcon = 'material|chevron-left';
-      onBackPressed = this.props.navigator.pop.bind(this);
-    } else {
-      backIcon = 'material|menu';
-      onBackPressed = this.props.openDrawer;
-    }
-    return (          
-      <NavBar
-      leftIcon={backIcon}
-      onPressLeft={onBackPressed}
-      title={title}
-      onPressTitle={()=>this.refresh()}
-      rightIcon={'material|settings'}
-      onPressRight={this.gotoAbout.bind(this)}/>
-      );
-  }
   refresh(){
     this.refs.content.refreshQueries();
   }
   render(){
     return (
       <View style={basicStyles.flex1}>
-      {this.renderTabContent()}
-      {this.renderTabBar()}
+        {this.renderTabContent()}
+        {this.renderTabBar()}
       </View>
-      );
-  }
-  renderScreen(){
-
+    );
   }
   renderTabBar(){
     return (
       <View>
-      <Separator/>
-      <View style={styles.tabBar}>
-      {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
-      {this.renderTabIcon('material|camera', 'Photos')}
-      {this.renderTabIcon('material|calendar', 'Events')}
-      {this.renderTabIcon('material|settings', 'Settings')}
+        <Separator/>
+        <View style={styles.tabBar}>
+          {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
+          {this.renderTabIcon('material|camera', 'Photos')}
+          {this.renderTabIcon('material|calendar', 'Events')}
+          {this.renderTabIcon('material|settings', 'Settings')}
+        </View>
       </View>
-      </View>
-      );
+    );
   }
   renderTabContent(){
     var ref = 'content'
     if (this.props.group === null) {
-      return <StubView/>;
+      return <StubView nav={this.renderNav()}/>;
     }
     switch (this.state.selected) {
       case 'Photos':
-      return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator} 
+                     openDrawer={this.props.openDrawer}/>;
       case 'Events':
-      return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Events ref={ref} group={this.props.group} navigator={this.props.navigator} 
+                     openDrawer={this.props.openDrawer}/> ;
       case 'Settings':
-      return <Settings ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Settings ref={ref} group={this.props.group} navigator={this.props.navigator} 
+                       openDrawer={this.props.openDrawer}/>;
       case 'TodoList':
       default:
-      return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator} 
+                       openDrawer={this.props.openDrawer}/>;
     }
   }
   renderTabIcon(iconName, name){
     var color = this.state.selected === name ? '#3399FF' : '#CCCCCC';
     return (
       <TouchableWithoutFeedback
-      onPress={() => this.setState({selected: name})}>
-      <View style={styles.iconPlusText}>
-      <Icon 
-      name={iconName}
-      size={32} 
-      color={color} 
-      style={styles.icon}/>
-      <Text style={[styles.tabText, {color: color}]}> {name} </Text>
-      </View>
+        onPress={() => this.setState({selected: name})}>
+        <View style={styles.iconPlusText}>
+          <Icon 
+            name={iconName}
+            size={32} 
+            color={color} 
+            style={styles.icon}/>
+          <Text style={[styles.tabText, {color: color}]}> {name} </Text>
+        </View>
       </TouchableWithoutFeedback>
+    );
+  }  
+  renderNav(){
+    return (          
+      <NavBar
+        leftIcon={'material|menu'}
+        onPressLeft={this.props.openDrawer}
+        title={'Grouplus'}/>
       );
   }
 }
