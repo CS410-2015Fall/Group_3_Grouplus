@@ -63,12 +63,30 @@ class GroupAddMember extends React.Component {
             Utils.alertToast("Opps, there aren't any user with this email.");
           } else{
             // AddUnique for only adding member once
-            var creator = ParseReact.Mutation.AddUnique({
+            var group = {
               className: 'Group',
               objectId: that.props.group.objectId
-            }, "members", result[0].id);
+            };
+            var creator = ParseReact.Mutation.AddUnique(group, "members", result[0].id);
             creator.dispatch();
-            //that.props.refresh();
+            var pushQuery = new Parse.Query(Parse.Installation);
+            pushQuery.equalTo('deviceType', 'ios'); 
+            pushQuery.equalTo('user', result[0].id); 
+            console.log("USER " + result[0].id);
+            // Sending a push notification to the newly added user
+            Parse.Push.send({
+              where: pushQuery, 
+              data: {
+                alert: "You have been added to new group '" + that.props.group.name + "' !"
+              }
+            },{
+              success: function() {
+                console.log("PUSH SUCCESSFUL");
+              },
+              error: function(error) {
+                throw "Got an error " + error.code + " : " + error.message;
+              }
+            });
             that.props.navigator.pop();
           }
           // The object was retrieved successfully.

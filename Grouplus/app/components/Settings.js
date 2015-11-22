@@ -186,7 +186,6 @@ class Settings extends ParseComponent{
   }
 
   renderRow(rowData) {
-    console.log("FACE ID : " + rowData.facebookId);
     return (
       <View>
         <View style={styles.group}>
