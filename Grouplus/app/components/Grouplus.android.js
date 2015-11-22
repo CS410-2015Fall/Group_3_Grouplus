@@ -59,6 +59,7 @@ class Grouplus extends React.Component {
   render(){
     return (
       <DrawerLayoutAndroid
+        style={styles.container}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
         keyboardDismissMode="on-drag"
@@ -68,7 +69,7 @@ class Grouplus extends React.Component {
                     navigator={this.props.navigator} 
                     openDrawer={() => this.drawer.openDrawer()}/>
       </DrawerLayoutAndroid>
-      );
+    );
   }  
   renderDrawer(){
     return (

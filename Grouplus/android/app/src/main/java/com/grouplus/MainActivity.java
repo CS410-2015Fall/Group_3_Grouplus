@@ -3,30 +3,31 @@ package com.grouplus;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-
-import me.nucleartux.date.ReactDatePackage; // import
-
-import com.smixx.reactnativeicons.ReactNativeIcons;  // <--- import
-import java.util.Arrays; // <--- import this if you want to specify which fonts to load
-import com.smixx.reactnativeicons.IconFont; // <--- import this if you want to specify which fonts to load
+import me.nucleartux.date.ReactDatePackage;
+import com.smixx.reactnativeicons.ReactNativeIcons; 
+import java.util.Arrays; 
+import com.smixx.reactnativeicons.IconFont; 
 import com.grouplus.CalendarPackage;
+import android.content.Intent; 
+import com.magus.fblogin.FacebookLoginPackage; 
 
 public class MainActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
+    private FacebookLoginPackage mFacebookLoginPackage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReactRootView = new ReactRootView(this);
+        mFacebookLoginPackage = new FacebookLoginPackage(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
@@ -35,7 +36,8 @@ public class MainActivity extends FragmentActivity implements DefaultHardwareBac
                 .addPackage(new MainReactPackage())
                 .addPackage(new ReactNativeIcons()) 
                 .addPackage(new ReactDatePackage(this)) 
-                .addPackage(new CalendarPackage())                
+                .addPackage(new CalendarPackage())
+                .addPackage(mFacebookLoginPackage)                
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -84,5 +86,13 @@ public class MainActivity extends FragmentActivity implements DefaultHardwareBac
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onResume(this);
         }
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // handle onActivityResult
+        mFacebookLoginPackage.handleActivityResult(requestCode, resultCode, data);
     }
 }

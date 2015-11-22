@@ -24,7 +24,6 @@ var TodoAdd = require('./TodoAdd');
 var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
-var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
 var MyAccountEdit = require('./MyAccountEdit');
 var GroupEdit = require('./GroupEdit');
@@ -35,6 +34,8 @@ if (Platform.OS === 'ios') {
   var {
     FBSDKAccessToken,
   } = FBSDKCore;
+} else {
+  
 }
 
 var Parse = require('parse/react-native');
@@ -155,12 +156,12 @@ class Nav extends React.Component {
     }
     if (id === 'TodoAdd') {
       return (
-        <TodoAdd navigator={navigator} group={route.group} refresh={route.refresh}/>
+        <TodoAdd navigator={navigator} group={route.group} refresh={route.refresh} status={route.status} todo={route.todo}/>
       );
     }
     if (id === 'EventAdd') {
       return (
-        <EventAdd navigator={navigator} groupId={route.groupId}/>
+        <EventAdd navigator={navigator} groupId={route.groupId} refresh={route.refresh} status={route.status} currentEvent= {route.currentEvent}/>
       );
     }
     if (id === 'GroupAddMember') {
@@ -176,11 +177,6 @@ class Nav extends React.Component {
     if (id === 'Photo') {
       return (  
         <PhotoItem navigator={navigator} photoUrl={route.uri}/>
-      );
-    }
-    if (id === 'GroupAbout') {
-      return (
-        <GroupAbout group={route.group} navigator={navigator}/>
       );
     }
     if (id === 'MyAccountEdit') {
