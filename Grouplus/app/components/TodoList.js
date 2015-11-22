@@ -54,8 +54,11 @@ class TodoList extends ParseComponent{
   }
 
   observe(props, state) {
-    var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
-    var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
+    var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true)
+                            .equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
+    var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true)
+                            .equalTo('group', this.props.group.objectId).equalTo('createdBy', 
+                              Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate'),
       todosDone: new Parse.Query('Todo').descending('dueDate').equalTo('group', this.props.group.objectId).equalTo('done', true),
@@ -87,6 +90,7 @@ class TodoList extends ParseComponent{
 
   renderRow(rowData) {
     var that = this;
+    var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
     var deleteBtn = {
       text: 'Delete', 
       backgroundColor: '#ff0000',
@@ -103,13 +107,12 @@ class TodoList extends ParseComponent{
       backgroundColor:'#ffd805',
       onPress: function(){
         that.props.navigator.push({
-        id: 'TodoAdd',
-        group: that.props.group.objectId,
-        todo: rowData,
-        refresh: that.refreshQueries.bind(that),
-        status: 'edit',
-    });
-        
+          id: 'TodoAdd',
+          group: that.props.group.objectId,
+          todo: rowData,
+          refresh: that.refreshQueries.bind(that),
+          status: 'edit',
+        });
       }
     }; 
 
@@ -121,14 +124,13 @@ class TodoList extends ParseComponent{
           className: 'Todo',
           objectId: rowData.objectId,
         };
-        var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
 
         //If the todo is individual, set done to true
         if(rowData.individual === true) {
           rowData.whoAreDone.push(uid); 
           ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
         }else{
-          var index = rowData.whoAreDone.indexOf(uid);
+          var index = rowData.whoAreDone.indexOf();
           if(index <0){
             rowData.whoAreDone.push(uid); 
             if(rowData.whoAreDone.length === that.props.group.members.length){
@@ -149,19 +151,14 @@ class TodoList extends ParseComponent{
           className: 'Todo',
           objectId: rowData.objectId,
         };
-        var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
         //If the todo is done, set done to false
         rowData.whoAreDone.pop(uid); 
         ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: false}).dispatch();
       }
     }; 
-
-    if (rowData.whoAreDone.includes(Parse.User.current().id)) {
-      var checkBtn = checkUndoneBtn;
-    } else 
-      var checkBtn = checkDoneBtn;
+    var checkBtn = rowData.whoAreDone.indexOf(uid) == -1 ? checkDoneBtn : checkUndoneBtn;
     // Edit button shows up only for the creator
-    if(rowData.createdBy === Parse.User.current().id){
+    if(rowData.createdBy === uid){
       var swipeBtn = [checkBtn, editBtn, deleteBtn];
     }else
     var swipeBtn = [checkBtn];
@@ -173,6 +170,7 @@ class TodoList extends ParseComponent{
       </Swipeout>
     );
   }
+
   renderSeparator() {
     return (
       <Separator/>
@@ -190,7 +188,8 @@ class TodoList extends ParseComponent{
   renderNav(){
     var backIcon, onBackPressed;
     var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === 
+        (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
       var right = 'material|edit';
     }
     else

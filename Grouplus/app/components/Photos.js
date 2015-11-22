@@ -121,55 +121,52 @@ class Photos extends ParseComponent{
           query.get(object.objectId, {
             success:function(photoItem){
               photoItem.set('imgFile',file);
-             
+
               photoItem.save(null, {
                success: function(item) {
                  that.refreshQueries();
                },
                error: function(item, error) {
-                // Execute any logic that should take place if the save fails.
-            // error is a Parse.Error with an error code and message.
-                alert('Pictures failed');     
-              }
-            })
-          }
-        });          
-      });
+                  // Execute any logic that should take place if the save fails.
+              // error is a Parse.Error with an error code and message.
+              alert('Pictures failed');     
+            }
+          })
+            }
+          });          
+        });
 
-this.setState({
-  avatarSource: source
-});
-}
-});
-}
-//<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
-OnPressChooseDelete(){
-  this.setState({isEditing: !this.state.isEditing });
-}
-
-onPressDelete(image){
- var target = {
-  className: 'GroupPhotos',
-  objectId: image.objectId,
-};
-ParseReact.Mutation.Destroy(target).dispatch();
-}
-
-renderNav(){
-  var backIcon, onBackPressed;
-  var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-  var right = 'material|delete';
-  if(this.state.isEditing){
-    right = 'material|close';
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
   }
-    /*
+  //<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+  OnPressChooseDelete(){
+    this.setState({isEditing: !this.state.isEditing });
+  }
+  onPressDelete(image){
+    var target = {
+      className: 'GroupPhotos',
+      objectId: image.objectId,
+    };
+    ParseReact.Mutation.Destroy(target).dispatch();
+  }
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    var right = 'material|delete';
+    if(this.state.isEditing){
+      right = 'material|close';
+    }
     if (Platform.OS === 'ios') {
       backIcon = 'material|chevron-left';
       onBackPressed = this.props.navigator.pop.bind(this);
     } else {
       backIcon = 'material|menu';
       onBackPressed = this.props.openDrawer;
-    }*/
+    }
     return (          
       <NavBar
       leftIcon={backIcon}
@@ -178,9 +175,8 @@ renderNav(){
       onPressTitle={()=>this.refreshQueries}
       rightIcon={right} 
       onPressRight={()=>this.OnPressChooseDelete()}/>
-      );
+    );
   }
-
   renderRow(image){
     if(image.imgFile){
     if(!this.state.isEditing){

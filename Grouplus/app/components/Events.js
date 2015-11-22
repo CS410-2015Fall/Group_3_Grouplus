@@ -121,10 +121,11 @@ class Events extends ParseComponent{
   };
   
   // Edit button shows up only for the creator
-  if(rowData.createdBy === Parse.User.current().id){
+  if(rowData.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")){
     var swipeBtn = [exportBtn, editBtn, deleteBtn];
-  }else
+  } else {
     var swipeBtn = [exportBtn];
+  }
 
   return (
     <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
@@ -147,10 +148,10 @@ class Events extends ParseComponent{
     }
     return (          
       <NavBar
-      leftIcon={backIcon}
-      onPressLeft={onBackPressed}
-      title={title}
-      onPressTitle={()=>this.refreshQueries}/>
+        leftIcon={backIcon}
+        onPressLeft={onBackPressed}
+        title={title}
+        onPressTitle={()=>this.refreshQueries}/>
       );
   }
 
