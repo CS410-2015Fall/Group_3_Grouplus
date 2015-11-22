@@ -21,6 +21,7 @@ var {
   View,
   Text,
   TouchableOpacity,
+  AlertIOS,
   Platform,
 } = React;
 
@@ -56,19 +57,28 @@ var styles = StyleSheet.create({
       flexDirection: 'row',
       flexWrap: 'wrap'
   },
-  item: {
+  photoListItem: {
       height: windowSize.width/3,
       width: windowSize.width/3,
       borderWidth: 1,
       borderColor: '#fff'
-  }
+  }, 
+  photoListEditItem: {
+      height: windowSize.width/3,
+      width: windowSize.width/3,
+      borderWidth: 1,
+      borderColor: '#fff',
+      opacity: 0.5
+  }, 
 });
-
 
 class Photos extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {
+      isEditing: false
+    }
   }
   observe(props, state) {
     return {
@@ -128,37 +138,66 @@ class Photos extends ParseComponent{
     });
   }
 //<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+OnPressChooseDelete(){
+  this.setState({isEditing: !this.state.isEditing });
+}
 
-  renderNav(){
+onPressDelete(image){
+   var target = {
+          className: 'GroupPhotos',
+          objectId: image.objectId,
+    };
+  ParseReact.Mutation.Destroy(target).dispatch();
+}
+
+renderNav(){
     var backIcon, onBackPressed;
     var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
-      var right = 'material|edit';
+    var right = 'material|delete';
+    if(this.state.isEditing){
+      right = 'material|close';
     }
-    else
-      var right = '';
+    /*
     if (Platform.OS === 'ios') {
       backIcon = 'material|chevron-left';
       onBackPressed = this.props.navigator.pop.bind(this);
     } else {
       backIcon = 'material|menu';
       onBackPressed = this.props.openDrawer;
-    }
+    }*/
     return (          
       <NavBar
       leftIcon={backIcon}
       onPressLeft={onBackPressed}
       title={title}
-      onPressTitle={()=>this.refreshQueries}/>
+      onPressTitle={()=>this.refreshQueries}
+       rightIcon={right} 
+      onPressRight={()=>this.OnPressChooseDelete()}/>
       );
   }
 
   renderRow(image){
+  if(!this.state.isEditing){
     return(
       <TouchableHighlight onPress={() => this.onPressRow(image)}>
-        <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
+        <Image style={styles.photoListItem} source={{uri: image.imgFile.url()}}/>
       </TouchableHighlight>
     );
+  }
+  else{
+    return(
+      <TouchableHighlight style={{opacity:0.5}} onPress={() => AlertIOS.alert(
+            "",
+            "Delete this photo",
+            [
+              {text: 'Cancel', onPress: () => console.log('Action cancelled')},
+              {text: 'Delete', onPress: () => this.onPressDelete(image)},
+            ]
+          )}>
+        <Image style={styles.photoListItem} source={{uri: image.imgFile.url()}}/>
+      </TouchableHighlight>
+    );
+  }
   }
 
   render(){
