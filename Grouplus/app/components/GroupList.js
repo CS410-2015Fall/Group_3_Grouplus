@@ -53,7 +53,7 @@ var styles = StyleSheet.create({
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
 
-class GroupList extends ParseComponent{
+class GroupList extends ParseComponent {
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
