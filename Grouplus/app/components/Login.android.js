@@ -64,7 +64,7 @@ class Login extends React.Component {
           ParseReact.Mutation.Set(
             {
               className: '_User',
-              objectId: profile.id
+              objectId: user.id
             }, 
             {
               //setting username, email, name and facebook Id
