@@ -121,7 +121,7 @@ class Events extends ParseComponent{
   };
   
   // Edit button shows up only for the creator
-  if(rowData.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")){
+  if(rowData.createdBy === Parse.User.current().id) {
     var swipeBtn = [exportBtn, editBtn, deleteBtn];
   } else {
     var swipeBtn = [exportBtn];

@@ -39,10 +39,11 @@ class GroupAdd extends React.Component {
   save() {
     var value = this.refs.form.getValue();
     if (value) {
+      var id = Parse.User.current().id;
       var creator = ParseReact.Mutation.Create('Group', {
         name: value.txt,
-        createdBy: Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI",
-        members: [Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"],
+        createdBy: id,
+        members: [id],
     });
         creator.dispatch();
         this.props.navigator.pop();

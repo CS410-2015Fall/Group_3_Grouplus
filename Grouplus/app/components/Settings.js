@@ -141,7 +141,7 @@ class Settings extends ParseComponent{
   }
 
   confirmQuitGroup() {
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === Parse.User.current().id) {
       var msg = 'Are you sure you would like to quit from this group? WARNING: As the creator, it will delete the entire group.';
     } else {
       var msg = 'Are you sure you would like to quit from this group?';
@@ -203,7 +203,7 @@ class Settings extends ParseComponent{
   }
 
   renderAddButton() {
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === Parse.User.current().id) {
       var that = this;
       return (
       <View>
@@ -220,7 +220,7 @@ class Settings extends ParseComponent{
     }
   }
   renderEditButton() {
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === Parse.User.current().id) {
       return (
         <EditButton onPress={this.OnPressEditGroup.bind(this)}/>
       );
@@ -271,7 +271,7 @@ class Settings extends ParseComponent{
     var backIcon, onBackPressed;
     var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
     var right = '';
-    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === Parse.User.current().id) {
       var right = 'material|edit';
     }
     if (Platform.OS === 'ios') {

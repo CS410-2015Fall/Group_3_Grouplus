@@ -134,6 +134,7 @@ class Nav extends React.Component {
   }
   renderScene(route, navigator) {
     var id = route.id;
+    // TODO: refactor to switch 
     if (id === 'Login') {
       return (
         <Login navigator={navigator} />
