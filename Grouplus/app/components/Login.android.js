@@ -94,9 +94,6 @@ class Login extends React.Component {
   render(){
     return (
       <View>
-        <ScrollView>
-          <Text>in android login screen</Text>
-        </ScrollView>
         <FBLogin
           onLogin={this.onLogin.bind(this)}
           onLoginFound={this.onLogin.bind(this)}

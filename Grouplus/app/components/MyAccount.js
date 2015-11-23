@@ -7,18 +7,7 @@ var React = require('react-native');
 var Parse = require('parse/react-native');
 var ParseReact = require('parse-react/react-native');
 var ParseComponent = ParseReact.Component(React);
-var FBSDKCore = require('react-native-fbsdkcore');
-var {
-  FBSDKGraphRequest,
-  FBSDKGraphRequestManager,
-} = FBSDKCore;
-var FBSDKLogin = require('react-native-fbsdklogin');
-var {
-  FBSDKLoginButton,
-} = FBSDKLogin;
 
-var { Icon,
-} = require('react-native-icons');
 
 var {
   View,
@@ -26,9 +15,27 @@ var {
   StyleSheet,
   ListView,
   Text,
-  NavigatorIOS,
+  Platform,
   TouchableHighlight,
 } = React;
+
+
+if (Platform.OS === 'ios') {
+  var FBSDKCore = require('react-native-fbsdkcore');
+  var {
+    FBSDKGraphRequest,
+    FBSDKGraphRequestManager,
+  } = FBSDKCore;
+  var FBSDKLogin = require('react-native-fbsdklogin');
+  var {
+    FBSDKLoginButton,
+  } = FBSDKLogin;
+} else {
+  var FBLogin = require('react-native-facebook-login');
+}
+
+var { Icon,
+} = require('react-native-icons');
 
 var NavBar = require('./helpers/NavBar');
 var MyAccountEdit = require('./MyAccountEdit');
@@ -98,10 +105,30 @@ class MyAccount extends React.Component{
       id: 'MyAccountEdit',
     });
   }
-
+  onLogOut(){
+    Parse.User.logOut();
+    this.props.navigator.replace({
+      id: 'Login',
+    });
+  }
+  renderFBButton(){
+    if (Platform.OS === 'ios') {
+      return (
+        <FBSDKLoginButton
+          style={styles.loginButton}
+          onLogoutFinished={this.onLogOut.bind(this)}/>
+      );
+    } else {
+      return (
+        <FBLogin
+          onLogout={this.onLogOut.bind(this)}/>
+      );
+    }
+  }
   render(){
     var user = Parse.User.current(); 
     console.log("NAME: " + user.get('name') + user.get('email'));
+
     return (
       <View 
         style={basicStyles.blank}>
@@ -117,7 +144,7 @@ class MyAccount extends React.Component{
             <Text style={styles.name}>{user.get('name')} </Text>
             <TouchableHighlight onPress={this.onPressEditName.bind(this)}>
             <Icon
-              name='ion|edit'
+              name='material|edit'
               size={20}
               color='white'
               style={styles.edit}
@@ -125,15 +152,7 @@ class MyAccount extends React.Component{
               </TouchableHighlight>
               </View>
             <Text style={styles.email}>{user.get('email')}</Text>
-            <FBSDKLoginButton
-              style={styles.loginButton}
-              onLogoutFinished={() => {
-                Parse.User.logOut();
-                this.props.navigator.replace({
-                  id: 'Login',
-                });
-              }}
-            />
+            {this.renderFBButton()}
           </View>
         </Image>
       </View>
