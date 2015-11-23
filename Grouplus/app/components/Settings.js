@@ -110,25 +110,20 @@ class Settings extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.state = {
-      members: props.group.members,
-    }
-  }
-
-  componentWillMount() {
-    // Check if user has turned on exportEvent
     var exportOn = false;
     if (this.props.group.exportEventOn.indexOf(Parse.User.current().id)!=-1) {
       console.log("EXPORT IS ON");
       exportOn = true;
     }
-    console.log("SET STATE");
-    this.setState({exportEvent: exportOn});
+    this.state = {
+      members: props.group.members,
+      exportEvent: exportOn,
+    }
   }
 
   observe(props, state) {
     return {
-      members : new Parse.Query('User').containedIn('objectId', this.props.group.members),
+      members : new Parse.Query('User').containedIn('objectId', state.members),
     }
   }
 
@@ -195,6 +190,19 @@ class Settings extends ParseComponent{
     });
   }
 
+  switchEventExport(value){
+    this.setState({exportEvent: value});
+    var target = {
+      className: 'Group',
+      objectId: this.props.group.objectId,
+    };
+    if(value === true) {
+      ParseReact.Mutation.AddUnique(target, 'exportEventOn', Parse.User.current().id).dispatch();
+    } else {
+      ParseReact.Mutation.Remove(target, 'exportEventOn', Parse.User.current().id).dispatch();
+    }
+  }
+
   renderRow(rowData) {
     return (
       <View>
@@ -229,6 +237,7 @@ class Settings extends ParseComponent{
     );
     }
   }
+
   renderEditButton() {
     if (this.props.group.createdBy === Parse.User.current().id) {
       return (
@@ -236,6 +245,7 @@ class Settings extends ParseComponent{
       );
     }
   }
+
   renderHeader(){
     return (
       <View style={styles.container}>
@@ -243,7 +253,7 @@ class Settings extends ParseComponent{
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Automatic Export Event</Text>
             <SwitchIOS
-              onValueChange={(value) => {this.setState({exportEvent: value})}}
+              onValueChange={(value) => this.switchEventExport(value)}
               style={styles.rowInput}
               value={this.state.exportEvent} />
           </View>
@@ -296,12 +306,11 @@ class Settings extends ParseComponent{
   }
 
   render(){
-    console.log("EXPORT EVENT : " + this.state.exportEvent);
     return (
       <View style={basicStyles.flex1}>
         {this.renderNav()}
         <ListView
-          renderHeader={this.renderHeader}
+          renderHeader={this.renderHeader.bind(this)}
           dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)}
           renderSeparator={this.renderSeparator.bind(this)} 
