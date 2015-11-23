@@ -88,7 +88,11 @@ class Events extends ParseComponent{
             }
           });
         } else {
-          CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getMilliseconds(), rowData.enddate.getMilliseconds());
+          CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getTime().toString(), rowData.enddate.getTime().toString());
+          // console.log("rowdata");
+          console.log(rowData);
+           console.log(rowData.dueDate.toLocaleString());
+          // console.log(rowData.enddate.getMilliseconds());
         }
       }
     } 

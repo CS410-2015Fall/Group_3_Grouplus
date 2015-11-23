@@ -7,6 +7,13 @@ import android.net.Uri;
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.SecurityException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import  java.util.Date;
+import java.text.ParseException;
+import java.lang.Long;
+
+
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.NativeModule;
@@ -52,22 +59,17 @@ public class CalendarModule extends ReactContextBaseJavaModule {
     }
     
     @ReactMethod
-    public void addEvent(String title, String location, Integer begin, Integer end) {
-            // Intent intent = new Intent(Intent.ACTION_INSERT)
-            // .setData(Events.CONTENT_URI)
-            // .putExtra(Events.TITLE, title)
-            // .putExtra(Events.EVENT_LOCATION, location)
-            // .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-            // .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);  
+    public void addEvent(String title, String location, String begin, String end){
       Intent intent = new Intent(Intent.ACTION_EDIT);
       intent.setType("vnd.android.cursor.item/event");
       intent.putExtra("title", title);
-      intent.putExtra("location", location);
-      intent.putExtra("beginTime", begin);
-      intent.putExtra("endTime", end);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.putExtra("location", location); 
+      intent.putExtra("beginTime", Long.parseLong(begin));
 
+      intent.putExtra("endTime", Long.parseLong(end));
+      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       reactContext.startActivity(intent);
-}
+      
+    }
 
 }
