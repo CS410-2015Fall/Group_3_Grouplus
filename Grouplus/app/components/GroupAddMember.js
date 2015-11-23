@@ -77,7 +77,7 @@ class GroupAddMember extends React.Component {
             Parse.Push.send({
               where: pushQuery, 
               data: {
-                alert: "You have been added to new group '" + that.props.group.name + "' !"
+                alert: "You have been added to new group '" + that.props.group.name + "'!"
               }
             },{
               success: function() {
