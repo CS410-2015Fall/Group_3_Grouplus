@@ -25,7 +25,6 @@ var TodoAdd = require('./TodoAdd');
 var GroupPanel = require('./GroupPanel');
 var GroupAddMember = require('./GroupAddMember');
 var MyAccount = require('./MyAccount');
-var GroupAbout = require('./GroupAbout');
 var PlainTextScreen = require('./helpers/PlainTextScreen');
 var MyAccountEdit = require('./MyAccountEdit');
 var GroupEdit = require('./GroupEdit');
@@ -55,10 +54,6 @@ var styles = StyleSheet.create({
     color: 'white', 
     margin: 10, 
     fontSize: 22,
-  },  
-  imageContainer: {
-    flex: 1,
-    alignItems: 'stretch',
   },
 });
 
@@ -160,12 +155,12 @@ class Nav extends React.Component {
     }
     if (id === 'TodoAdd') {
       return (
-        <TodoAdd navigator={navigator} group={route.group} refresh={route.refresh}/>
+        <TodoAdd navigator={navigator} group={route.group} refresh={route.refresh} status={route.status} todo={route.todo}/>
       );
     }
     if (id === 'EventAdd') {
       return (
-        <EventAdd navigator={navigator} groupId={route.groupId}/>
+        <EventAdd navigator={navigator} groupId={route.groupId} refresh={route.refresh} status={route.status} currentEvent= {route.currentEvent}/>
       );
     }
     if (id === 'GroupAddMember') {
@@ -180,16 +175,7 @@ class Nav extends React.Component {
     } 
     if (id === 'Photo') {
       return (  
-      <PhotoItem navigator={navigator} photoUrl={route.uri}/>   
-      /* 
-        <View style={styles.imageContainer}>
-          <Image style={basicStyles.flex1}  source={{uri: route.uri}}/>
-        </View>*/
-      );
-    }
-    if (id === 'GroupAbout') {
-      return (
-        <GroupAbout group={route.group} navigator={navigator}/>
+        <PhotoItem navigator={navigator} photoUrl={route.uri}/>
       );
     }
     if (id === 'MyAccountEdit') {
@@ -205,13 +191,6 @@ class Nav extends React.Component {
     else {
       return <PlainTextScreen text={'Opps! You found a bug :('}/>;
     }
-  }
-  plainTextScreen(text) {
-    return (
-      <View style={styles.textScreen}>
-        <Text style={styles.textScreenText}>{text}</Text>
-      </View>
-    );
   }
 }
 

@@ -1,17 +1,15 @@
 /**
  * Display uploaded photos and UI for adding new ones.
  */
-var React = require('react-native');
-var ParseReact = require('parse-react/react-native');
-var ParseComponent = ParseReact.Component(React);
-var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
-var Parse = require('parse/react-native');
-Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
-var mockdata = require('../utils/MockData.js');
-var item = Parse.Object.extend("GroupPhotos");
+ var React = require('react-native');
+ var ParseReact = require('parse-react/react-native');
+ var ParseComponent = ParseReact.Component(React);
+ var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
+ var Parse = require('parse/react-native');
+ Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
+ var mockdata = require('../utils/MockData.js');
 
-
-var {
+ var {
   TouchableHighlight,
   StyleSheet,
   ListView,
@@ -21,11 +19,12 @@ var {
   View,
   Text,
   TouchableOpacity,
+  AlertIOS,
   Platform,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
-
+var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
 
 var options = {
@@ -53,22 +52,31 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   list: {
-      flexDirection: 'row',
-      flexWrap: 'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
-  item: {
-      height: windowSize.width/3,
-      width: windowSize.width/3,
-      borderWidth: 1,
-      borderColor: '#fff'
-  }
+  photoListItem: {
+    height: windowSize.width/3,
+    width: windowSize.width/3,
+    borderWidth: 1,
+    borderColor: '#fff'
+  }, 
+  photoListEditItem: {
+    height: windowSize.width/3,
+    width: windowSize.width/3,
+    borderWidth: 1,
+    borderColor: '#fff',
+    opacity: 0.5
+  }, 
 });
-
 
 class Photos extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {
+      isEditing: false
+    }
   }
   observe(props, state) {
     return {
@@ -100,53 +108,122 @@ class Photos extends ParseComponent{
         const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
         //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
         var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
-        var photoItem = new item();
-        photoItem.set("description", "test picture upload"); // might need to input description
-        photoItem.set("uploadedBy", Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI");
-        photoItem.set("imgFile", file);
-        photoItem.set('groupId', this.props.group.objectId);
 
-        photoItem.save(null, {
-          success: function(photoItem) {
-            // Execute any logic that should take place after the object is saved.
-            var added = photoItem.get('imgFile').url();
-            //alert(added);
-            that.refreshQueries();
-            //alert('New photo added with objectId: ' + photoItem.imgFile.url());
-          },
-          error: function(photoItem, error) {
-            // Execute any logic that should take place if the save fails.
+        var creator = ParseReact.Mutation.Create('GroupPhotos', {
+          groupId: this.props.group.objectId,
+          uploadedBy: Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI",
+          description: "test picture upload",
+        });
+
+        creator.dispatch().then(function(object){
+          var photoItem = Parse.Object.extend("GroupPhotos");
+          var query = new Parse.Query(photoItem);
+          query.get(object.objectId, {
+            success:function(photoItem){
+              photoItem.set('imgFile',file);
+             
+              photoItem.save(null, {
+               success: function(item) {
+                 that.refreshQueries();
+               },
+               error: function(item, error) {
+                // Execute any logic that should take place if the save fails.
             // error is a Parse.Error with an error code and message.
-            alert('Pictures failed');     
+                alert('Pictures failed');     
+              }
+            })
           }
-        });
+        });          
+      });
 
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  }
+this.setState({
+  avatarSource: source
+});
+}
+});
+}
 //<Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+OnPressChooseDelete(){
+  this.setState({isEditing: !this.state.isEditing });
+}
 
+onPressDelete(image){
+ var target = {
+  className: 'GroupPhotos',
+  objectId: image.objectId,
+};
+ParseReact.Mutation.Destroy(target).dispatch();
+}
+
+renderNav(){
+  var backIcon, onBackPressed;
+  var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+  var right = 'material|delete';
+  if(this.state.isEditing){
+    right = 'material|close';
+  }
+    /*
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }*/
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}
+      rightIcon={right} 
+      onPressRight={()=>this.OnPressChooseDelete()}/>
+      );
+  }
 
   renderRow(image){
-    return(
-      <TouchableHighlight onPress={() => this.onPressRow(image)}>
-        <Image style={styles.item} source={{uri: image.imgFile.url()}}/>
-      </TouchableHighlight>
-    );
+    if(image.imgFile){
+    if(!this.state.isEditing){
+      return(
+        <TouchableHighlight onPress={() => this.onPressRow(image)}>
+        <Image style={styles.photoListItem} source={{uri: image.imgFile.url()}}/>
+        </TouchableHighlight>
+        );
+    }
+    else{
+      return(
+        <TouchableHighlight style={{opacity:0.5}} onPress={() => AlertIOS.alert(
+          "",
+          "Delete this photo",
+          [
+          {text: 'Cancel', onPress: () => console.log('Action cancelled')},
+          {text: 'Delete', onPress: () => this.onPressDelete(image)},
+          ]
+          )}>
+        <Image style={styles.photoListItem} source={{uri: image.imgFile.url()}}/>
+        </TouchableHighlight>
+        );
+    }
   }
+else{
+   return(
+        <TouchableHighlight>
+        <Image style={styles.photoListItem} source={{uri: 'http://files.parsetfss.com/00e842b6-2777-4203-a28f-7407fe7b3df1/tfss-13223ae0-6aeb-44d3-bae2-fad16249e757-loading.jpg'}}/>
+        </TouchableHighlight>
+        );
+}
+}
 
   render(){
     return (
       <View style={basicStyles.flex1}>
-        <ListView contentContainerStyle={styles.list}
-          dataSource={this.ds.cloneWithRows(this.data.imageList)}
-          renderRow={this.renderRow.bind(this)}  />
-        <AddButton onPress={this.imageOptions.bind(this)}/>
+      {this.renderNav()}
+      <ListView contentContainerStyle={styles.list}
+      dataSource={this.ds.cloneWithRows(this.data.imageList)}
+      renderRow={this.renderRow.bind(this)}  />
+      <AddButton onPress={this.imageOptions.bind(this)}/>
       </View>
-    );
+      );
   }
 };
 

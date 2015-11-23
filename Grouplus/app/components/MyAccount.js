@@ -80,7 +80,16 @@ var styles = StyleSheet.create({
 class MyAccount extends React.Component{
   constructor(props){
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+   //TODO: Error with current FBSDKGraphRequest 
+//   var profileRequest = new FBSDKGraphRequest((error, result) => {
+//   if (error) {
+//     alert('Error making request.');
+//   } else {
+//     // Data from request is in result
+//   }
+// }, '/me');
+// // Start the graph request.
+// profileRequest.start(12000);
   }
 
   onPressEditName(){

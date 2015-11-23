@@ -22,61 +22,61 @@ var {
   Text,
   NavigatorIOS,
   Platform,
+  SwitchIOS,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
-var Modal = require('./helpers/Modal');
 var Separator = require('./helpers/Separator');
 var Swipeout = require('./helpers/Swipeout');
 var TodoItem = require('./TodoItem');
 var TodoAdd = require('./TodoAdd');
-
+var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    width: 22,
+    color: 'white',
+  },
 });
+
+var { Icon } = require('react-native-icons');
 
 class TodoList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.state = {todoList: ""};
-    NetInfo.isConnected.fetch().done((connected) => {this.setState({"isConnected": connected});});
+   // NetInfo.isConnected.fetch().done((connected) => {
+     // this.setState({"isConnected": connected});});
+    this.state = {
+      doneSwitchIsOn: false,
+      todoList:"",
+      todoDoneList:""
+    };
     AsyncStorage.getItem("todos"+this.props.group.objectId).then((value) => {
           if(value !== null && value.length >0){
-              this.setState({"todoList": JSON.parse(value)});   
+              this.setState({"todoList": JSON.parse(value).ongoingTodo, "todoDoneList": JSON.parse(value).doneTodo});   
           }
     });
   }
+
   observe(props, state) {
-    var queryGroupTodoDone = (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).containsAll('whoAreDone', this.props.group.members); 
-    var queryGroupTodo =  (new Parse.Query('Todo')).notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
-    var queryPersonTodo = (new Parse.Query('Todo')).equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
+    var queryGroupTodo =  (new Parse.Query('Todo')).ascending('dueDate').notEqualTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
+    var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true).equalTo('group', this.props.group.objectId).equalTo('createdBy', Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
     return {
-      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo)
+      todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate'),
+      todosDone: new Parse.Query('Todo').descending('dueDate').equalTo('group', this.props.group.objectId).equalTo('done', true),
     }
   }
-  /*
-  componentDidMount(){
-     //AsyncStorage.setItem("appleKey", 'testval');
-    AsyncStorage.getItem("todosAll").then((value) => {
-          if(value.length>0){
-              this.setState({"todoList": JSON.parse(value)});   
-          }else{
-              this.setState({"todoList": null});
-          }
-        }).done();
-  }*/
   componentDidUpdate(){
-        alert(this.state.isConnected);
+       // alert(this.state.isConnected);
      if(this.data.todos.length>0 && this.props.group.objectId !== null){
-         AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(this.data.todos)); 
+        var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
+         AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
       }
-  }
-
-  updateAsync(data){
-    AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(this.data.todos)); 
   }
 /*
   componentWillReceiveProps(nextProps) {
@@ -88,12 +88,22 @@ class TodoList extends ParseComponent{
       Utils.alertToast('Stay Tuned; Android support is coming! :)');
       return;
     }
-    //console.log("group ID pass to TODO : " + this.props.group.objectId);
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
       refresh: this.refreshQueries.bind(this),
+      status: 'add',
     });
+  }
+
+  onPressViewDone(value) {
+    if (Platform.OS === 'android') {
+      Utils.alertToast('Stay Tuned; Android support is coming! :)');
+      return;
+    }
+    this.setState({doneSwitchIsOn: value});
+    console.log("DONE SWITCH : " + value);
+    
   }
 
   renderRow(rowData) {
@@ -108,11 +118,27 @@ class TodoList extends ParseComponent{
         };
         ParseReact.Mutation.Destroy(target).dispatch();
         // force to delete from asynchorous storage as well
-        AsyncStorage.setItem("todos"+that.props.group.objectId, JSON.stringify(that.data.todos)); 
+        var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
+        AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
         that.setState({"todoList": that.data.todos});  
       }
     }; 
-    var checkFinishBtn = {
+    var editBtn = {
+      text: 'Edit', 
+      backgroundColor:'#ffd805',
+      onPress: function(){
+        that.props.navigator.push({
+        id: 'TodoAdd',
+        group: that.props.group.objectId,
+        todo: rowData,
+        refresh: that.refreshQueries.bind(that),
+        status: 'edit',
+    });
+        
+      }
+    }; 
+
+    var checkDoneBtn = {
       text: 'Done', 
       backgroundColor:'#32cd32',
       onPress: function(){
@@ -124,24 +150,46 @@ class TodoList extends ParseComponent{
 
         //If the todo is individual, set done to true
         if(rowData.individual === true) {
-          ParseReact.Mutation.Set(target, {done: true}).dispatch();
-        }else{
-
-        var index = rowData.whoAreDone.indexOf(uid);
-        if(index <0){
           rowData.whoAreDone.push(uid); 
-          if(rowData.whoAreDone.length === that.props.group.members.length){
           ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
-          }else{
-            ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+        }else{
+          var index = rowData.whoAreDone.indexOf(uid);
+          if(index <0){
+            rowData.whoAreDone.push(uid); 
+            if(rowData.whoAreDone.length === that.props.group.members.length){
+            ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: true}).dispatch();
+            }else{
+              ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone}).dispatch();
+            }
           }
         }
       }
+    }; 
 
-       // that.refreshQueries();
+    var checkUndoneBtn = {
+      text: 'Undone', 
+      backgroundColor:'#32cd32',
+      onPress: function(){
+        var target = {
+          className: 'Todo',
+          objectId: rowData.objectId,
+        };
+        var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
+        //If the todo is done, set done to false
+        rowData.whoAreDone.pop(uid); 
+        ParseReact.Mutation.Set(target, { whoAreDone: rowData.whoAreDone, done: false}).dispatch();
       }
     }; 
-    var swipeBtn = [checkFinishBtn, deleteBtn];
+
+    if (rowData.whoAreDone.includes(Parse.User.current().id)) {
+      var checkBtn = checkUndoneBtn;
+    } else 
+      var checkBtn = checkDoneBtn;
+    // Edit button shows up only for the creator
+    if(rowData.createdBy === Parse.User.current().id){
+      var swipeBtn = [checkBtn, editBtn, deleteBtn];
+    }else
+    var swipeBtn = [checkBtn];
     return (
       <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
         <View>
@@ -155,14 +203,55 @@ class TodoList extends ParseComponent{
       <Separator/>
     );
   }
+
+  renderSwitch(){
+    return(
+      <SwitchIOS
+        onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
+        value={this.state.doneSwitchIsOn} />    
+      )
+  }
+
+  renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
+    if (this.props.group.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+      var right = 'material|edit';
+    }
+    else
+      var right = '';
+    if (Platform.OS === 'ios') {
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
+    }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refreshQueries}/>
+      );
+  }
+
   render(){
+    var todoData;
+    if(this.state.doneSwitchIsOn) {
+      todoData = this.data.todosDone.length >0? this.data.todosDone : this.state.todoDoneList;
+    } else {
+      todoData = this.data.todos.length >0 ? this.data.todos : this.state.todoList;
+    }
     return (
       <View style={basicStyles.flex1}>
+        {this.renderNav()}
+        {this.renderSwitch()}
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.todos.length > 0 ? this.data.todos : this.state.todoList)}
+          dataSource={this.ds.cloneWithRows(todoData)}
           renderRow={this.renderRow.bind(this)} 
-          renderSeparator={this.renderSeparator.bind(this)}/>       
-        <AddButton onPress={() => this.onPressNewTodo()}/>
+          renderSeparator={this.renderSeparator.bind(this)}/> 
+        <AddButton onPress={() => this.onPressNewTodo()} />
       </View>
     );
   }

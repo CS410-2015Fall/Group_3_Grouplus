@@ -4,9 +4,8 @@ var React = require('react-native');
 var TodoList = require('./TodoList');
 var Photos = require('./Photos');
 var Events = require('./Events');
-var About = require('./GroupAbout');
+var Settings = require('./Settings');
 var Separator = require('./helpers/Separator');
-var NavBar = require('./helpers/NavBar');
 
 var {
   AppRegistry,
@@ -42,7 +41,35 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
   },
+  stubView: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  stubText: {
+    fontSize: 36,
+    textAlign: 'center',
+    color: '#3399FF',
+    margin: 40,
+  },
+  spacer: {
+    flex: 1,
+  },
 });
+
+class StubView extends React.Component {
+  render() {
+    return (
+      <View style={styles.stubView}>
+      <View style={styles.spacer}/>
+      <Text style={styles.stubText}>
+      Pick a group from the drawer :) 
+    </Text>
+    <View style={styles.spacer}/>
+    </View>
+    );
+}
+}
 
 /**
  * A tab bar navigation element implemented with pure javascript
@@ -56,7 +83,7 @@ var styles = StyleSheet.create({
  * https://github.com/exponentjs/react-native-tab-navigator
  * (which is just made available at the time of writing.) 
  */
-class GroupPanel extends React.Component {
+ class GroupPanel extends React.Component {
   constructor(){
     super();
     this.state = {
@@ -71,17 +98,24 @@ class GroupPanel extends React.Component {
     });
   }
   renderNav(){
+    var backIcon, onBackPressed;
+    var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
     if (Platform.OS === 'ios') {
-      return (          
-        <NavBar
-          leftIcon={'material|chevron-left'}
-          onPressLeft={()=>this.props.navigator.pop()}
-          title={this.props.group.name}
-          onPressTitle={()=>this.refresh()}
-          rightIcon={'material|accounts'}
-          onPressRight={this.gotoAbout.bind(this)}/>
-      );
+      backIcon = 'material|chevron-left';
+      onBackPressed = this.props.navigator.pop.bind(this);
+    } else {
+      backIcon = 'material|menu';
+      onBackPressed = this.props.openDrawer;
     }
+    return (          
+      <NavBar
+      leftIcon={backIcon}
+      onPressLeft={onBackPressed}
+      title={title}
+      onPressTitle={()=>this.refresh()}
+      rightIcon={'material|settings'}
+      onPressRight={this.gotoAbout.bind(this)}/>
+      );
   }
   refresh(){
     this.refs.content.refreshQueries();
@@ -89,44 +123,57 @@ class GroupPanel extends React.Component {
   render(){
     return (
       <View style={basicStyles.flex1}>
-        {this.renderNav()}
-        {this.renderTabContent()}
-        <View>
-          <Separator/>
-          <View style={styles.tabBar}>
-            {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
-            {this.renderTabIcon('material|camera', 'Photos')}
-            {this.renderTabIcon('material|calendar', 'Events')}
-          </View>
-        </View>
+      {this.renderTabContent()}
+      {this.renderTabBar()}
       </View>
-    );
+      );
+  }
+  renderScreen(){
+
+  }
+  renderTabBar(){
+    return (
+      <View>
+      <Separator/>
+      <View style={styles.tabBar}>
+      {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
+      {this.renderTabIcon('material|camera', 'Photos')}
+      {this.renderTabIcon('material|calendar', 'Events')}
+      {this.renderTabIcon('material|settings', 'Settings')}
+      </View>
+      </View>
+      );
   }
   renderTabContent(){
     var ref = 'content'
+    if (this.props.group === null) {
+      return <StubView/>;
+    }
     switch (this.state.selected) {
       case 'Photos':
-        return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'Events':
-        return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <Events ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      case 'Settings':
+      return <Settings ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
       case 'TodoList':
       default:
-        return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
+      return <TodoList ref={ref} group={this.props.group} navigator={this.props.navigator}/>;
     }
   }
   renderTabIcon(iconName, name){
     var color = this.state.selected === name ? '#3399FF' : '#CCCCCC';
     return (
       <TouchableWithoutFeedback
-        onPress={() => this.setState({selected: name})}>
-        <View style={styles.iconPlusText}>
-          <Icon 
-            name={iconName}
-            size={32} 
-            color={color} 
-            style={styles.icon}/>
-          <Text style={[styles.tabText, {color: color}]}> {name} </Text>
-        </View>
+      onPress={() => this.setState({selected: name})}>
+      <View style={styles.iconPlusText}>
+      <Icon 
+      name={iconName}
+      size={32} 
+      color={color} 
+      style={styles.icon}/>
+      <Text style={[styles.tabText, {color: color}]}> {name} </Text>
+      </View>
       </TouchableWithoutFeedback>
       );
   }

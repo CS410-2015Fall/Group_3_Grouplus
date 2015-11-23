@@ -34,9 +34,8 @@ var options = {
       autoFocus: true
     },
     location: {
-      label: 'Eneter your event location',
+      label: 'Enter your event location',
       placeholder: 'enter location here',
-      autoFocus: true
     },
     eventstartdate: {
       label: 'Start Time',
@@ -74,34 +73,59 @@ var styles = StyleSheet.create({
   },
 });
 
-class EventCreation extends React.Component{
+class EventAdd extends React.Component{
   constructor() {
     super();
   }
 
   save() {
     var value = this.refs.form.getValue();
+    var that = this;
     if (value){
-      var creator = ParseReact.Mutation.Create('Event', {
+      if(this.props.currentEvent) {
+        var target = {
+          className: 'Event',
+          objectId: that.props.currentEvent.objectId,
+        };  
+        var creator = ParseReact.Mutation.Set(target, {
+          name: value.name,
+          location: value.location,
+          dueDate: value.eventstartdate,
+          enddate: value.eventenddate,
+        }); 
+      } else {
+        var creator = ParseReact.Mutation.Create('Event', {
           name: value.name,
           createdBy: Parse.User.current().id,
           location: value.location,
           groupId: this.props.groupId, 
           dueDate: value.eventstartdate,
-          enddate: value.eventenddate
-      });
+          enddate: value.eventenddate,
+        });
+      }     
       creator.dispatch();
+      this.props.refresh();
       this.props.navigator.pop();
     }
   }
 
 
   render(){
+    var title = 'New Event';
+    if(this.props.status === 'edit') {
+      title = 'Edit Event';
+      var value = {
+        name: this.props.currentEvent.name,  
+        location: this.props.currentEvent.location,
+        eventstartdate: this.props.currentEvent.dueDate,
+        eventenddate: this.props.currentEvent.enddate,
+      };
+    } 
     return (
       <View 
         style={basicStyles.blank}>
         <NavBar 
-          title={'New Event'}
+          title={title}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 
@@ -112,11 +136,11 @@ class EventCreation extends React.Component{
             type={Event}
             onChange={this._onChange}
             options={options}
-            value={this.props.item}/>
+            value={value}/>
         </ScrollView>
       </View>
     );
   }
 }
 
-module.exports = EventCreation;
+module.exports = EventAdd;

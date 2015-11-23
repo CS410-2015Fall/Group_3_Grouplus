@@ -1,6 +1,6 @@
 package com.grouplus;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
@@ -10,13 +10,13 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+
 import me.nucleartux.date.ReactDatePackage; // import
-import android.support.v4.app.FragmentActivity;
 
 import com.smixx.reactnativeicons.ReactNativeIcons;  // <--- import
 import java.util.Arrays; // <--- import this if you want to specify which fonts to load
 import com.smixx.reactnativeicons.IconFont; // <--- import this if you want to specify which fonts to load
-
+import com.grouplus.CalendarPackage;
 
 public class MainActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
 
@@ -35,6 +35,7 @@ public class MainActivity extends FragmentActivity implements DefaultHardwareBac
                 .addPackage(new MainReactPackage())
                 .addPackage(new ReactNativeIcons()) 
                 .addPackage(new ReactDatePackage(this)) 
+                .addPackage(new CalendarPackage())                
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -51,6 +52,15 @@ public class MainActivity extends FragmentActivity implements DefaultHardwareBac
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+      if (mReactInstanceManager != null) {
+        mReactInstanceManager.onBackPressed();
+      } else {
+        super.onBackPressed();
+      }
     }
 
     @Override

@@ -9,10 +9,9 @@ var ParseReact = require('parse-react/react-native');
 //TODO: tcomb doesn't support android so well
 //TODO: Change the wording, this is temporary
 var Priority = t.enums({
-  L: 'Low',
-  M: 'Medium',
-  H: 'High',
-  C: 'Critical'
+  3: 'Low',
+  2: 'Medium',
+  1: 'High',
 });
 
 var ToDo = t.struct({
@@ -41,7 +40,7 @@ var options = {
   fields: {
     txt: {
       // TODO: Check if one is the owner, only the owner can change
-      label: 'Edit Name',
+      label: 'Name',
       placeholder: 'enter a new group name here',
       autoFocus: true
     },
@@ -55,24 +54,44 @@ var options = {
 };
 
 class TodoAdd extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   save() {
     var value = this.refs.form.getValue();
     var that = this;
     if (value) {
-      var creator = ParseReact.Mutation.Create('Todo', {
-      name: value.txt,
-      createdBy: Parse.User.current().id,
-      group: that.props.group,
-      dueDate: value.duedate,
-      priority: value.priority,
-      individual: value.individual,
-      done: false,
-      whoAreDone: [],
-    });
+      if(this.props.todo) {
+        var target = {
+          className: 'Todo',
+          objectId: that.props.todo.objectId,
+        };  
+        var isDone = false;
+        if(value.individual === true) {
+          if(this.props.todo.whoAreDone.includes(Parse.User.current().id)) {
+            var isDone = true;
+          }
+        }    
+        var creator = ParseReact.Mutation.Set(target, {
+            name: value.txt,
+            dueDate: value.duedate,
+            priority: value.priority,
+            individual: value.individual,
+            done: isDone,
+        }); 
+        } else {
+        var creator = ParseReact.Mutation.Create('Todo', {
+            name: value.txt,
+            createdBy: Parse.User.current().id,
+            group: that.props.group,
+            dueDate: value.duedate,
+            priority: value.priority,
+            individual: value.individual,
+            done: false,
+            whoAreDone: [],
+          });
+      }     
     creator.dispatch();
     this.props.refresh();
     this.props.navigator.pop();
@@ -81,11 +100,23 @@ class TodoAdd extends React.Component {
   
 
   render() {
+    if(this.props.status === 'edit') {
+      var title = 'Edit Todo';
+      var value = {
+        txt: this.props.todo.name,  
+        priority: this.props.todo.priority,
+        duedate: this.props.todo.duedate,
+        individual: this.props.todo.individual,
+      };
+    } else {
+      var title = 'Add Todo'
+    }
+    
     return (
       <View 
         style={basicStyles.blank}>
         <NavBar 
-          title={'New Todo'}
+          title={title}
           leftIcon={'material|close'} 
           onPressLeft={()=>this.props.navigator.pop()}
           rightIcon={'material|check'} 
@@ -94,9 +125,10 @@ class TodoAdd extends React.Component {
           <Form
             ref="form"
             type={ToDo}
+            value={value}
             onChange={this._onChange}
             options={options}
-            value={this.props.item}/>
+            />
         </ScrollView>
       </View>
     )
