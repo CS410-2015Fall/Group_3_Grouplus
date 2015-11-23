@@ -111,7 +111,7 @@ class Photos extends ParseComponent{
 
         var creator = ParseReact.Mutation.Create('GroupPhotos', {
           groupId: this.props.group.objectId,
-          uploadedBy: Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI",
+          uploadedBy: Parse.User.current().id,
           description: "test picture upload",
         });
 

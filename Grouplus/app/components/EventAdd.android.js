@@ -121,7 +121,7 @@ onUpdate() {
     var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
-        createdBy: "jIZUlILeeI",
+        createdBy: Parse.User.current().id,
         location: that.state.location,
         groupId: that.props.groupId, 
         dueDate: startdatecom,
