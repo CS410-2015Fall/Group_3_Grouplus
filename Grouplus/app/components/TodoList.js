@@ -66,10 +66,6 @@ class TodoList extends ParseComponent{
   }
 
   onPressNewTodo() {
-    if (Platform.OS === 'android') {
-      Utils.alertToast('Stay Tuned; Android support is coming! :)');
-      return;
-    }
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
