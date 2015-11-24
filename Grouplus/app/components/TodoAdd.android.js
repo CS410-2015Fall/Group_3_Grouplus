@@ -155,7 +155,7 @@ class TodoAdd extends React.Component {
     var that=this;
     if(this.props.status === 'edit') {
       var title = 'Edit Todo';
-      var value=this.props.todo.name;
+      //var value=this.props.todo.name;
         //priority: this.props.todo.priority,
         //duedate: this.props.todo.duedate,
     } else {
@@ -204,12 +204,6 @@ class TodoAdd extends React.Component {
                    {this.state.duetime}
                  </Text>   
                </View>
-                <TouchableHighlight
-                    style={[styles.button, styles.saveButton]}
-                    onPress={this.onUpdate.bind(this)}
-                    underlayColor='#99d9f4'>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableHighlight>
             </ScrollView>
       </View>
     )
