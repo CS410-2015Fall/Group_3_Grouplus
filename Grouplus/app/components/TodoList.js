@@ -18,9 +18,8 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Text,
-  NavigatorIOS,
   Platform,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
@@ -175,7 +174,7 @@ class TodoList extends ParseComponent{
 
   renderSwitch(){
     return(
-      <SwitchIOS
+      <Switch
         onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
         value={this.state.doneSwitchIsOn} />    
       )
