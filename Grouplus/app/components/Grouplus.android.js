@@ -76,7 +76,7 @@ class Grouplus extends React.Component {
       <View style={styles.drawer}>
         <GroupList 
           onPressGroup={this.onSelectGroup.bind(this)} 
-          user={{id: "jIZUlILeeI"}} 
+          user={this.props.user} 
           navigator={this.props.navigator}/>
       </View>
     );

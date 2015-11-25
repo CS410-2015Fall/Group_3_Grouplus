@@ -14,7 +14,6 @@ var {
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
   Image,
 } = React;
 
@@ -159,7 +158,7 @@ var Login = React.createClass({
         </View>
       </Image>
     );
-}
-  });
+  }
+});
 
 module.exports = Login;

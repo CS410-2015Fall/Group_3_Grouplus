@@ -18,9 +18,8 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Text,
-  NavigatorIOS,
   Platform,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
@@ -58,7 +57,7 @@ class TodoList extends ParseComponent{
                             .equalTo('group', this.props.group.objectId).equalTo('done', false);//doesNotMatchKeyInQuery('objectId', 'objectId', queryGroupTodoDone); 
     var queryPersonTodo = (new Parse.Query('Todo')).ascending('dueDate').equalTo('individual', true)
                             .equalTo('group', this.props.group.objectId).equalTo('createdBy', 
-                              Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI").equalTo('done', false);
+                              Parse.User.current().id).equalTo('done', false);
     return {
       todos: Parse.Query.or(queryGroupTodo, queryPersonTodo).ascending('priority', 'dueDate'),
       todosDone: new Parse.Query('Todo').descending('dueDate').equalTo('group', this.props.group.objectId).equalTo('done', true),
@@ -66,10 +65,6 @@ class TodoList extends ParseComponent{
   }
 
   onPressNewTodo() {
-    if (Platform.OS === 'android') {
-      Utils.alertToast('Stay Tuned; Android support is coming! :)');
-      return;
-    }
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
@@ -90,7 +85,7 @@ class TodoList extends ParseComponent{
 
   renderRow(rowData) {
     var that = this;
-    var uid = Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI"; 
+    var uid = Parse.User.current().id; 
     var deleteBtn = {
       text: 'Delete', 
       backgroundColor: '#ff0000',
@@ -179,7 +174,7 @@ class TodoList extends ParseComponent{
 
   renderSwitch(){
     return(
-      <SwitchIOS
+      <Switch
         onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
         value={this.state.doneSwitchIsOn} />    
       )
@@ -188,8 +183,7 @@ class TodoList extends ParseComponent{
   renderNav(){
     var backIcon, onBackPressed;
     var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-    if (this.props.group.createdBy === 
-        (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")) {
+    if (this.props.group.createdBy === Parse.User.current().id) {
       var right = 'material|edit';
     }
     else

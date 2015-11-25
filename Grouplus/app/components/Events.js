@@ -23,7 +23,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Platform,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var Utils = require('./helpers/Utils'); 
@@ -88,7 +88,11 @@ class Events extends ParseComponent{
             }
           });
         } else {
-          CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getMilliseconds(), rowData.enddate.getMilliseconds());
+          CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getTime().toString(), rowData.enddate.getTime().toString());
+          // console.log("rowdata");
+          console.log(rowData);
+           console.log(rowData.dueDate.toLocaleString());
+          // console.log(rowData.enddate.getMilliseconds());
         }
       }
     } 
@@ -121,7 +125,7 @@ class Events extends ParseComponent{
   };
   
   // Edit button shows up only for the creator
-  if(rowData.createdBy === (Platform.OS === 'ios' ? Parse.User.current().id : "jIZUlILeeI")){
+  if(rowData.createdBy === Parse.User.current().id) {
     var swipeBtn = [exportBtn, editBtn, deleteBtn];
   } else {
     var swipeBtn = [exportBtn];
@@ -167,7 +171,7 @@ class Events extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         {this.renderNav()}
-        <SwitchIOS
+        <Switch
           onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
           value={this.state.doneSwitchIsOn} />    
         <ListView 

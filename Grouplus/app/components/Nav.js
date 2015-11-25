@@ -13,6 +13,7 @@ var {
   TouchableOpacity,
   Platform,
   Image,
+  NativeModules,
 } = React;
 
 var Login = require('./Login');
@@ -35,7 +36,7 @@ if (Platform.OS === 'ios') {
     FBSDKAccessToken,
   } = FBSDKCore;
 } else {
-  
+  var FBLoginManager = NativeModules.FBLoginManager;
 }
 
 var Parse = require('parse/react-native');
@@ -68,17 +69,20 @@ class Nav extends React.Component {
     };
   }
   componentWillMount() {
-    if (Platform.OS === 'android') {
-      return;
-    }
     Parse.User.currentAsync().then((user) => {
       if (user === null) {
-        FBSDKAccessToken.getCurrentAccessToken((token)=> {
+        var getToken;
+        if (Platform.OS === 'ios') {
+          getToken = FBSDKAccessToken.getCurrentAccessToken; 
+        } else {
+          getToken = FBLoginManager.getCurrentToken;
+        } 
+        getToken((token) => {
           if (token) {
             var authData = {
               id: token.userID,
               access_token: token.tokenString,
-              expiration_date: token.expirationDate()
+              expiration_date: token.expirationDate,
             };
             Parse.FacebookUtils.logIn(authData, {
               success: (user) => {
@@ -103,17 +107,18 @@ class Nav extends React.Component {
     var initialRoute = {};
     var that = this;
     console.log('RENDER');
-    if (Platform.OS === 'android') {
-      initialRoute = {id: 'Grouplus'}
-    } else if (this.state.login === 'loading') {
+    if (this.state.login === 'loading') {
       return <PlainTextScreen text={'Loading...'}/>;
     } else if (this.state.login === 'loggedIn') {
-      initialRoute = {id: 'GroupList', user: Parse.User.current()};
+      initialRoute = {
+        id: Platform.OS === 'ios' ? 'GroupList' : 'Grouplus', 
+        user: Parse.User.current()
+      };
     } else if (this.state.login === 'needLogin') {
       initialRoute = {id: 'Login'}
     } else if (this.state.login === 'error') {
       return <PlainTextScreen text={'Fatal error logging in :('}/>;
-    }
+    } 
     return (
       <Navigator
         initialRoute={initialRoute}
@@ -129,6 +134,7 @@ class Nav extends React.Component {
   }
   renderScene(route, navigator) {
     var id = route.id;
+    // TODO: refactor to switch 
     if (id === 'Login') {
       return (
         <Login navigator={navigator} />
