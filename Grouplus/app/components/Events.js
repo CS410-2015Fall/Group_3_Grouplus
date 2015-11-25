@@ -23,7 +23,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Platform,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var Utils = require('./helpers/Utils'); 
@@ -171,7 +171,7 @@ class Events extends ParseComponent{
     return (
       <View style={basicStyles.flex1}>
         {this.renderNav()}
-        <SwitchIOS
+        <Switch
           onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
           value={this.state.doneSwitchIsOn} />    
         <ListView 

@@ -25,7 +25,7 @@ var {
   TouchableOpacity,
   Platform,
   AlertIOS,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -232,14 +232,14 @@ class Settings extends ParseComponent{
           <Text style={styles.categoryLabel}>Settings</Text>
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Notification</Text>
-            <SwitchIOS
+            <Switch
               onValueChange={(value) => {this.setState({notification: value})}}
               style={styles.rowInput}
               value={false} />
           </View>
           <View style={styles.row}>
             <Text style={styles.rowLabel}>Automatic Export Event</Text>
-            <SwitchIOS
+            <Switch
               onValueChange={(value) => {this.setState({exportEvent: value})}}
               style={styles.rowInput}
               value={true} />
