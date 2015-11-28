@@ -11,8 +11,11 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  AsyncStorage,
   TouchableOpacity,
   Navigator,
+  PushNotificationIOS,
+  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -54,6 +57,12 @@ class GroupList extends ParseComponent {
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {groups: ""};
+    AsyncStorage.getItem("groups"+this.props.user.id).then((value) => {
+          if(value !== null && value.length >0){
+              this.setState({"groups": JSON.parse(value)});   
+          }
+    });
   }
   observe(props, state) {
     return {
@@ -61,7 +70,42 @@ class GroupList extends ParseComponent {
       groups: new Parse.Query('Group').equalTo('members', this.props.user.id),
     }
   }
-  
+  componentWillMount() {
+    super.componentWillMount();
+    if (Platform.OS === 'android') { 
+      return; 
+    }
+    PushNotificationIOS.requestPermissions();
+    var registerInstallation = function(data) {
+      var url = "https://api.parse.com";
+      url += "/1/installations";
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'X-Parse-Application-Id': 'ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v',
+          'X-Parse-REST-API-Key': '4euJ5DhcI7dqoRRISLO4f1EkR6Bo3ihNjYA9C4zB',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+    };
+    var that = this;
+    PushNotificationIOS.addEventListener('register', function(token){
+      registerInstallation({
+        "deviceType": "ios",
+        "deviceToken": token,
+        "channels": ["global"],
+        'user': that.props.user.id,
+      })
+    });
+  }
+
+  componentDidUpdate(){
+     if(this.data.groups.length>0 && this.props.user.id !== null){
+         AsyncStorage.setItem("groups"+this.props.user.id, JSON.stringify(this.data.groups)); 
+      }
+  }
   onPressRow(group) {
     if (this.props.onPressGroup) {
       this.props.onPressGroup(group);
@@ -109,7 +153,7 @@ class GroupList extends ParseComponent {
           title='My Groups'
           onPressTitle={()=>this.refreshQueries('groups')}/>
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.groups)}
+          dataSource={this.ds.cloneWithRows(this.data.groups.length > 0 ? this.data.groups : this.state.groups)}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>
         <AddButton onPress={this.onPressNewGroup.bind(this)}/>

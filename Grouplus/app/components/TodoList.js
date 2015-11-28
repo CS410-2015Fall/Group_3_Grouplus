@@ -15,12 +15,13 @@ var {
   ListView,
   StyleSheet,
   ScrollView,
+  AsyncStorage,
   TouchableHighlight,
   TouchableOpacity,
+  NetInfo,
   Text,
-  NavigatorIOS,
   Platform,
-  SwitchIOS,
+  Switch,
 } = React;
 
 var AddButton = require('./helpers/AddButton');
@@ -42,15 +43,23 @@ var styles = StyleSheet.create({
 });
 
 var { Icon } = require('react-native-icons');
-//var ActionButton = require('react-native-action-button');
 
 class TodoList extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+   // NetInfo.isConnected.fetch().done((connected) => {
+     // this.setState({"isConnected": connected});});
     this.state = {
-      doneSwitchIsOn: false
-    }
+      doneSwitchIsOn: false,
+      todoList:"",
+      todoDoneList:""
+    };
+    AsyncStorage.getItem("todos"+this.props.group.objectId).then((value) => {
+          if(value !== null && value.length >0){
+              this.setState({"todoList": JSON.parse(value).ongoingTodo, "todoDoneList": JSON.parse(value).doneTodo});   
+          }
+    });
   }
 
   observe(props, state) {
@@ -64,12 +73,13 @@ class TodoList extends ParseComponent{
       todosDone: new Parse.Query('Todo').descending('dueDate').equalTo('group', this.props.group.objectId).equalTo('done', true),
     }
   }
-
+  componentDidUpdate(){
+     if(this.data.todos.length>0 && this.props.group.objectId !== null){
+        var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
+         AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
+      }
+  }
   onPressNewTodo() {
-    if (Platform.OS === 'android') {
-      Utils.alertToast('Stay Tuned; Android support is coming! :)');
-      return;
-    }
     this.props.navigator.push({
       id: 'TodoAdd',
       group: this.props.group.objectId,
@@ -100,6 +110,10 @@ class TodoList extends ParseComponent{
           objectId: rowData.objectId,
         };
         ParseReact.Mutation.Destroy(target).dispatch();
+        // force to delete from asynchorous storage as well
+        var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
+        AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
+        that.setState({"todoList": that.data.todos});  
       }
     }; 
     var editBtn = {
@@ -179,7 +193,7 @@ class TodoList extends ParseComponent{
 
   renderSwitch(){
     return(
-      <SwitchIOS
+      <Switch
         onValueChange={(value) => {this.setState({doneSwitchIsOn: value})}}
         value={this.state.doneSwitchIsOn} />    
       )
@@ -212,9 +226,9 @@ class TodoList extends ParseComponent{
   render(){
     var todoData;
     if(this.state.doneSwitchIsOn) {
-      todoData = this.data.todosDone;
+      todoData = this.data.todosDone.length >0? this.data.todosDone : this.state.todoDoneList;
     } else {
-      todoData = this.data.todos;
+      todoData = this.data.todos.length >0 ? this.data.todos : this.state.todoList;
     }
     return (
       <View style={basicStyles.flex1}>

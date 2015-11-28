@@ -4,6 +4,7 @@ var React = require('react-native');
 var TodoList = require('./TodoList');
 var Photos = require('./Photos');
 var Events = require('./Events');
+var Files = require('./Files');
 var Settings = require('./Settings');
 var Separator = require('./helpers/Separator');
 
@@ -115,6 +116,7 @@ class StubView extends React.Component {
         <View style={styles.tabBar}>
           {this.renderTabIcon('material|format-list-bulleted', 'TodoList')}
           {this.renderTabIcon('material|camera', 'Photos')}
+          {this.renderTabIcon('material|file', 'Files')}
           {this.renderTabIcon('material|calendar', 'Events')}
           {this.renderTabIcon('material|settings', 'Settings')}
         </View>
@@ -129,6 +131,9 @@ class StubView extends React.Component {
     switch (this.state.selected) {
       case 'Photos':
       return <Photos ref={ref} group={this.props.group} navigator={this.props.navigator} 
+                     openDrawer={this.props.openDrawer}/>;
+      case 'Files':
+      return <Files ref={ref} group={this.props.group} navigator={this.props.navigator} 
                      openDrawer={this.props.openDrawer}/>;
       case 'Events':
       return <Events ref={ref} group={this.props.group} navigator={this.props.navigator} 

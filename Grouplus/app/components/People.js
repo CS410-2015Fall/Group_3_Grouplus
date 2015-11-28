@@ -14,6 +14,7 @@ var {
   Image,
   StyleSheet,
   Text,
+  NetInfo,
 } = React;
 
 var styles = StyleSheet.create({
@@ -33,6 +34,14 @@ var styles = StyleSheet.create({
 });
 
 class People extends ParseComponent{
+  constructor(props){
+    super(props);
+    this.state = {
+      isConnected: false
+    };
+    NetInfo.isConnected.fetch().done((connected) => {
+      this.setState({"isConnected": connected});});
+  }
   observe(){
     return {
         completeUsers: new Parse.Query("User").containedIn("objectId", this.props.people),     
@@ -44,8 +53,11 @@ class People extends ParseComponent{
         <Image style={styles.avatar} source={{uri: item.tempUrl}}/>
         );
     });
-    var content = (list.length === 0) ? <Text style={styles.first}>Be the first!</Text> : list;
-
+    var content = this.state.isConnected? list : <Text style={styles.first}>Open network connection to see who have done! </Text>  ;
+    if(list.length === 0  && this.state.isConnected && this.props.people.length == 0){
+      content = <Text style={styles.first}>Be the first! </Text>; 
+    }
+      
     return (
       <View style={styles.container}>
         {content}
