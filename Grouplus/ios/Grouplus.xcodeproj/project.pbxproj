@@ -41,6 +41,7 @@
 		ED13E8ED1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EA1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf */; };
 		ED13E8F01BDF327900E555A3 /* FAKIcon.h in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EE1BDF327900E555A3 /* FAKIcon.h */; };
 		ED13E8F11BDF327900E555A3 /* FAKIcon.m in Resources */ = {isa = PBXBuildFile; fileRef = ED13E8EF1BDF327900E555A3 /* FAKIcon.m */; };
+		ED9DE4A51C098709009143B7 /* DocManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9DE4A41C098709009143B7 /* DocManager.m */; };
 		EDA8C7C51BFC746F00DA0E06 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDA8C7BE1BFC743B00DA0E06 /* libRCTPushNotification.a */; };
 /* End PBXBuildFile section */
 
@@ -208,6 +209,8 @@
 		ED13E8EA1BDF322C00E555A3 /* Material-Design-Iconic-Font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Material-Design-Iconic-Font.ttf"; sourceTree = "<group>"; };
 		ED13E8EE1BDF327900E555A3 /* FAKIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAKIcon.h; sourceTree = "<group>"; };
 		ED13E8EF1BDF327900E555A3 /* FAKIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAKIcon.m; sourceTree = "<group>"; };
+		ED9DE4A31C098709009143B7 /* DocManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocManager.h; sourceTree = "<group>"; };
+		ED9DE4A41C098709009143B7 /* DocManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocManager.m; sourceTree = "<group>"; };
 		EDA8C7B01BFC743B00DA0E06 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		EDFF57F91C0537E1002EA871 /* Grouplus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Grouplus.entitlements; path = Grouplus/Grouplus.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -337,6 +340,8 @@
 				C822DEC71BCAE1DB006B92EE /* CalendarManager.m */,
 				C818326C1BCF34D200260786 /* MyCalendar.h */,
 				C818326D1BCF34D200260786 /* MyCalendar.m */,
+				ED9DE4A31C098709009143B7 /* DocManager.h */,
+				ED9DE4A41C098709009143B7 /* DocManager.m */,
 			);
 			name = Grouplus;
 			sourceTree = "<group>";
@@ -798,6 +803,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				5724C1F81BDAA23D00A9DAFA /* UIImagePickerManager.m in Sources */,
+				ED9DE4A51C098709009143B7 /* DocManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				C822DEC81BCAE1DB006B92EE /* CalendarManager.m in Sources */,
 				C818326E1BCF34D200260786 /* MyCalendar.m in Sources */,
