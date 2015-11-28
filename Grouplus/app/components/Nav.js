@@ -11,6 +11,7 @@ var {
   View,
   Navigator,
   TouchableOpacity,
+  AsyncStorage,
   Platform,
   Image,
   NativeModules,
