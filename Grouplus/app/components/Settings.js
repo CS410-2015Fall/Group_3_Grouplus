@@ -166,7 +166,7 @@ class Settings extends ParseComponent{
       className: 'Group',
       objectId: this.props.group.objectId,
      };
-    ParseReact.Mutation.Remove(target, 'members', Parse.User.current().id).dispatch();
+    ParseReact.Mutation.Remove(target, 'members', Parse.User.current().id);
     // Delete the group if there is no more member left in group
     if(this.props.group.members.length === 0) {
             var target = {
@@ -176,7 +176,7 @@ class Settings extends ParseComponent{
           console.log("The group has no more member, deleting " + this.props.group.name);
           ParseReact.Mutation.Destroy(target).dispatch();
     }
-    if(this.props.group.createdBy === Parse.User.current().id) {
+    else if(this.props.group.createdBy === Parse.User.current().id) {
             var target = {
             className: 'Group',
             objectId: this.props.group.objectId,
