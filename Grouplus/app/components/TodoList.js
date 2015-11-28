@@ -226,8 +226,17 @@ class TodoList extends ParseComponent{
   render(){
     var todoData;
     if(this.state.doneSwitchIsOn) {
+      if (Platform.OS === 'android') 
+          todoData = this.data.todosDone;
+        else 
       todoData = this.data.todosDone.length >0? this.data.todosDone : this.state.todoDoneList;
+
     } else {
+            if (Platform.OS === 'android') 
+      todoData = this.data.todos;
+    else
+            todoData = this.data.todos.length >0 ? this.data.todos : this.state.todoList;
+
     }
     return (
       <View style={basicStyles.flex1}>
