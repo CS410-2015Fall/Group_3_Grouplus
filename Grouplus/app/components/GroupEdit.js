@@ -19,6 +19,7 @@ var {
   TouchableHighlight,
   Platform,
   AlertIOS,
+  TouchableOpacity
 } = React;
 
 var NavBar = require('./helpers/NavBar');
@@ -27,21 +28,31 @@ var { Icon } = require('react-native-icons');
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
-  button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#F82020',
-    position: 'absolute',
-    bottom: 15,
-    right: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   icon: {
     width: 30,
     height: 30,
     marginHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'column',
+    padding:0,
+  },
+  button: {
+    //flex: 0.9,
+    height: 44,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: '#ff4d4d',
+  },
+  textButton: {
+    fontSize: 24,
+    alignSelf: 'center',
+    color: 'white'
   },
 });
 
@@ -93,6 +104,24 @@ class GroupEdit extends React.Component {
     });
   }
 
+
+  renderFooter(){
+    return (
+      <View>
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={() =>this.confirmDeleteGroup()}>
+              <Icon 
+                name={'material|delete'}
+                size={32} 
+                color={'white'} 
+                style={styles.icon}/>
+              <Text style={styles.textButton}>Delete Group</Text>
+            </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     var value = {
       name: this.props.group.name,
@@ -114,13 +143,15 @@ class GroupEdit extends React.Component {
             onChange={this._onChange}
             options={options}/>
         </View>
-        <TouchableHighlight style={styles.button} onPress={() => this.confirmDeleteGroup()}>
-          <Icon 
-            name={'material|delete'}
-           size={32} 
-           color={'white'} 
-           style={styles.icon}/>
-        </TouchableHighlight>
+        <TouchableOpacity style={styles.button} onPress={() =>this.confirmDeleteGroup()}>
+              <Icon 
+                name={'material|delete'}
+                size={32} 
+                color={'white'} 
+                style={styles.icon}/>
+              <Text style={styles.textButton}>Delete Group</Text>
+            </TouchableOpacity>
+
       </View>
     )
   }

@@ -44,6 +44,7 @@ class GroupAdd extends React.Component {
         name: value.txt,
         createdBy: id,
         members: [id],
+        exportEventOn: [],
     });
         creator.dispatch();
         this.props.navigator.pop();

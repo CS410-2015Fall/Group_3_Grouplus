@@ -21,6 +21,8 @@ var {
 
 var NavBar = require('./helpers/NavBar');
 var basicStyles = require('./helpers/Styles');
+var Utils = require('./helpers/Utils');
+
 
 var styles = StyleSheet.create({  
     container: {
@@ -143,7 +145,7 @@ onUpdate() {
       if(this.props.currentEvent) {
         var target = {
           className: 'Event',
-          objectId: that.props.todo.objectId,
+          objectId: that.props.event.objectId,
         };   
         var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
         var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
@@ -157,6 +159,12 @@ onUpdate() {
         }else{
     var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
     var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
+    var exportobject = {
+      name: that.state.name,
+      location:that.state.location,
+      dueDate: startdatecom,
+      enddate:enddatecom
+    }
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
         createdBy: Parse.User.current().id,
@@ -167,7 +175,11 @@ onUpdate() {
     });
   }
         creator.dispatch();
-         this.props.refresh();
+        this.props.refresh();
+      if(this.props.exportPeople.indexOf(Parse.User.current().id) >=0){
+        Utils.export(exportobject);
+      }         
+         
       this.props.navigator.pop();
   }
 }
@@ -178,7 +190,7 @@ onUpdate() {
       title = 'Edit Event';
     } 
     else {
-      var title = 'Add Todo'
+      var title = 'Add Event'
     }
     return (
         <View 

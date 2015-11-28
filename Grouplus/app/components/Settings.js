@@ -110,12 +110,17 @@ class Settings extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    var exportOn = false;
+    if (this.props.group.exportEventOn.indexOf(Parse.User.current().id)!=-1) {
+      console.log("EXPORT IS ON");
+      exportOn = true;
+    }
     this.state = {
       members: props.group.members,
-      notification: false,
-      exportEvent: false,
+      exportEvent: exportOn,
     }
   }
+
   observe(props, state) {
     return {
       members : new Parse.Query('User').containedIn('objectId', state.members),
@@ -161,7 +166,7 @@ class Settings extends ParseComponent{
       className: 'Group',
       objectId: this.props.group.objectId,
      };
-    ParseReact.Mutation.Remove(target, 'members', Parse.User.current().id).dispatch();
+    var remover = ParseReact.Mutation.Remove(target, 'members', Parse.User.current().id);
     // Delete the group if there is no more member left in group
     if(this.props.group.members.length === 0) {
             var target = {
@@ -171,7 +176,7 @@ class Settings extends ParseComponent{
           console.log("The group has no more member, deleting " + this.props.group.name);
           ParseReact.Mutation.Destroy(target).dispatch();
     }
-    if(this.props.group.createdBy === Parse.User.current().id) {
+    else if(this.props.group.createdBy === Parse.User.current().id) {
             var target = {
             className: 'Group',
             objectId: this.props.group.objectId,
@@ -179,10 +184,24 @@ class Settings extends ParseComponent{
           console.log("The group creator has deleted the group, deleting " + this.props.group.name);
           ParseReact.Mutation.Destroy(target).dispatch();
     }
+    remover.dispatch();
     this.props.navigator.replace({
           id: 'GroupList',
           user: Parse.User.current(),
     });
+  }
+
+  switchEventExport(value){
+    this.setState({exportEvent: value});
+    var target = {
+      className: 'Group',
+      objectId: this.props.group.objectId,
+    };
+    if(value === true) {
+      ParseReact.Mutation.AddUnique(target, 'exportEventOn', Parse.User.current().id).dispatch();
+    } else {
+      ParseReact.Mutation.Remove(target, 'exportEventOn', Parse.User.current().id).dispatch();
+    }
   }
 
   renderRow(rowData) {
@@ -219,6 +238,7 @@ class Settings extends ParseComponent{
     );
     }
   }
+
   renderEditButton() {
     if (this.props.group.createdBy === Parse.User.current().id) {
       return (
@@ -226,23 +246,17 @@ class Settings extends ParseComponent{
       );
     }
   }
+
   renderHeader(){
     return (
       <View style={styles.container}>
           <Text style={styles.categoryLabel}>Settings</Text>
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Notification</Text>
-            <Switch
-              onValueChange={(value) => {this.setState({notification: value})}}
-              style={styles.rowInput}
-              value={false} />
-          </View>
-          <View style={styles.row}>
             <Text style={styles.rowLabel}>Automatic Export Event</Text>
             <Switch
-              onValueChange={(value) => {this.setState({exportEvent: value})}}
+              onValueChange={(value) => this.switchEventExport(value)}
               style={styles.rowInput}
-              value={true} />
+              value={this.state.exportEvent} />
           </View>
           <Text style={styles.categoryLabel}>Members</Text>
         </View>
@@ -297,7 +311,7 @@ class Settings extends ParseComponent{
       <View style={basicStyles.flex1}>
         {this.renderNav()}
         <ListView
-          renderHeader={this.renderHeader}
+          renderHeader={this.renderHeader.bind(this)}
           dataSource={this.ds.cloneWithRows(this.data.members)}
           renderRow={this.renderRow.bind(this)}
           renderSeparator={this.renderSeparator.bind(this)} 

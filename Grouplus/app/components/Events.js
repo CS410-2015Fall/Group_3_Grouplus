@@ -32,6 +32,7 @@ var {
 } = require('NativeModules');
 var {CalendarModule} = require('NativeModules');
 var AddButton = require('./helpers/AddButton');
+var exporton=true;
 
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
@@ -68,6 +69,7 @@ class Events extends ParseComponent{
     this.props.navigator.push({
       id: 'EventAdd', 
       groupId: that.props.group.objectId, 
+      exportPeople: that.props.group.exportEventOn,
       status: 'add',
       refresh: that.refreshQueries.bind(that),
     });
@@ -89,10 +91,8 @@ class Events extends ParseComponent{
           });
         } else {
           CalendarModule.addEvent(rowData.name, rowData.location, rowData.dueDate.getTime().toString(), rowData.enddate.getTime().toString());
-          // console.log("rowdata");
           console.log(rowData);
-           console.log(rowData.dueDate.toLocaleString());
-          // console.log(rowData.enddate.getMilliseconds());
+          console.log(rowData.dueDate.getTime().toString());
         }
       }
     } 
@@ -125,11 +125,19 @@ class Events extends ParseComponent{
   };
   
   // Edit button shows up only for the creator
-  if(rowData.createdBy === Parse.User.current().id) {
+  var that=this;
+  if(that.props.group.exportEventOn.indexOf(Parse.User.current().id) <0){
+   if(rowData.createdBy === Parse.User.current().id) {
     var swipeBtn = [exportBtn, editBtn, deleteBtn];
   } else {
     var swipeBtn = [exportBtn];
   }
+}
+else{
+  if(rowData.createdBy === Parse.User.current().id) {
+    var swipeBtn = [editBtn, deleteBtn];
+  }  
+}
 
   return (
     <Swipeout backgroundColor={'#fff'} autoClose={true} right={swipeBtn}>
