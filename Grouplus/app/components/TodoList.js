@@ -74,17 +74,11 @@ class TodoList extends ParseComponent{
     }
   }
   componentDidUpdate(){
-       // alert(this.state.isConnected);
      if(this.data.todos.length>0 && this.props.group.objectId !== null){
         var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
          AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
       }
   }
-/*
-  componentWillReceiveProps(nextProps) {
-    this.setState({dataSource: this.ds.cloneWithRows(this.data.todos)});
-  }
-  */
   onPressNewTodo() {
     this.props.navigator.push({
       id: 'TodoAdd',
