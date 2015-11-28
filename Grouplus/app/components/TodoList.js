@@ -111,8 +111,8 @@ class TodoList extends ParseComponent{
         };
         ParseReact.Mutation.Destroy(target).dispatch();
         // force to delete from asynchorous storage as well
-        var todosJSON = {doneTodo: this.data.todosDone, ongoingTodo: this.data.todos };
-        AsyncStorage.setItem("todos"+this.props.group.objectId, JSON.stringify(todosJSON)); 
+        var todosJSON = {doneTodo: that.data.todosDone, ongoingTodo: that.data.todos };
+        AsyncStorage.setItem("todos"+that.props.group.objectId, JSON.stringify(todosJSON)); 
         that.setState({"todoList": that.data.todos});  
       }
     }; 
