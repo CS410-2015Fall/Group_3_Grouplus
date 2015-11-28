@@ -54,7 +54,7 @@ class People extends ParseComponent{
         );
     });
     var content = this.state.isConnected? list : <Text style={styles.first}>Open network connection to see who have done! </Text>  ;
-    if(list.length === 0  && this.state.isConnected){
+    if(list.length === 0  && this.state.isConnected && this.props.people.length == 0){
       content = <Text style={styles.first}>Be the first! </Text>; 
     }
       
