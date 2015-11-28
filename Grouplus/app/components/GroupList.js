@@ -13,6 +13,8 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   Navigator,
+  PushNotificationIOS,
+  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -61,7 +63,37 @@ class GroupList extends ParseComponent {
       groups: new Parse.Query('Group').equalTo('members', this.props.user.id),
     }
   }
-  
+  componentWillMount() {
+    super.componentWillMount();
+    if (Platform.OS === 'android') { 
+      return; 
+    }
+    PushNotificationIOS.requestPermissions();
+    var registerInstallation = function(data) {
+      var url = "https://api.parse.com";
+      url += "/1/installations";
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'X-Parse-Application-Id': 'ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v',
+          'X-Parse-REST-API-Key': '4euJ5DhcI7dqoRRISLO4f1EkR6Bo3ihNjYA9C4zB',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+    };
+    var that = this;
+    PushNotificationIOS.addEventListener('register', function(token){
+      registerInstallation({
+        "deviceType": "ios",
+        "deviceToken": token,
+        "channels": ["global"],
+        'user': that.props.user.id,
+      })
+    });
+  }
+
   onPressRow(group) {
     if (this.props.onPressGroup) {
       this.props.onPressGroup(group);
