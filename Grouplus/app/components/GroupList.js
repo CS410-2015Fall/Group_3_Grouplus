@@ -14,7 +14,6 @@ var {
   AsyncStorage,
   TouchableOpacity,
   Navigator,
-  Platform,
 } = React;
 
 var { Icon } = require('react-native-icons');
@@ -35,8 +34,6 @@ var ParseReact = require('parse-react/react-native');
 var ParseComponent = ParseReact.Component(React);
 Parse.initialize("ZPkuU6HLJEjci0haVd3B4SRF91SCREYjI5mx8o2v", "Y0EFXblFv51ypY9nrK3IvJ2FzbTiuQ7OWiU6lQJD");
 
-var mockdata = require('../utils/MockData');
-
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({
   group: {
@@ -54,7 +51,7 @@ var styles = StyleSheet.create({
 var colors = ['#FF9966', '#CCCCFF', '#99CCFF', '#FFCCFF', '#66FFCC']
 
 
-class GroupList extends ParseComponent{
+class GroupList extends ParseComponent {
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -91,10 +88,6 @@ class GroupList extends ParseComponent{
     this.props.navigator.push({id: 'GroupAdd'});
   }
   onPressMyAccount() {
-    if (Platform.OS === 'android') {
-      Utils.alertToast('Stay Tuned; Android support is coming! :)');
-      return;
-    }
     this.props.navigator.push({id: 'MyAccount'});
   }
   renderRow(rowData, sectionID, rowID) {

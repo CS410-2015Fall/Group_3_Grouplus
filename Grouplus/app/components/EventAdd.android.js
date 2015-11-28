@@ -19,7 +19,8 @@ var {
   NativeModules,
 } = React;
 
-
+var NavBar = require('./helpers/NavBar');
+var basicStyles = require('./helpers/Styles');
 
 var styles = StyleSheet.create({  
     container: {
@@ -66,12 +67,33 @@ var styles = StyleSheet.create({
 });
 
 class EventCreation extends React.Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onUpdate = this.onUpdate.bind(this);
-        this.state = {
-        };
-    }
+  if(this.props.currentEvent) {
+    this.state = {
+      name: this.props.currentEvent.name,
+      location: this.props.currentEvent.location,
+      startdatecom: this.props.currentEvent.dueDate,
+      enddatecom: this.props.currentEvent.enddate,
+      startyear: this.props.currentEvent.dueDate.getFullYear(),
+      startmonth: this.props.currentEvent.dueDate.getMonth(),
+      startday: this.props.currentEvent.dueDate.getDate(),
+      starthour: this.props.currentEvent.dueDate.getHours(),
+      startminute: this.props.currentEvent.dueDate.getMinutes(),
+      startdate: this.props.currentEvent.dueDate.getFullYear().toString()+"/"+(this.props.currentEvent.dueDate.getMonth()+1).toString()+"/"+this.props.currentEvent.dueDate.getDate().toString(),
+      starttime: this.props.currentEvent.dueDate.getHours().toString()+":"+this.props.currentEvent.dueDate.getMinutes().toString(),
+      endyear: this.props.currentEvent.enddate.getFullYear(),
+      endmonth: this.props.currentEvent.enddate.getMonth(),
+      endday: this.props.currentEvent.enddate.getDate(),
+      endhour: this.props.currentEvent.enddate.getHours(),
+      endminute: this.props.currentEvent.enddate.getMinutes(),
+      enddate: this.props.currentEvent.enddate.getFullYear().toString()+"/"+(this.props.currentEvent.enddate.getMonth()+1).toString()+"/"+this.props.currentEvent.enddate.getDate().toString(),
+      endtime: this.props.currentEvent.enddate.getHours().toString()+":"+this.props.currentEvent.enddate.getMinutes().toString()
+    };
+  }
+  else this.state={};
+  }
 
 handleClickstartDate() {
        var that=this;
@@ -116,23 +138,57 @@ handleClickendTime() {
     }
 
 onUpdate() {
-    var that = this;
+      var that = this;
+    if (that) {
+      if(this.props.currentEvent) {
+        var target = {
+          className: 'Event',
+          objectId: that.props.todo.objectId,
+        };   
+        var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
+        var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
+   
+        var creator = ParseReact.Mutation.Set(target, {
+            name: that.state.name,
+            location:this.state.location,
+            dueDate: startdatecom,
+            enddate: enddatecom,
+        }); 
+        }else{
     var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
     var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
     var creator = ParseReact.Mutation.Create('Event', {
         name: that.state.name,
-        createdBy: "jIZUlILeeI",
+        createdBy: Parse.User.current().id,
         location: that.state.location,
         groupId: that.props.groupId, 
         dueDate: startdatecom,
         enddate: enddatecom,
     });
+  }
         creator.dispatch();
+         this.props.refresh();
       this.props.navigator.pop();
   }
+}
 
   render(){
+      var title = 'New Event';
+    if(this.props.status === 'edit') {
+      title = 'Edit Event';
+    } 
+    else {
+      var title = 'Add Todo'
+    }
     return (
+        <View 
+        style={basicStyles.blank}>
+        <NavBar 
+          title={title}
+          leftIcon={'material|close'} 
+          onPressLeft={()=>this.props.navigator.pop()}
+          rightIcon={'material|check'} 
+          onPressRight={this.onUpdate.bind(this)}/>
             <ScrollView style={styles.event}> 
                 <Text style={styles.events}>
                     Enter you event name
@@ -196,13 +252,8 @@ onUpdate() {
                    {this.state.endtime}
                  </Text>   
                </View>
-                <TouchableHighlight
-                    style={[styles.button, styles.saveButton]}
-                    onPress={this.onUpdate.bind(this)}
-                    underlayColor='#99d9f4'>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableHighlight>
             </ScrollView>
+            </View>
     )
   }
 }
