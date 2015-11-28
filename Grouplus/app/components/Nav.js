@@ -168,7 +168,7 @@ class Nav extends React.Component {
     }
     if (id === 'EventAdd') {
       return (
-        <EventAdd navigator={navigator} groupId={route.groupId} refresh={route.refresh} status={route.status} currentEvent= {route.currentEvent}/>
+        <EventAdd navigator={navigator} groupId={route.groupId} exportPeople={route.exportPeople} refresh={route.refresh} status={route.status} currentEvent= {route.currentEvent}/>
       );
     }
     if (id === 'GroupAddMember') {

@@ -228,7 +228,6 @@ class TodoList extends ParseComponent{
     if(this.state.doneSwitchIsOn) {
       todoData = this.data.todosDone.length >0? this.data.todosDone : this.state.todoDoneList;
     } else {
-      todoData = this.data.todos.length >0 ? this.data.todos : this.state.todoList;
     }
     return (
       <View style={basicStyles.flex1}>
