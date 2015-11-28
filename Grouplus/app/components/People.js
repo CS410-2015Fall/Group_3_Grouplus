@@ -44,8 +44,11 @@ class People extends ParseComponent{
         <Image style={styles.avatar} source={{uri: item.tempUrl}}/>
         );
     });
-    var content = (list.length === 0) ? <Text style={styles.first}>Be the first!</Text> : list;
-
+    var content = list;
+    if(this.data.completeUsers.length === 0){
+      content = this.props.people.length === 0? <Text style={styles.first}>Be the first! </Text>  : <Text style={styles.first}>Open network connection to see who have done! </Text> 
+    }
+      
     return (
       <View style={styles.container}>
         {content}
