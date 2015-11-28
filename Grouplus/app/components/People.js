@@ -39,8 +39,8 @@ class People extends ParseComponent{
     this.state = {
       isConnected: false
     };
-    NetInfo.isConnected.fetch().done((connected) => {
-      this.setState({"isConnected": connected});});
+    // NetInfo.isConnected.fetch().done((connected) => {
+    //   this.setState({"isConnected": connected});});
   }
   observe(){
     return {

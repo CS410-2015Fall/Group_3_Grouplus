@@ -65,7 +65,6 @@ public class CalendarModule extends ReactContextBaseJavaModule {
       intent.putExtra("title", title);
       intent.putExtra("location", location); 
       intent.putExtra("beginTime", Long.parseLong(begin));
-
       intent.putExtra("endTime", Long.parseLong(end));
       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       reactContext.startActivity(intent);

@@ -60,7 +60,8 @@ class GroupList extends ParseComponent {
     this.state = {groups: ""};
     AsyncStorage.getItem("groups"+this.props.user.id).then((value) => {
           if(value !== null && value.length >0){
-              this.setState({"groups": JSON.parse(value)});   
+              this.setState({"groups": JSON.parse(value)});  
+              console.log(this.state.groups); 
           }
     });
   }
@@ -144,6 +145,14 @@ class GroupList extends ParseComponent {
       <Separator/>
     );
   }
+
+  prepareData(){
+    if (Platform.OS === 'android')    
+      return this.data.groups;
+    else 
+      return this.data.groups.length > 0 ? this.data.groups : this.state.groups;
+  }
+
   render() {
     return (
       <View style={basicStyles.flex1}>
@@ -153,7 +162,7 @@ class GroupList extends ParseComponent {
           title='My Groups'
           onPressTitle={()=>this.refreshQueries('groups')}/>
         <ListView
-          dataSource={this.ds.cloneWithRows(this.data.groups.length > 0 ? this.data.groups : this.state.groups)}
+          dataSource={this.ds.cloneWithRows(this.prepareData())}
           renderRow={this.renderRow.bind(this)} 
           renderSeparator={this.renderSeparator.bind(this)}/>
         <AddButton onPress={this.onPressNewGroup.bind(this)}/>

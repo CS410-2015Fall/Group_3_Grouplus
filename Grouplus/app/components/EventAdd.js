@@ -24,6 +24,7 @@ var {
 } = React;
 
 var NavBar = require('./helpers/NavBar');
+var Utils = require('./helpers/Utils');
 
 
 var options = {
@@ -102,9 +103,14 @@ class EventAdd extends React.Component{
           dueDate: value.eventstartdate,
           enddate: value.eventenddate,
         });
-      }     
+      }
+
       creator.dispatch();
       this.props.refresh();
+      if(this.props.exportPeople.indexOf(Parse.User.current().id) >=0){
+        Utils.export(value);
+      } 
+
       this.props.navigator.pop();
     }
   }
