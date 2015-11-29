@@ -30,7 +30,7 @@ var Separator = require('./helpers/Separator');
 var AddButton = require('./helpers/AddButton');
 var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
-var windowSize = Dimensions.get('window')
+var windowSize = Dimensions.get('window');
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   container: {
