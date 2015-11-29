@@ -14,6 +14,7 @@ var {
   AsyncStorage,
   Platform,
   Image,
+  WebView,
   NativeModules,
 } = React;
 
@@ -30,6 +31,7 @@ var PlainTextScreen = require('./helpers/PlainTextScreen');
 var MyAccountEdit = require('./MyAccountEdit');
 var GroupEdit = require('./GroupEdit');
 var PhotoItem = require('./PhotoItem');
+var FileItem = require('./FileItem');
 
 if (Platform.OS === 'ios') {
   var FBSDKCore = require('react-native-fbsdkcore');
@@ -194,6 +196,11 @@ class Nav extends React.Component {
     if (id === 'GroupEdit') {
       return (
         <GroupEdit group={route.group} navigator={navigator} refresh={route.refresh}/>
+      );
+    }
+    if (id === 'File') {
+      return (        
+      <FileItem navigator={navigator} fileUrl={route.uri}/>
       );
     }
     else {

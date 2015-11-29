@@ -108,7 +108,6 @@ class Photos extends ParseComponent{
         const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
         //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
         var file = new Parse.File('mockphoto7.jpg', {base64: response.data}, 'image/jpeg');
-
         var creator = ParseReact.Mutation.Create('GroupPhotos', {
           groupId: this.props.group.objectId,
           uploadedBy: Parse.User.current().id,

@@ -10,6 +10,8 @@
 #import <Foundation/Foundation.h>
 @import UIKit;
 
-@interface DocManager : NSObject <RCTBridgeModule, UIDocumentMenuDelegate, UIActionSheetDelegate, UINavigationControllerDelegate>
+@interface DocManager : NSObject <RCTBridgeModule, UIDocumentMenuDelegate, UIDocumentPickerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate> {
+  RCTResponseSenderBlock callback;
+}
 
 @end

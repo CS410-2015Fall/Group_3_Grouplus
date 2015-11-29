@@ -25,10 +25,12 @@ var {
   DocManager,
 } = require('NativeModules');
 
+var Utils = require('./helpers/Utils'); 
+var Separator = require('./helpers/Separator');
 var AddButton = require('./helpers/AddButton');
 var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
-var windowSize = Dimensions.get('window');
+var windowSize = Dimensions.get('window')
 var basicStyles = require('./helpers/Styles');
 var styles = StyleSheet.create({  
   container: {
@@ -52,6 +54,17 @@ var styles = StyleSheet.create({
     borderColor: '#fff',
     opacity: 0.5
   }, 
+   group: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 70,
+  },
+  groupDetail: {
+    marginVertical: 10,
+  },
+  groupName: {
+    fontSize: 24,
+  },
 });
 
 class Files extends ParseComponent{
@@ -61,10 +74,14 @@ class Files extends ParseComponent{
   }
   observe(props, state) {
     return {
-      
+      fileList: (new Parse.Query('GroupFile')).equalTo('groupId', this.props.group.objectId),
     }
   }
   onPressRow(file) {
+    this.props.navigator.push({
+      id: 'File',
+      uri: file.file.url(),
+    });
   }
   renderNav(){
     var backIcon, onBackPressed;
@@ -82,25 +99,82 @@ class Files extends ParseComponent{
         leftIcon={backIcon}
         onPressLeft={onBackPressed}
         title={title}
-        onPressTitle={()=>this.refreshQueries}
-        rightIcon={right} 
-        onPressRight={()=>this.OnPressChooseDelete()}/>
+        onPressTitle={()=>this.refreshQueries}/>
     );
   }
   openPicker() {
-    DocManager.pickDoc((response) => {
-      ;
+    var that = this;
+    DocManager.pickDoc((filename, data) => {
+      if (data) {
+        var file = new Parse.File(filename, {base64: data});
+
+        var creator = ParseReact.Mutation.Create('GroupFile', {
+          groupId: this.props.group.objectId,
+          uploadedBy: Parse.User.current().id,
+          filename: filename,
+        //  description: "test file",
+        });
+
+        creator.dispatch().then(function(object){
+          var fileItem = Parse.Object.extend("GroupFile");
+          var query = new Parse.Query(fileItem);
+          query.get(object.objectId, {
+            success:function(fileItem){
+              fileItem.set('file',file);
+
+              fileItem.save(null, {
+                success: function(item) {
+                 that.refreshQueries();
+                },
+                error: function(item, error) {
+                  // Execute any logic that should take place if the save fails.
+              // error is a Parse.Error with an error code and message.
+                Utils.alertToast('file upload failed');     
+                }
+              });
+            }
+          });          
+        });
+      } 
     });
   }
-  renderRow(file){
+  renderSeparator() {
     return (
-      <View/>
+      <Separator/>
     );
+  }
+  renderRow(file){
+    if (file.file) {
+      return (
+        <View>
+          <TouchableHighlight onPress={() => this.onPressRow(file)} 
+                          underlayColor='#EEEEEE'>
+            <View style={styles.group}>           
+              <View style={styles.groupDetail}>
+                <Text style={styles.groupName}> {file.filename} </Text>
+              </View>
+            </View>
+          </TouchableHighlight>      
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.group}>           
+          <View style={styles.groupDetail}>
+            <Text style={styles.groupName}> {file.filename} </Text>
+          </View>
+        </View>
+      );
+    }
   }
   render(){
     return (
       <View style={basicStyles.flex1}>
         {this.renderNav()}
+         <ListView
+          dataSource={this.ds.cloneWithRows(this.data.fileList)}
+          renderRow={this.renderRow.bind(this)} 
+          renderSeparator={this.renderSeparator.bind(this)}/>
         <AddButton onPress={this.openPicker.bind(this)}/>
       </View>
     );
