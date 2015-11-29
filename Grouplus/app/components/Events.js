@@ -107,6 +107,7 @@ class Events extends ParseComponent{
         groupId: that.props.group.objectId,
         currentEvent: rowData,
         refresh: that.refreshQueries.bind(that),
+        exportPeople: that.props.group.exportEventOn,
         status: 'edit',
         });
       }

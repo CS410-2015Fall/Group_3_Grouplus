@@ -145,7 +145,7 @@ onUpdate() {
       if(this.props.currentEvent) {
         var target = {
           className: 'Event',
-          objectId: that.props.event.objectId,
+          objectId: that.props.currentEvent.objectId,
         };   
         var startdatecom=new Date(parseInt(that.state.startyear),(parseInt(that.state.startmonth)-1),parseInt(that.state.startday),parseInt(that.state.starthour),parseInt(that.state.startminute),0);
         var enddatecom=new Date(parseInt(that.state.endyear),(parseInt(that.state.endmonth)-1),parseInt(that.state.enday),parseInt(that.state.endhour),parseInt(that.state.endminute),0);
