@@ -13,6 +13,7 @@ var {
   View,
   Image,
   StyleSheet,
+  Platform, 
   Text,
   NetInfo,
 } = React;
@@ -37,11 +38,13 @@ class People extends ParseComponent{
   constructor(props){
     super(props);
     this.state = {
-      isConnected: false
+      isConnected: true
     };
-    // NetInfo.isConnected.fetch().done((connected) => {
-    //   this.setState({"isConnected": connected});});
-  }
+    if (Platform.OS === 'ios'){
+     NetInfo.isConnected.fetch().done((connected) => {
+       this.setState({"isConnected": connected});});
+    }
+    }
   observe(){
     return {
         completeUsers: new Parse.Query("User").containedIn("objectId", this.props.people),     
