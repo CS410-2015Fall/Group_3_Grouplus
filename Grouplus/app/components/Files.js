@@ -32,6 +32,9 @@ var NavBar = require('./helpers/NavBar');
 var Utils = require('./helpers/Utils'); 
 var windowSize = Dimensions.get('window');
 var basicStyles = require('./helpers/Styles');
+if (Platform.OS === 'ios') {  
+  var ActivityView = require('react-native-activity-view');
+}
 var styles = StyleSheet.create({  
   container: {
     flex: 1,
@@ -59,6 +62,12 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
   },
+   groupOpa: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 70,
+    opacity: 0.5
+  },
   groupDetail: {
     marginVertical: 10,
   },
@@ -71,6 +80,9 @@ class Files extends ParseComponent{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+     this.state = {
+      isEditing: false
+    }
   }
   observe(props, state) {
     return {
@@ -78,15 +90,35 @@ class Files extends ParseComponent{
     }
   }
   onPressRow(file) {
-    this.props.navigator.push({
+    if(this.state.isEditing){
+      this.onPressShare(file);
+    }else{
+      this.props.navigator.push({
       id: 'File',
       uri: file.file.url(),
     });
+    }
+  }
+  OnPressChooseShare(){
+    this.setState({isEditing: !this.state.isEditing });
+  }
+  onPressShare(file){
+  if (Platform.OS === 'android') {
+    return;
+  }
+  ActivityView.show({
+    text: "File Share",
+    url: file.file.url(),
+    //imageUrl: imgUrl,
+    //image: "Name of the image in the app bundle",
+    //exclude: ['postToFlickr'],
+    //anchor: React.findNodeHandle(this.refs.share), // Where you want the share popup to point to on iPad
+  });
   }
   renderNav(){
     var backIcon, onBackPressed;
     var title = this.props.group === null ? 'Grouplus' : this.props.group.name;
-    var right = 'material|delete';
+    var right = this.state.isEditing? 'material|close' : 'material|share';
     if (Platform.OS === 'ios') {
       backIcon = 'material|chevron-left';
       onBackPressed = this.props.navigator.pop.bind(this);
@@ -99,7 +131,9 @@ class Files extends ParseComponent{
         leftIcon={backIcon}
         onPressLeft={onBackPressed}
         title={title}
-        onPressTitle={()=>this.refreshQueries}/>
+        onPressTitle={()=>this.refreshQueries}
+        rightIcon={right}
+        onPressRight={()=>this.OnPressChooseShare()}/>
     );
   }
   openPicker() {
@@ -147,7 +181,7 @@ class Files extends ParseComponent{
     if (file.file) {
       return (
         <View>
-          <TouchableHighlight onPress={() => this.onPressRow(file)} 
+          <TouchableHighlight style={{opacity: this.state.isEditing ? 0.5 : 1}} onPress={() => this.onPressRow(file)} 
                           underlayColor='#EEEEEE'>
             <View style={styles.group}>           
               <View style={styles.groupDetail}>
